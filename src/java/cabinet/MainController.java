@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author LENOVO
  */
-@WebServlet(name = "mainController", urlPatterns = {"/mainController"})
+@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
 
     public static final String LOGIN = "login";
@@ -30,6 +30,32 @@ public class MainController extends HttpServlet {
     public static final String UPDATE_USER_CONTROLLER = "UpdateUserController";
     public static final String DELETE_USER = "deleteUser";
     public static final String DELETE_USER_CONTROLLER = "DeleteUserController";
+
+    // Product
+    public static final String CREATE_PRODUCT = "createProduct";
+    public static final String CREATE_PRODUCT_CONTROLLER = "CreateProductController";
+
+    public static final String UPDATE_PRODUCT = "updateProduct";
+    public static final String UPDATE_PRODUCT_CONTROLLER = "UpdateProductController";
+
+    public static final String DELETE_PRODUCT = "deleteProduct";
+    public static final String DELETE_PRODUCT_CONTROLLER = "DeleteProductController";
+
+    public static final String SEARCH_PRODUCT = "searchProduct";
+    public static final String SEARCH_PRODUCT_CONTROLLER = "SearchProductController";
+
+// Category
+    public static final String CREATE_CATEGORY = "createCategory";
+    public static final String CREATE_CATEGORY_CONTROLLER = "CreateCategoryController";
+
+    public static final String UPDATE_CATEGORY = "updateCategory";
+    public static final String UPDATE_CATEGORY_CONTROLLER = "UpdateCategoryController";
+
+    public static final String DELETE_CATEGORY = "deleteCategory";
+    public static final String DELETE_CATEGORY_CONTROLLER = "DeleteCategoryController";
+
+    public static final String LIST_CATEGORY = "listCategory";
+    public static final String LIST_CATEGORY_CONTROLLER = "ListCategoryController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,6 +78,32 @@ public class MainController extends HttpServlet {
                     break;
                 case DELETE_USER:
                     url = DELETE_USER_CONTROLLER;
+                    break;
+                //Product    
+                case CREATE_PRODUCT:
+                    url = CREATE_PRODUCT_CONTROLLER;
+                    break;
+                case UPDATE_PRODUCT:
+                    url = UPDATE_PRODUCT_CONTROLLER;
+                    break;
+                case DELETE_PRODUCT:
+                    url = DELETE_PRODUCT_CONTROLLER;
+                    break;
+                case SEARCH_PRODUCT:
+                    url = SEARCH_PRODUCT_CONTROLLER;
+                    break;
+                //Category
+                case CREATE_CATEGORY:
+                    url = CREATE_CATEGORY_CONTROLLER;
+                    break;
+                case UPDATE_CATEGORY:
+                    url = UPDATE_CATEGORY_CONTROLLER;
+                    break;
+                case DELETE_CATEGORY:
+                    url = DELETE_CATEGORY_CONTROLLER;
+                    break;
+                case LIST_CATEGORY:
+                    url = LIST_CATEGORY_CONTROLLER;
                     break;
             }
         } catch (Exception e) {
