@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.category;
 
-import dao.UserDAO;
+import dao.CategoryDAO;
+import dto.CategoryDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,36 +14,43 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
-
-    private UserDAO dao = new UserDAO();
+@WebServlet(name = "CreateCategoryController", urlPatterns = {"/CreateCategoryController"})
+public class CreateCategoryController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            String userID = request.getParameter("userID");
-            String password = request.getParameter("password");
-            UserDTO loginUser = dao.login(userID, password);
-            System.out.println("hehe");
-            if (loginUser != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("login", loginUser);
-                request.getRequestDispatcher("homePage.jsp").forward(request, response);
-            } else {
-                request.setAttribute("error", "Incorrect UserID or Password");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            }
-        } catch (Exception e) {
-            log(e.getMessage());
+        UserDTO loginUser = (UserDTO) request.getSession().getAttribute("login");
+        if (loginUser == null) {
+            response.sendRedirect("login.jsp");
+            return;
         }
+
+        try {
+            String name = request.getParameter("categoryName");
+            String description = request.getParameter("description");
+
+            CategoryDTO category = new CategoryDTO(name, description);
+            CategoryDAO dao = new CategoryDAO();
+
+            if (dao.createCategory(category)) {
+                request.getSession().setAttribute("MSG", "Thêm danh mục thành công!");
+                response.sendRedirect("SearchCategoryController");
+            }else{
+                request.setAttribute("ERROR", "Thêm danh mục thất bại!");
+                request.getRequestDispatcher("createCategory.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("ERROR", "Lỗi.Không thể thêm danh mục.Hãy thử lại sau!");
+            response.sendRedirect("SearchCategoryController");
+        }
+
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

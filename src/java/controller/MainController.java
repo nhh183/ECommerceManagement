@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package cabinet;
+package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -54,8 +54,8 @@ public class MainController extends HttpServlet {
     public static final String DELETE_CATEGORY = "deleteCategory";
     public static final String DELETE_CATEGORY_CONTROLLER = "DeleteCategoryController";
 
-    public static final String LIST_CATEGORY = "listCategory";
-    public static final String LIST_CATEGORY_CONTROLLER = "ListCategoryController";
+    public static final String SEARCH_CATEGORY = "searchCategory";
+    public static final String SEARCH_CATEGORY_CONTROLLER = "SearchCategoryController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,6 +63,7 @@ public class MainController extends HttpServlet {
         String url = "login.jsp";
         try {
             String action = request.getParameter("action");
+            
             switch (action) {
                 case LOGIN:
                     url = LOGIN_CONTROLLER;
@@ -102,15 +103,20 @@ public class MainController extends HttpServlet {
                 case DELETE_CATEGORY:
                     url = DELETE_CATEGORY_CONTROLLER;
                     break;
-                case LIST_CATEGORY:
-                    url = LIST_CATEGORY_CONTROLLER;
+                case SEARCH_CATEGORY:
+                    url = SEARCH_CATEGORY_CONTROLLER;
                     break;
+                default:
+                    System.out.println("Unknown action: " + action);
+                    url = "login.jsp"; // fallback
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            
         }
+        request.getRequestDispatcher(url).forward(request, response);
+      
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -13,10 +13,14 @@
         <title>Welcome</title>
     </head>
     <body>
+        
         <h1>Welcome, ${sessionScope.USER.fullName}!</h1>
         <a href="logout">Logout</a>
         
         <h2>Options</h2>
-        <p><a href="mainController?action=searchUser">View User List</a></p>
+        <p><a href="MainController?action=searchUser">View User List</a></p>
+        <a href="MainController?action=searchProduct">View Product List</a><br/>
+         <a href="MainController?action=searchCategory">View Category List</a>
+        
     </body>
 </html>

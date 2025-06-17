@@ -1,4 +1,4 @@
-package user_controller;
+package controller.user;
 
 import dao.UserDAO;
 import java.io.IOException;

@@ -32,6 +32,17 @@ public class ProductDTO {
         this.imgUrl = imgUrl;
     }
 
+    public ProductDTO(String name, int categoryID, double price, int quantity, String sellerID, String status, String imgUrl) {
+        this.name = name;
+        this.categoryID = categoryID;
+        this.price = price;
+        this.quantity = quantity;
+        this.sellerID = sellerID;
+        this.status = status;
+        this.imgUrl = imgUrl;
+    }
+
+
     public int getProductID() {
         return productID;
     }

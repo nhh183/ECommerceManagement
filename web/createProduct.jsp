@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="dto.UserDTO" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,25 +14,42 @@
         <title>Create Product Page</title>
     </head>
     <body>
+        <%
+                UserDTO loginUser = (UserDTO) session.getAttribute("login");
+                if (loginUser == null) {
+                    response.sendRedirect("login.jsp");
+                    return;
+                }
+                request.setAttribute("loginUser", loginUser);
+        %>
         <h2>Thêm sản phẩm</h2>
-        <form action="MainController" method="post" enctype="multipart/form-data">
+        <c:if test="${not empty MSG}">
+            <p style="color: green">${MSG}</p>
+        </c:if>
+
+        <c:if test="${not empty ERROR}">
+            <p style="color: red">${ERROR}</p>
+        </c:if>
+        <form action="CreateProductController" method="post" enctype="multipart/form-data">
             Tên: <input type="text" name="name" required/><br/>
             Danh mục:
-            <select name="categoryID" required>
-                <c:forEach var="c" items="${categoryList}">
-                    <option value="${c.categoryID}">${c.categoryName}</option>
+            <select name="categoryID">
+                <option value="">-- Chọn danh mục --</option>
+                <c:forEach var="cat" items="${categoryList}">
+                    <option value="${cat.categoryID}">${cat.categoryID} -${cat.categoryName}</option>
                 </c:forEach>
             </select><br/>
             Giá: <input type="number" name="price" step="0.01" min="0" required/><br/>
             Số lượng: <input type="number" name="quantity" step="1" min="1" required/><br/>
-            Seller ID: <input type="text" name="sellerID" /><br/>
+            Seller ID: <input type="text" name="sellerID" value="${loginUser.userID}" readonly/><br/>
             Ảnh sản phẩm: <input type="file" name="image" accept="image/*" required/><br/>
             Trạng thái:
             <select name="status" required>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="active">Đang bán</option>
+                <option value="inactive">Ngừng bán</option>
             </select><br/>
-            <button name="action" value="CreateProductController">Đăng sản phẩm</button>
+
+            <button type="submit">Đăng sản phẩm</button>
         </form>
     </body>
 </html>

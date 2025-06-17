@@ -17,18 +17,16 @@ import utils.DBUtil;
  * @author User
  */
 public class CategoryDAO {
-    
+
     public List<CategoryDTO> getCategoryList() {
         List<CategoryDTO> list = new ArrayList<>();
         String sql = "SELECT * FROM tblCategories";
-        try (Connection con = DBUtil.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 CategoryDTO c = new CategoryDTO(
-                    rs.getInt("categoryID"),
-                    rs.getString("categoryName"),
-                    rs.getString("description")
+                        rs.getInt("categoryID"),
+                        rs.getString("categoryName"),
+                        rs.getString("description")
                 );
                 list.add(c);
             }
@@ -38,10 +36,9 @@ public class CategoryDAO {
         return list;
     }
 
-    public boolean addCategory(CategoryDTO c) {
+    public boolean createCategory(CategoryDTO c) {
         String sql = "INSERT INTO tblCategories (categoryName, description) VALUES (?, ?)";
-        try (Connection con = DBUtil.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, c.getCategoryName());
             ps.setString(2, c.getDescription());
             return ps.executeUpdate() > 0;
@@ -53,8 +50,7 @@ public class CategoryDAO {
 
     public boolean updateCategory(CategoryDTO c) {
         String sql = "UPDATE tblCategories SET categoryName = ?, description = ? WHERE categoryID = ?";
-        try (Connection con = DBUtil.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, c.getCategoryName());
             ps.setString(2, c.getDescription());
             ps.setInt(3, c.getCategoryID());
@@ -67,8 +63,7 @@ public class CategoryDAO {
 
     public boolean deleteCategory(int categoryID) {
         String sql = "DELETE FROM tblCategories WHERE categoryID = ?";
-        try (Connection con = DBUtil.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, categoryID);
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
@@ -79,15 +74,14 @@ public class CategoryDAO {
 
     public CategoryDTO getCategoryById(int categoryID) {
         String sql = "SELECT * FROM tblCategories WHERE categoryID = ?";
-        try (Connection con = DBUtil.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, categoryID);
-            try (ResultSet rs = ps.executeQuery()) {
+            try ( ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return new CategoryDTO(
-                        rs.getInt("categoryID"),
-                        rs.getString("categoryName"),
-                        rs.getString("description")
+                            rs.getInt("categoryID"),
+                            rs.getString("categoryName"),
+                            rs.getString("description")
                     );
                 }
             }
@@ -95,5 +89,31 @@ public class CategoryDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<CategoryDTO> searchCategoryByName(String name) {
+        List<CategoryDTO> list = new ArrayList<>();
+        String sql = "SELECT * FROM tblCategories WHERE 1=1";
+        if (name != null && !name.isEmpty()) {
+            sql += " AND categoryName LIKE ?";
+        }
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+            if (name != null && !name.isEmpty()) {
+                ps.setString(1, "%" + name + "%");
+            }
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    CategoryDTO c = new CategoryDTO(
+                            rs.getInt("categoryID"),
+                            rs.getString("categoryName"),
+                            rs.getString("description")
+                    );
+                    list.add(c);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

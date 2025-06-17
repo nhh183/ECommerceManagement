@@ -26,12 +26,21 @@ import java.util.List;
  *
  * @author User
  */
-@WebServlet(name = "CreateProductController", urlPatterns = {"/CreateProductController"})
+@WebServlet(name = "UpdateProductController", urlPatterns = {"/UpdateProductController"})
 @MultipartConfig
-public class CreateProductController extends HttpServlet {
+public class UpdateProductController extends HttpServlet {
 
-    private static final String UPLOAD_DIR = "images"; // thư mục để lưu ảnh trong webapp/images
+    private static final String UPLOAD_DIR = "images";
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -41,58 +50,52 @@ public class CreateProductController extends HttpServlet {
             return;
         }
         try {
-            CategoryDAO catDAO = new CategoryDAO();
-            List<CategoryDTO> catList = catDAO.getCategoryList();
-            request.setAttribute("categoryList", catList);
-
+            int productID = Integer.parseInt(request.getParameter("productID"));
             String name = request.getParameter("name");
-
             int categoryID = Integer.parseInt(request.getParameter("categoryID"));
             double price = Double.parseDouble(request.getParameter("price"));
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             String sellerID = loginUser.getUserID();
             String status = request.getParameter("status");
 
-            String uploadPath = request.getServletContext().getRealPath("/" + UPLOAD_DIR);
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs(); 
-            }
+            String oldImageUrl = request.getParameter("oldImageUrl");
+            String imgUrl = oldImageUrl; 
 
+            // Xử lý ảnh mới nếu có
             Part filePart = request.getPart("image");
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            String imgUrl = null;
 
             if (fileName != null && !fileName.isEmpty()) {
+                String uploadPath = request.getServletContext().getRealPath("/" + UPLOAD_DIR);
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+
                 String filePath = uploadPath + File.separator + fileName;
-                filePart.write(filePath); 
-                imgUrl = UPLOAD_DIR + "/" + fileName; 
+                filePart.write(filePath);
+                imgUrl = UPLOAD_DIR + "/" + fileName;
             }
 
-            ProductDTO product = new ProductDTO(name, categoryID, price, quantity, sellerID, status, imgUrl);
-
-            ProductDAO dao = new ProductDAO();
-            boolean result = dao.createProduct(product);
-
-            if (result) {
-                request.getSession().setAttribute("MSG", "Đăng bán sản phẩm thành công!");
+            ProductDTO updatedProduct = new ProductDTO(productID, name, categoryID, price, quantity, sellerID, status, imgUrl);
+            ProductDAO proDAO=new ProductDAO();
+            boolean success = proDAO.updateProduct(updatedProduct);
+            if (success) {
+                request.getSession().setAttribute("MSG", "Cập nhật sản phẩm thành công!");
                 response.sendRedirect("SearchProductController");
-                return;
             } else {
-                request.setAttribute("categoryList", catList);
-                request.setAttribute("ERROR", "Đăng bán sản phẩm thất bại.");
-                request.getRequestDispatcher("createProduct.jsp").forward(request, response);
-                return;
+                request.setAttribute("ERROR", "Cập nhật thất bại!");
+                CategoryDAO catDAO = new CategoryDAO();
+                request.setAttribute("categoryList", catDAO.getCategoryList());
+                request.setAttribute("product", updatedProduct);
+                request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
             }
+
         } catch (Exception e) {
-            CategoryDAO catDAO = new CategoryDAO();
-            List<CategoryDTO> catList = catDAO.getCategoryList();
-            request.setAttribute("categoryList", catList);
             e.printStackTrace();
-            request.setAttribute("ERROR", "Error occured: " + e.getMessage());
-
+            request.getSession().setAttribute("ERROR", "Lỗi khi cập nhật: " + e.getMessage());
+            response.sendRedirect("SearchProductController");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -107,14 +110,24 @@ public class CreateProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        CategoryDAO dao = new CategoryDAO();
-        List<CategoryDTO> list = dao.getCategoryList();
-        if (!list.isEmpty()) {
-            request.setAttribute("categoryList", list);
-            request.getRequestDispatcher("createProduct.jsp").forward(request, response);
-        } else {
+        String productIDRaw = request.getParameter("id");
+        if (productIDRaw != null) {
+            int productID = Integer.parseInt(productIDRaw);
+            ProductDAO proDAO = new ProductDAO();
+            ProductDTO product = proDAO.getProductByID(productID);
+            request.setAttribute("product", product);
 
+            CategoryDAO catDAO = new CategoryDAO();
+            List<CategoryDTO> catList = catDAO.getCategoryList();
+            request.setAttribute("categoryList", catList);
+
+            request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
+            return;
+        } else {
+            request.getSession().setAttribute("ERROR", "Can not find this product. Please try again.");
+            response.sendRedirect("SearchProductController");
         }
+
     }
 
     /**
