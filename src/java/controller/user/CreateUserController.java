@@ -29,6 +29,7 @@ public class CreateUserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String userID = request.getParameter("userID");
         String fullName = request.getParameter("fullName");
         String roleID = request.getParameter("roleID");
@@ -38,6 +39,7 @@ public class CreateUserController extends HttpServlet {
             dao.createUser(new UserDTO(userID, fullName, roleID, password, phone));
             request.setAttribute("MSG", "User Created Successfully!");
             // Load lại danh sách
+            response.sendRedirect("SearchUserController");
             request.getRequestDispatcher("userList.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

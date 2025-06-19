@@ -33,6 +33,7 @@ public class DeleteUserController extends HttpServlet {
             dao.deleteUser(userID); // gọi DAO để xóa user
             request.setAttribute("MSG", "User deleted successfully!");
             // load lại danh sách người dùng
+            response.sendRedirect("SearchUserController");
             request.getRequestDispatcher("userList.jsp").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("MSG", "User deleted failed!");

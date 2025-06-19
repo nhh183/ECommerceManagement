@@ -49,6 +49,7 @@ public class UpdateUserController extends HttpServlet {
                 request.setAttribute("MSG", "Updated failed!");
             }
             request.setAttribute("search", search);
+            response.sendRedirect("SearchUserController");
             request.getRequestDispatcher("userList.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

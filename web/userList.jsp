@@ -14,7 +14,7 @@
     </head>
     <body>
         <h1>User Management</h1>
-        <a href="welcome.jsp">Back to Welcome</a> | <a href="logout">Logout</a>
+        <a href="homePage.jsp">Back to Welcome</a> | <a href="logout">Logout</a>
         
         <!-- Form to search users -->
         <h3>Search Users</h3>
@@ -26,7 +26,7 @@
         
         <!-- Form to create a new user -->
         <h3>Create New User</h3>
-        <form action="mainController" method="POST">
+        <form action="MainController" method="POST">
             <input type="hidden" name="action" value="createUser"/>
             <label>User ID:</label>
             <input type="text" name="userID" required/><br/>
@@ -68,7 +68,7 @@
                             <td>${user.phone}</td>
                             <td>
                                 <!-- Form to update user -->
-                                <form action="mainController" method="POST" style="display:inline;">
+                                <form action="MainController" method="POST" style="display:inline;">
                                     <input type="hidden" name="action" value="updateUser"/>
                                     <input type="hidden" name="userID" value="${user.userID}"/>
                                     <input type="hidden" name="searchUser" value="${requestScope.searchUser}"/>
@@ -79,7 +79,7 @@
                                     <input type="submit" value="Update"/>
                                 </form>
                                 <!-- Form to delete user -->
-                                <form action="mainController" method="POST" style="display:inline;">
+                                <form action="MainController" method="POST" style="display:inline;">
                                     <input type="hidden" name="action" value="deleteUser"/>
                                     <input type="hidden" name="userID" value="${user.userID}"/>
                                     <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this user?');"/>

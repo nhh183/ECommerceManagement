@@ -28,7 +28,6 @@ public class LoginController extends HttpServlet {
             String userID = request.getParameter("userID");
             String password = request.getParameter("password");
             UserDTO loginUser = dao.login(userID, password);
-            System.out.println("hehe");
             if (loginUser != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("login", loginUser);
