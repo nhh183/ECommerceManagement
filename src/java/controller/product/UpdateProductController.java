@@ -43,6 +43,7 @@ public class UpdateProductController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         UserDTO loginUser = (UserDTO) request.getSession().getAttribute("login");
         if (loginUser == null) {
@@ -57,9 +58,10 @@ public class UpdateProductController extends HttpServlet {
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             String sellerID = loginUser.getUserID();
             String status = request.getParameter("status");
+            String description = request.getParameter("description");
 
             String oldImageUrl = request.getParameter("oldImageUrl");
-            String imgUrl = oldImageUrl; 
+            String imgUrl = oldImageUrl;
 
             // Xử lý ảnh mới nếu có
             Part filePart = request.getPart("image");
@@ -77,8 +79,8 @@ public class UpdateProductController extends HttpServlet {
                 imgUrl = UPLOAD_DIR + "/" + fileName;
             }
 
-            ProductDTO updatedProduct = new ProductDTO(productID, name, categoryID, price, quantity, sellerID, status, imgUrl);
-            ProductDAO proDAO=new ProductDAO();
+            ProductDTO updatedProduct = new ProductDTO(productID, name, categoryID, price, quantity, sellerID, status, imgUrl, description);
+            ProductDAO proDAO = new ProductDAO();
             boolean success = proDAO.updateProduct(updatedProduct);
             if (success) {
                 request.getSession().setAttribute("MSG", "Cập nhật sản phẩm thành công!");

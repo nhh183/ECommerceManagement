@@ -56,10 +56,14 @@ CREATE TABLE tblProducts (
     FOREIGN KEY (sellerID) REFERENCES tblUsers(userID)
 );
 
+ALTER TABLE tblProducts
+ADD description NVARCHAR(MAX);
+
 INSERT INTO tblProducts (name, categoryID, price, quantity, imgUrl, sellerID, status)
 VALUES 
 (N'Iphone 12 promax', 1, 23000000, 20, 'images/ip12promax.jpg', 'user001', 'active'),
 (N'Điện Thoại Iphone 15 promax', 1, 30000000, 40, 'images/DTIphone15promax.jpg', 'user001', 'active');
+
 
 --mot so co the them-chua co anh 
 INSERT INTO tblProducts (name, categoryID, price, quantity, imgUrl, sellerID, status)
