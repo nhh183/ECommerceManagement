@@ -9,7 +9,6 @@
             <!-- Bootstrap 5 CSS via CDN -->
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <style>
-                /* === RESET & BASE === */
                 body {
                     font-family: Arial, sans-serif;
                     margin: 0;
@@ -29,47 +28,44 @@
                 }
 
                 /* === HEADER === */
-                .header {
-                    background-color: #f8f9fa;
-                    padding: 15px 0;
-                    border-bottom: 1px solid #e1e1e1;
-                }
-
                 .logo {
-                    font-size: 28px;
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    color: #FF6B00; /* Màu cam chủ đạo */
                     font-weight: bold;
-                    color: #333;
-                    float: left;
                 }
 
-                .user-actions {
-                    float: right;
-                    margin-top: 6px;
+                .header {
+                    border-bottom: 1px solid #ddd;
+                    background-color: #FFF8F0; /* Nền cam nhạt */
                 }
 
-                .search-box {
-                    clear: both;
-                    margin-top: 15px;
-                }
+                @media (max-width: 767px) {
+                    .logo,
+                    .user-actions {
+                        text-align: center;
+                    }
 
-                .search-box input[type="text"] {
-                    padding: 8px;
-                    width: 250px;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
+                    .header .row {
+                        gap: 10px;
+                    }
                 }
 
                 .search-box button {
                     padding: 8px 12px;
-                    background-color: #007bff;
-                    color: #fff;
+                    background-color: #FF6B00; /* Màu cam */
+                    color: white;
                     border: none;
-                    border-radius: 4px;
+                    border-radius: 5px;
                     cursor: pointer;
+                    font-weight: bold;
                 }
 
                 .search-box button:hover {
-                    background-color: #0056b3;
+                    background-color: #E55D00; /* Cam đậm hơn khi hover */
+                }
+
+                .user-actions {
+                    font-size: 14px;
                 }
 
                 /* === NAV MENU === */
@@ -82,6 +78,7 @@
                     border-top: 1px solid #e1e1e1;
                     border-bottom: 1px solid #e1e1e1;
                     margin-top: 20px;
+                    background-color: #FFF8F0; /* Nền cam nhạt */
                 }
 
                 .nav-menu li a {
@@ -89,28 +86,31 @@
                     padding: 8px 10px;
                     border-radius: 4px;
                     color: #333;
+                    transition: all 0.3s ease;
                 }
 
                 .nav-menu li a:hover {
-                    background-color: #007bff;
+                    background-color: #FF6B00;
                     color: #fff;
+                    transform: translateY(-2px);
                 }
 
                 /* === HERO SECTION === */
                 .hero-section {
                     padding: 20px 0;
-                    background-color: #fff3e0;
+                    background-color: #FFF5E6; /* Nền cam rất nhạt */
                 }
 
                 .hero-section .carousel-inner img {
                     height: 300px;
                     object-fit: cover;
                     border-radius: 10px;
+                    border: 2px solid #FF6B00; /* Viền cam */
                 }
 
                 .hero-section .carousel-control-prev-icon,
                 .hero-section .carousel-control-next-icon {
-                    background-color: rgba(0, 0, 0, 0.6);
+                    background-color: rgba(255, 107, 0, 0.7); /* Màu cam với độ trong suốt */
                     border-radius: 50%;
                     padding: 12px;
                 }
@@ -121,10 +121,11 @@
                     height: 10px;
                     border-radius: 50%;
                     margin: 0 4px;
+                    border: 1px solid #FF6B00;
                 }
 
                 .hero-section .carousel-indicators .active {
-                    background-color: #000;
+                    background-color: #FF6B00;
                 }
 
                 .right-banner .banner-img {
@@ -132,35 +133,7 @@
                     height: 145px;
                     object-fit: cover;
                     border-radius: 10px;
-                }
-
-                /* Style carousel indicators */
-                .carousel-indicators [data-bs-target] {
-                    background-color: #fff;
-                    width: 12px;
-                    height: 12px;
-                    border: 2px solid #333;
-                    border-radius: 50%;
-                    opacity: 0.7;
-                }
-
-                .carousel-indicators .active {
-                    background-color: #333;
-                    opacity: 1;
-                }
-
-                /* Style carousel controls */
-                .carousel-control-prev-icon,
-                .carousel-control-next-icon {
-                    background-color: rgba(51, 51, 51, 0.7);
-                    border-radius: 50%;
-                    padding: 15px;
-                    transition: background-color 0.3s;
-                }
-
-                .carousel-control-prev-icon:hover,
-                .carousel-control-next-icon:hover {
-                    background-color: rgba(51, 51, 51, 0.9);
+                    border: 2px solid #FF6B00; /* Viền cam */
                 }
 
                 /* === FEATURE BOX === */
@@ -169,18 +142,12 @@
                     justify-content: space-between;
                     align-items: flex-start;
                     padding: 30px 0;
-                    background-color: #f8f9fa;
+                    background-color: #FFF5E6; /* Nền cam nhạt */
                     text-align: center;
                 }
 
-                .feature {
-                    flex: 1;
-                    max-width: 33.33%;
-                    padding: 0 15px;
-                }
-
                 .feature h3 {
-                    color: #f4a10c;
+                    color: #FF6B00; /* Màu cam */
                     font-size: 18px;
                     margin-bottom: 5px;
                 }
@@ -197,6 +164,13 @@
                     padding: 40px 0;
                 }
 
+                .product-section h2 {
+                    color: #FF6B00; /* Tiêu đề màu cam */
+                    border-bottom: 2px solid #FF6B00;
+                    padding-bottom: 10px;
+                    margin-bottom: 20px;
+                }
+
                 .product-grid {
                     display: grid;
                     grid-template-columns: repeat(4, 1fr);
@@ -206,15 +180,23 @@
                 .product-card {
                     background-color: #fff;
                     padding: 15px;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 2px 10px rgba(255, 107, 0, 0.1); /* Đổ bóng màu cam nhạt */
                     text-align: center;
                     border-radius: 8px;
+                    transition: transform 0.3s ease;
+                    border: 1px solid #FFE4CC; /* Viền cam nhạt */
+                }
+
+                .product-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.2);
                 }
 
                 .product-card img {
                     max-width: 100%;
                     height: auto;
                     margin-bottom: 10px;
+                    border-radius: 5px;
                 }
 
                 .product-card h3 {
@@ -224,29 +206,34 @@
 
                 .product-card p {
                     font-size: 16px;
-                    color: #28a745;
+                    color: #FF6B00; /* Giá sản phẩm màu cam */
+                    font-weight: bold;
                 }
 
                 .product-card button {
                     margin-top: 10px;
                     padding: 8px 12px;
-                    background-color: #28a745;
+                    background-color: #FF6B00;
                     border: none;
                     color: #fff;
                     border-radius: 4px;
                     cursor: pointer;
+                    font-weight: bold;
+                    transition: all 0.3s ease;
                 }
 
                 .product-card button:hover {
-                    background-color: #218838;
+                    background-color: #E55D00;
+                    transform: scale(1.05);
                 }
 
                 /* === FOOTER === */
                 .footer {
-                    background-color: #333;
+                    background-color: #FF6B00; /* Nền cam */
                     color: #fff;
                     padding: 20px 0;
                     text-align: center;
+                    font-weight: bold;
                 }
 
                 /* === MESSAGES === */
@@ -255,37 +242,61 @@
                     text-align: center;
                     margin-top: 20px;
                 }
+
+                /* Customer Support Links */
+                .container h3 {
+                    color: #FF6B00;
+                }
+                .container a {
+                    color: #FF6B00;
+                    font-weight: bold;
+                }
+                .container a:hover {
+                    color: #E55D00;
+                    text-decoration: underline;
+                }
             </style>
         </head>
         <body>
-            <div class="header">
+            <div class="header bg-light py-3">
                 <div class="container">
-                    <div class="logo">E-Commerce Store</div>
+                    <div class="row align-items-center">
+                        <!-- Logo -->
+                        <div class="col-md-3">
+                            <div class="logo font-weight-bold h4">E-Commerce Store</div>
+                        </div>
 
-                    <div class="user-actions">
-                        <c:if test="${not empty sessionScope.login}">
-                            <span>Welcome, ${sessionScope.login.fullName}!</span>
-                            <a href="logout">Logout</a>
-                        </c:if>
+                        <!-- Search Box -->
+                        <div class="col-md-6">
+                            <form action="MainController" method="GET" class="input-group">
+                                <input type="text" name="search" class="form-control" placeholder="Search products...">
+                                <input type="hidden" name="action" value="searchProduct">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- User Actions -->
+                        <div class="col-md-3 text-right">
+                            <c:if test="${not empty sessionScope.login}">
+                                <span class="mr-2">Welcome, ${sessionScope.login.fullName}!</span>
+                                <a href="logout" class="btn btn-outline-danger btn-sm">Logout</a>
+                            </c:if>
+                        </div>
                     </div>
-
-                    <div class="search-box">
-                        <form action="MainController" method="GET">
-                            <input type="text" name="search" placeholder="Search products...">
-                            <input type="hidden" name="action" value="searchProduct">
-                            <button type="submit">Search</button>
-                        </form>
-                    </div>
-
+                </div>
+            </div>
+            <!-- NAVIGATION MENU -->
+            <div class="nav-wrapper bg-white border-top shadow-sm">
+                <div class="container">
                     <ul class="nav-menu">
                         <li><a href="homePage.jsp">HOME</a></li>
                         <li><a href="MainController?action=searchProduct&categoryID=1">ĐIỆN THOẠI</a></li>
                         <li><a href="MainController?action=searchProduct&categoryID=2">LAPTOP</a></li>
                         <li><a href="MainController?action=searchProduct&categoryID=3">ÁO THUN</a></li>
                         <li><a href="MainController?action=searchProduct&categoryID=4">ĐỒ GIA DỤNG</a></li>
-                        <li><a href="MainController?action=searchProduct&categoryID=5">SÁCH</a></li>
                         <li><a href="MainController?action=searchProduct&categoryID=6">THỂ THAO</a></li>
-                        <li><a href="MainController?action=searchProduct&categoryID=7">MỸ PHẨM</a></li>
 
                         <c:if test="${sessionScope.login.roleID == 'AD'}">
                             <li><a href="MainController?action=searchUser">Manage Users</a></li>
@@ -297,6 +308,7 @@
                     </ul>
                 </div>
             </div>
+
 
             <div class="hero-section">
                 <div class="container d-flex justify-content-between">

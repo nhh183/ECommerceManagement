@@ -27,15 +27,15 @@
 
         /* === HEADER === */
         .header {
-            background-color: #f8f9fa;
+            background-color: #FFF5E6; /* Nền cam nhạt */
             padding: 15px 0;
-            border-bottom: 1px solid #e1e1e1;
+            border-bottom: 1px solid #FFD8B1; /* Viền cam nhạt */
         }
 
         .logo {
             font-size: 28px;
             font-weight: bold;
-            color: #333;
+            color: #FF6B00; /* Màu cam chủ đạo */
             float: left;
         }
 
@@ -47,11 +47,12 @@
         .user-actions a {
             margin-left: 10px;
             font-weight: bold;
-            color: #007bff;
+            color: #FF6B00; /* Màu cam */
         }
 
         .user-actions a:hover {
-            color: #0056b3;
+            color: #E55D00; /* Cam đậm hơn khi hover */
+            text-decoration: underline;
         }
 
         /* === NAVIGATION === */
@@ -61,9 +62,10 @@
             list-style: none;
             padding: 15px 0;
             gap: 20px;
-            border-top: 1px solid #e1e1e1;
-            border-bottom: 1px solid #e1e1e1;
+            border-top: 1px solid #FFD8B1;
+            border-bottom: 1px solid #FFD8B1;
             margin-top: 20px;
+            background-color: #FFF5E6; /* Nền cam nhạt */
         }
 
         .nav-menu li a {
@@ -71,11 +73,14 @@
             padding: 8px 10px;
             border-radius: 4px;
             color: #333;
+            transition: all 0.3s ease;
         }
 
         .nav-menu li a:hover {
-            background-color: #007bff;
+            background-color: #FF6B00;
             color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(255, 107, 0, 0.3);
         }
 
         /* === MAIN CONTENT === */
@@ -84,54 +89,62 @@
         }
 
         h1, h3 {
-            color: #333;
+            color: #FF6B00; /* Tiêu đề màu cam */
             margin-bottom: 20px;
+            border-bottom: 2px solid #FFD8B1;
+            padding-bottom: 10px;
         }
 
         /* === BUTTONS === */
         .add-user-button {
             padding: 8px 12px;
-            background-color: #007bff;
+            background-color: #FF6B00; /* Nút màu cam */
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
             margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
         .add-user-button:hover {
-            background-color: #0056b3;
+            background-color: #E55D00;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(255, 107, 0, 0.3);
         }
 
         /* === FORMS === */
         .search-form {
-            background-color: #f8f9fa;
+            background-color: #FFF5E6; /* Nền cam nhạt */
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(255, 107, 0, 0.1);
+            border: 1px solid #FFD8B1;
         }
 
         .search-form input[type="text"] {
             padding: 8px;
             width: 250px;
-            border: 1px solid #ccc;
+            border: 1px solid #FFD8B1;
             border-radius: 4px;
             margin-right: 10px;
         }
 
         .search-form input[type="submit"] {
             padding: 8px 12px;
-            background-color: #007bff;
+            background-color: #FF6B00;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .search-form input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #E55D00;
+            transform: translateY(-2px);
         }
 
         /* === MODAL === */
@@ -149,17 +162,19 @@
         }
 
         .modal-content {
-            background-color: #fff;
+            background-color: #FFF5E6;
             padding: 20px;
             border-radius: 8px;
             width: 400px;
             max-width: 90%;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 16px rgba(255, 107, 0, 0.2);
             position: relative;
+            border: 1px solid #FFD8B1;
         }
 
         .modal-content h3 {
             margin-top: 0;
+            color: #FF6B00;
         }
 
         .close-button {
@@ -167,12 +182,14 @@
             top: 10px;
             right: 10px;
             font-size: 20px;
-            color: #333;
+            color: #FF6B00;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .close-button:hover {
-            color: #dc3545;
+            color: #E55D00;
+            transform: scale(1.1);
         }
 
         .create-form label {
@@ -180,31 +197,34 @@
             width: 100px;
             font-weight: bold;
             margin-bottom: 10px;
+            color: #FF6B00;
         }
 
         .create-form input[type="text"], .create-form input[type="password"] {
             padding: 8px;
             width: 200px;
-            border: 1px solid #ccc;
+            border: 1px solid #FFD8B1;
             border-radius: 4px;
             margin-bottom: 10px;
         }
 
         .create-form input[type="submit"] {
             padding: 8px 12px;
-            background-color: #007bff;
+            background-color: #FF6B00;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .create-form input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #E55D00;
+            transform: translateY(-2px);
         }
 
         .create-form .error {
-            color: #dc3545;
+            color: #FF3333;
             font-size: 12px;
             margin-left: 110px;
             display: none;
@@ -215,54 +235,58 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(255, 107, 0, 0.1);
+            border: 1px solid #FFD8B1;
         }
 
         .user-table th, .user-table td {
             padding: 12px;
             text-align: left;
-            border: 1px solid #e1e1e1;
+            border: 1px solid #FFD8B1;
         }
 
         .user-table th {
-            background-color: #f8f9fa;
+            background-color: #FF6B00; /* Header bảng màu cam */
+            color: white;
             font-weight: bold;
         }
 
         .user-table tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #FFF5E6; /* Hàng chẵn màu cam nhạt */
         }
 
         .user-table tr:hover {
-            background-color: #f1f1f1;
+            background-color: #FFE4CC; /* Hover màu cam sáng */
         }
 
         .user-table input[type="text"], .user-table input[type="password"] {
             padding: 6px;
-            border: 1px solid #ccc;
+            border: 1px solid #FFD8B1;
             border-radius: 4px;
             margin-right: 5px;
         }
 
         .user-table input[type="submit"] {
             padding: 6px 10px;
-            background-color: #28a745;
+            background-color: #FF6B00;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .user-table input[type="submit"]:hover {
-            background-color: #218838;
+            background-color: #E55D00;
+            transform: scale(1.05);
         }
 
         .user-table input[value="Delete"] {
-            background-color: #dc3545;
+            background-color: #FF3333; /* Nút xóa màu đỏ cam */
         }
 
         .user-table input[value="Delete"]:hover {
-            background-color: #c82333;
+            background-color: #CC0000;
         }
 
         /* === MESSAGES === */
@@ -270,6 +294,17 @@
             font-weight: bold;
             text-align: center;
             margin: 20px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        /* === FOOTER === */
+        .footer {
+            background-color: #FF6B00; /* Footer màu cam */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-weight: bold;
         }
 
         /* === RESPONSIVE DESIGN === */
@@ -285,6 +320,7 @@
 
             .search-form input[type="text"] {
                 width: 100%;
+                margin-bottom: 10px;
             }
 
             .create-form input[type="text"], .create-form input[type="password"] {
@@ -304,6 +340,14 @@
             .user-table th, .user-table td {
                 padding: 8px;
                 font-size: 12px;
+                display: block;
+                width: 100%;
+            }
+
+            .user-table tr {
+                margin-bottom: 15px;
+                display: block;
+                border: 1px solid #FFD8B1;
             }
 
             .user-table input[type="text"], .user-table input[type="password"] {
