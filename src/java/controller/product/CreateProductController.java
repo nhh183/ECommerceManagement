@@ -54,9 +54,11 @@ public class CreateProductController extends HttpServlet {
             String sellerID = loginUser.getUserID();
             String status = request.getParameter("status");
             String description = request.getParameter("description");
-            System.out.println(">>> DESCRIPTION = " + description); // thêm để kiểm tra
 
-            String uploadPath = request.getServletContext().getRealPath("/" + UPLOAD_DIR);
+            String rootPath = getServletContext().getRealPath("");
+            String uploadPath = rootPath.replace("build\\web", "web").replace("build/web", "web");
+            uploadPath += File.separator + "images";
+
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();

@@ -68,7 +68,10 @@ public class UpdateProductController extends HttpServlet {
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
             if (fileName != null && !fileName.isEmpty()) {
-                String uploadPath = request.getServletContext().getRealPath("/" + UPLOAD_DIR);
+                String rootPath = getServletContext().getRealPath("");
+                String uploadPath = rootPath.replace("build\\web", "web").replace("build/web", "web");
+                uploadPath += File.separator + "images";
+
                 File uploadDir = new File(uploadPath);
                 if (!uploadDir.exists()) {
                     uploadDir.mkdirs();

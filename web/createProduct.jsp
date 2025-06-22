@@ -46,10 +46,7 @@
                         <input type="file" name="image" class="form-file" accept="image/*" required>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Mô tả</label>
-                        <textarea name="description" class="form-textarea" rows="5" placeholder="Mô tả sản phẩm..."></textarea>
-                    </div>
+                    
                 </div>
 
                 <!-- Bên phải -->
@@ -78,6 +75,11 @@
                     </div>
 
                     <input type="hidden" name="sellerID" value="${loginUser.userID}" />
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mô tả</label>
+                        <textarea name="description" class="form-textarea" rows="5" placeholder="Mô tả sản phẩm..."></textarea>
+                    </div>
                 </div>
 
                 <!-- Nút -->

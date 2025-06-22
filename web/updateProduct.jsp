@@ -40,7 +40,7 @@
                         <label class="form-label">Tên sản phẩm <span>*</span></label>
                         <input type="text" name="name" class="form-input" value="${product.name}" required>
                     </div>
-   
+
                     <div class="form-group">
                         <label class="form-label">Giá <span>*</span></label>
                         <input type="number" name="price" class="form-input" min="0" step="0.01"
@@ -57,10 +57,7 @@
                         </c:if>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Mô tả</label>
-                        <textarea name="description" class="form-textarea">${product.description}</textarea>
-                    </div>
+
                 </div>
 
                 <!-- Bên phải -->
@@ -86,6 +83,11 @@
                             <option value="active" ${product.status == 'active' ? 'selected' : ''}>Đang bán</option>
                             <option value="inactive" ${product.status == 'inactive' ? 'selected' : ''}>Ngừng bán</option>
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Mô tả</label>
+                        <textarea name="description" class="form-textarea">${product.description}</textarea>
                     </div>
 
                     <input type="hidden" name="sellerID" value="${loginUser.userID}" />

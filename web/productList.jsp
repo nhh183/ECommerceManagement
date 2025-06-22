@@ -118,7 +118,7 @@
                                 <td>${p.sellerID}</td>
                                 <td>
                                     <c:if test="${not empty p.imgUrl}">
-                                        <img src="${pageContext.request.contextPath}/${p.imgUrl}" class="product-img" alt="Ảnh sản phẩm"/>
+                                        <img src="${pageContext.request.contextPath}/${p.imgUrl}?t=${now.time}" class="product-img" alt="Ảnh sản phẩm"/>
                                     </c:if>
                                 </td>
                                 <td>
