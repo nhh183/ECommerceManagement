@@ -368,7 +368,8 @@
                 <div class="modal-content">
                     <span class="close-button" onclick="closeModal()">&times;</span>
                     <h3>Create New User</h3>
-                    <form id="createUserForm" action="MainController" method="POST" class="create-form">
+                    <form id="createUserForm" action="CreateUserController" method="POST" class="create-form">
+                        <input type="hidden" name="sourcePage" value="userList">
                         <input type="hidden" name="action" value="createUser"/>
                         <label>User ID:</label>
                         <input type="text" name="userID" id="userID" required/>
