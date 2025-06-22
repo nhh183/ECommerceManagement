@@ -11,9 +11,9 @@ import utils.DBUtil;
 public class UserDAO {
 
     private static final String LOGIN = "SELECT * FROM tblUsers WHERE userID = ? AND password = ?";
-    private static final String CREATE_USER = "INSERT INTO tblUsers (userID, fullName, roleID, password, phone) VALUES (?, ?, ?, ?, ?)";
+    private static final String CREATE_USER = "INSERT INTO tblUsers(userID, fullName, roleID, password, phone) VALUES (?, ?, ?, ?, ?)";
     private static final String SEARCH_USER = "SELECT * FROM tblUsers WHERE userID LIKE ? OR fullName LIKE ? OR roleID LIKE ?";
-    private static final String UPDATE_USER = "UPDATE tblUsers SET fullName = ?, roleID = ?, password = ? , phone = ?, WHERE userID = ?";
+    private static final String UPDATE_USER = "UPDATE tblUsers SET fullName = ?, roleID = ?, password = ? , phone = ? WHERE userID = ?";
     private static final String DELETE_USER = "DELETE FROM tblUsers WHERE userID = ?";
 
     private UserDTO mapUser(ResultSet rs) throws SQLException {
@@ -64,6 +64,7 @@ public class UserDAO {
             ps.setString(3, user.getRoleID());
             ps.setString(4, user.getPassword());
             ps.setString(5, user.getPhone());
+            ps.executeUpdate(); // gửi đơn hàng xuống data
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -103,16 +104,18 @@ public class UserDAO {
         try {
             conn = DBUtil.getConnection();
             ps = conn.prepareStatement(UPDATE_USER);
-            ps.setString(1, user.getUserID());
-            ps.setString(2, user.getFullName());
-            ps.setString(3, user.getRoleID());
-            ps.setString(4, user.getPassword());
-            ps.setString(5, user.getPhone());
+            ps.setString(1, user.getFullName());
+            ps.setString(2, user.getRoleID());
+            ps.setString(3, user.getPassword());
+            ps.setString(4, user.getPhone());
+            ps.setString(5, user.getUserID());
+            System.out.println(ps.executeUpdate() > 0);
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
+
     }
 
     public boolean deleteUser(String userID) throws Exception {

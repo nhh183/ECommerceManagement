@@ -4,8 +4,10 @@
  */
 package controller;
 
-import dao.UserDAO;
-import dto.UserDTO;
+import dao.CategoryDAO;
+import dao.ProductDAO;
+import dto.CategoryDTO;
+import dto.ProductDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,35 +15,31 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
+/**
+ *
+ * @author LENOVO
+ */
+@WebServlet(name = "HomePageController", urlPatterns = {"/HomePageController"})
+public class HomePageController extends HttpServlet {
 
-    private UserDAO dao = new UserDAO();
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            String userID = request.getParameter("userID");
-            String password = request.getParameter("password");
-            UserDTO loginUser = dao.login(userID, password);
-            if (loginUser != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("login", loginUser);
-                request.getRequestDispatcher("homePage.jsp").forward(request, response);
-            } else {
-                request.setAttribute("ERROR", "Incorrect UserID or Password");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            }
-        } catch (Exception e) {
-            log(e.getMessage());
-        }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -67,7 +65,26 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ProductDAO productDAO = new ProductDAO();
+        CategoryDAO categoryDAO = new CategoryDAO();
+
+        // Lấy danh sách sản phẩm và danh mục
+        List<ProductDTO> productList = productDAO.getProductList();
+        List<CategoryDTO> categoryList = categoryDAO.getCategoryList();
+
+        // Giả sử newArrivals là 4 sản phẩm mới nhất
+        List<ProductDTO> newArrivals = productList.stream()
+                .sorted((p1, p2) -> p2.getProductID() - p1.getProductID())
+                .limit(4)
+                .collect(Collectors.toList());
+
+        // Đặt các attribute vào request
+        request.setAttribute("productList", productList);
+        request.setAttribute("categoryList", categoryList);
+        request.setAttribute("newArrivals", newArrivals);
+
+        // Forward đến trang JSP
+        request.getRequestDispatcher("homePage.jsp").forward(request, response);
     }
 
     /**

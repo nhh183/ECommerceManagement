@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @WebServlet(name = "SearchUserController", urlPatterns = {"/SearchUserController"})
@@ -24,6 +25,7 @@ public class SearchUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Kiểm tra quyền
         String search = request.getParameter("searchUser");
         ArrayList<UserDTO> userList;
         try {
