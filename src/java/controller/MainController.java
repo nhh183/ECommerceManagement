@@ -58,6 +58,12 @@ public class MainController extends HttpServlet {
     public static final String REPLY_FEEDBACK = "ReplyFeedback";
     public static final String REPLY_FEEDBACK_CONTROLLER = "CustomerCareController";
 
+//
+    public static final String UPDATE_DELIVERY = "updateDelivery";
+    public static final String UPDATE_DELIVERY_CONTROLLER = "UpdateDeliveryController";
+    public static final String SEARCH_DELIVERY = "searchDelivery";
+    public static final String SEARCH_DELIVERY_CONTROLLER = "SearchDeliveryController";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -114,6 +120,14 @@ public class MainController extends HttpServlet {
                 case REPLY_FEEDBACK:
                     url = REPLY_FEEDBACK_CONTROLLER;
                     break;
+                //
+                case SEARCH_DELIVERY:
+                    url = SEARCH_DELIVERY_CONTROLLER;
+                    break;
+                case UPDATE_DELIVERY:
+                    url = UPDATE_DELIVERY_CONTROLLER;
+                    break;
+
                 default:
                     System.out.println("Unknown action: " + action);
                     url = "login.jsp"; // fallback

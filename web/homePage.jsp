@@ -409,10 +409,12 @@
                         <li><a href="MainController?action=searchProduct&categoryID=3">ÁO THUN</a></li>
                         <li><a href="MainController?action=searchProduct&categoryID=4">ĐỒ GIA DỤNG</a></li>
                         <li><a href="MainController?action=searchProduct&categoryID=6">THỂ THAO</a></li>
+                        <li><a href="MainController?action=searchDelivery">Manage Deliveries</a></li>
 
                         <c:if test="${sessionScope.login.roleID == 'AD'}">
                             <li><a href="MainController?action=searchUser">Manage Users</a></li>
                             <li><a href="MainController?action=searchCategory">Manage Categories</a></li>
+                            
                             </c:if>
                             <c:if test="${sessionScope.login.roleID == 'CS'}">
                             <li><a href="feedbackAdmin.jsp">Manage Feedback</a></li>
