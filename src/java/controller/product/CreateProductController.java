@@ -34,6 +34,7 @@ public class CreateProductController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         UserDTO loginUser = (UserDTO) request.getSession().getAttribute("login");
         if (loginUser == null) {
@@ -52,11 +53,15 @@ public class CreateProductController extends HttpServlet {
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             String sellerID = loginUser.getUserID();
             String status = request.getParameter("status");
+            String description = request.getParameter("description");
 
-            String uploadPath = request.getServletContext().getRealPath("/" + UPLOAD_DIR);
+            String rootPath = getServletContext().getRealPath("");
+            String uploadPath = rootPath.replace("build\\web", "web").replace("build/web", "web");
+            uploadPath += File.separator + "images";
+
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
-                uploadDir.mkdirs(); 
+                uploadDir.mkdirs();
             }
 
             Part filePart = request.getPart("image");
@@ -65,12 +70,12 @@ public class CreateProductController extends HttpServlet {
 
             if (fileName != null && !fileName.isEmpty()) {
                 String filePath = uploadPath + File.separator + fileName;
-                filePart.write(filePath); 
-                imgUrl = UPLOAD_DIR + "/" + fileName; 
+                filePart.write(filePath);
+                imgUrl = UPLOAD_DIR + "/" + fileName;
             }
 
-            ProductDTO product = new ProductDTO(name, categoryID, price, quantity, sellerID, status, imgUrl);
-
+            ProductDTO product = new ProductDTO(name, categoryID, price, quantity, sellerID, status, imgUrl, description);
+            System.out.println("INSERTING DESCRIPTION = " + product.getDescription());
             ProductDAO dao = new ProductDAO();
             boolean result = dao.createProduct(product);
 
@@ -95,15 +100,6 @@ public class CreateProductController extends HttpServlet {
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -113,7 +109,8 @@ public class CreateProductController extends HttpServlet {
             request.setAttribute("categoryList", list);
             request.getRequestDispatcher("createProduct.jsp").forward(request, response);
         } else {
-
+            request.getSession().setAttribute("ERROR", "Lỗi. Vui Lòng thử lại sau.");
+            response.sendRedirect("SearchProductController");
         }
     }
 
