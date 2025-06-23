@@ -58,12 +58,21 @@ public class MainController extends HttpServlet {
     public static final String REPLY_FEEDBACK = "ReplyFeedback";
     public static final String REPLY_FEEDBACK_CONTROLLER = "CustomerCareController";
 
-//
+    //giao
     public static final String UPDATE_DELIVERY = "updateDelivery";
     public static final String UPDATE_DELIVERY_CONTROLLER = "UpdateDeliveryController";
     public static final String SEARCH_DELIVERY = "searchDelivery";
     public static final String SEARCH_DELIVERY_CONTROLLER = "SearchDeliveryController";
 
+    // Return (Trả hàng)
+    public static final String CREATE_RETURN = "createReturn";
+    public static final String CREATE_RETURN_CONTROLLER = "CreateReturnController";
+    public static final String APPROVE_RETURN = "approveReturn";
+    public static final String APPROVE_RETURN_CONTROLLER = "ApproveReturnController";
+    public static final String VIEW_ALL_RETURNS = "viewAllReturns";
+    public static final String VIEW_ALL_RETURNS_CONTROLLER = "ViewAllReturnsController";
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -120,14 +129,23 @@ public class MainController extends HttpServlet {
                 case REPLY_FEEDBACK:
                     url = REPLY_FEEDBACK_CONTROLLER;
                     break;
-                //
+                //giao
                 case SEARCH_DELIVERY:
                     url = SEARCH_DELIVERY_CONTROLLER;
                     break;
                 case UPDATE_DELIVERY:
                     url = UPDATE_DELIVERY_CONTROLLER;
                     break;
-
+                //tra
+                    case CREATE_RETURN:
+                    url = CREATE_RETURN_CONTROLLER;
+                    break;
+                case APPROVE_RETURN:
+                    url = APPROVE_RETURN_CONTROLLER;
+                    break;
+                case VIEW_ALL_RETURNS:
+                    url = VIEW_ALL_RETURNS_CONTROLLER;
+                    break;
                 default:
                     System.out.println("Unknown action: " + action);
                     url = "login.jsp"; // fallback

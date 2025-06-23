@@ -30,7 +30,6 @@ public class SearchDeliveryController extends HttpServlet {
         DeliveryDAO dao = new DeliveryDAO();
         List<DeliveryDTO> list;
 
-        // Nếu không có điều kiện lọc, lấy toàn bộ
         if (invoiceID.isEmpty() && status.isEmpty()) {
             list = dao.getAllDeliveries();
         } else {
