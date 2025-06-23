@@ -1,0 +1,155 @@
+
+/* === FORM CHUNG === */
+.wide-form-layout {
+    max-width: 90%;
+    margin: 50px auto;
+    padding: 40px;
+    background-color: #fefefe;
+    font-family: 'Segoe UI', sans-serif;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* === TIÊU ĐỀ === */
+.form-title {
+    text-align: center;
+    font-size: 28px;
+    color: #c64600;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+/* === GRID 2 CỘT === */
+.wide-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 60px;
+}
+
+/* === NHÓM INPUT === */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+    font-size: 15px;
+}
+
+.form-label span {
+    color: red;
+}
+
+/* === INPUT, SELECT, TEXTAREA === */
+.form-input,
+.form-select,
+.form-file,
+.form-textarea {
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: white;
+    transition: border 0.3s;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: #c64600;
+    outline: none;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+    grid-column: span 2;
+}
+
+/* === BUTTONS === */
+.form-bottom {
+    grid-column: span 2;
+    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-button {
+    background-color: #c64600;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 10px;
+}
+
+.form-button:hover {
+    background-color: #a84100;
+}
+
+.form-cancel {
+    margin-left: 20px;
+    color: #c64600;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.form-cancel:hover {
+    text-decoration: underline;
+}
+
+/* === THÔNG BÁO === */
+.form-message {
+    grid-column: span 2;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.form-message.success {
+    background-color: #e6f9e6;
+    color: #1d6b1d;
+    border: 1px solid #9cd89c;
+}
+
+.form-message.error {
+    background-color: #ffe6e6;
+    color: #a60000;
+    border: 1px solid #ffb3b3;
+}
+
+/* === THÔNG BÁO === */
+.form-message {
+    grid-column: span 2;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.form-message.success {
+    background-color: #e6f9e6;
+    color: #1d6b1d;
+    border: 1px solid #9cd89c;
+}
+
+.form-message.error {
+    background-color: #ffe6e6;
+    color: #a60000;
+    border: 1px solid #ffb3b3;
+}
+
