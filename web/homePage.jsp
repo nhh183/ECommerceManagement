@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,12 +16,12 @@
         <div class="header sticky-top">
             <div class="header-top">
                 <div class="header-top-left">
-                    
+
                 </div>
                 <div class="header-top-right">
                     <span class="welcome-text font-weight-light" style="display: inline-block;">Welcome, ${sessionScope.login.fullName}!</span> <!-- Thêm style="display: inline-block;" -->
                 </div>
-                
+
             </div>
             <div class="header-bottom p-3">
                 <div class="container inner-header-bottom row">
@@ -28,14 +29,15 @@
                     <div class="col-md-3">
                         <div class="logo font-weight-bold">
                             <img src="images/shop.jpg" alt="Cart Logo" class="logo-img">
-                                Shoppy
+                            Shoppy
                         </div>
                     </div>
 
                     <!-- Search Box -->
                     <div class="col-md-6">
                         <form action="MainController" method="GET" class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Tìm sản phẩm...">
+                            <input type="text" name="name" class="form-control" placeholder="Tìm sản phẩm...">
+                            <input type="hidden" name="sourcePage" value="home">
                             <input type="hidden" name="action" value="searchProduct">
                             <div class="input-group-append">
                                 <button class="btn btn-solid-primary search-btn" type="submit"><i class="fa-solid fa-magnifying-glass text-white"></i></button>
@@ -55,20 +57,20 @@
                                     <span class="cart-count">0</span>
                                 </c:if>
                             </a>
-                            
+
                         </c:if>
                     </div>
                 </div>
-                
+
             </div>
         </div>
-            
+
 
         <!-- NAVIGATION MENU -->
         <div class="nav-wrapper">
             <div class="container">
                 <ul class="nav-menu">
-                    <li><a href="homePage.jsp">HOME</a></li>
+                    <li><a href="MainController?action=homePage">HOME</a></li>
                     <li><a href="MainController?action=searchProduct&categoryID=1">ĐIỆN THOẠI</a></li>
                     <li><a href="MainController?action=searchProduct&categoryID=2">LAPTOP</a></li>
                     <li><a href="MainController?action=searchProduct&categoryID=3">ÁO THUN</a></li>
@@ -168,15 +170,20 @@
             </div>
         </div>
 
+
         <div class="product-section">
             <div class="container">
                 <h2>NEW ARRIVALS</h2>
                 <div class="product-grid">
-                    <c:forEach var="product" items="${newArrivals}" end="3">
+                    <c:forEach var="product" items="${productList}">
                         <div class="product-card">
-                            <img src="${product.imgUrl}" alt="${product.name}">
-                            <h3>${product.name}</h3>
-                            <p>$${product.price}</p>
+                            <a href="MainController?action=viewProduct&id=${product.productID}">
+                                <img src="${product.imgUrl}" alt="${product.name}">
+                            </a>
+                            <a href="MainController?action=viewProduct&id=${product.productID}">
+                                <h3>${product.name}</h3>
+                            </a>
+                            <p><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</p>
                         </div>
                     </c:forEach>
                 </div>

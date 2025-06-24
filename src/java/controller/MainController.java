@@ -21,6 +21,9 @@ public class MainController extends HttpServlet {
     // Login
     public static final String LOGIN = "login";
     public static final String LOGIN_CONTROLLER = "LoginController";
+    //homePage
+    public static final String HOME_PAGE = "homePage";
+    public static final String HOME_PAGE_CONTROLLER = "HomePageController";
 
     // User Management
     public static final String CREATE_USER = "createUser";
@@ -41,6 +44,8 @@ public class MainController extends HttpServlet {
     public static final String DELETE_PRODUCT_CONTROLLER = "DeleteProductController";
     public static final String SEARCH_PRODUCT = "searchProduct";
     public static final String SEARCH_PRODUCT_CONTROLLER = "SearchProductController";
+    public static final String VIEW_PRODUCT = "viewProduct";
+    public static final String VIEW_PRODUCT_CONTROLLER = "ViewProductController";
 
     // Category Management
     public static final String CREATE_CATEGORY = "createCategory";
@@ -69,6 +74,9 @@ public class MainController extends HttpServlet {
                 case LOGIN:
                     url = LOGIN_CONTROLLER;
                     break;
+                case HOME_PAGE:
+                    url = HOME_PAGE_CONTROLLER;
+                    break;
                 case CREATE_USER:
                     url = CREATE_USER_CONTROLLER;
                     break;
@@ -94,6 +102,9 @@ public class MainController extends HttpServlet {
                 case SEARCH_PRODUCT:
                     url = SEARCH_PRODUCT_CONTROLLER;
                     break;
+                case VIEW_PRODUCT:
+                    url = VIEW_PRODUCT_CONTROLLER;
+                    break;    
                 // Category
                 case CREATE_CATEGORY:
                     url = CREATE_CATEGORY_CONTROLLER;
