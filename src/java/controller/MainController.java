@@ -34,6 +34,8 @@ public class MainController extends HttpServlet {
     public static final String UPDATE_USER_CONTROLLER = "UpdateUserController";
     public static final String DELETE_USER = "deleteUser";
     public static final String DELETE_USER_CONTROLLER = "DeleteUserController";
+    public static final String UPDATE_ROLEID = "activateSeller";
+    public static final String UPDATE_ROLEID_CONTROLLER = "UpdateCSToSellerController";
 
     // Product Management
     public static final String CREATE_PRODUCT = "createProduct";
@@ -89,6 +91,9 @@ public class MainController extends HttpServlet {
                 case DELETE_USER:
                     url = DELETE_USER_CONTROLLER;
                     break;
+                case UPDATE_ROLEID:
+                    url = UPDATE_ROLEID_CONTROLLER;
+                    break;
                 // Product    
                 case CREATE_PRODUCT:
                     url = CREATE_PRODUCT_CONTROLLER;
@@ -104,7 +109,7 @@ public class MainController extends HttpServlet {
                     break;
                 case VIEW_PRODUCT:
                     url = VIEW_PRODUCT_CONTROLLER;
-                    break;    
+                    break;
                 // Category
                 case CREATE_CATEGORY:
                     url = CREATE_CATEGORY_CONTROLLER;
@@ -125,6 +130,7 @@ public class MainController extends HttpServlet {
                 case REPLY_FEEDBACK:
                     url = REPLY_FEEDBACK_CONTROLLER;
                     break;
+
                 default:
                     System.out.println("Unknown action: " + action);
                     url = "login.jsp"; // fallback

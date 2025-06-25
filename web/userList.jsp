@@ -448,6 +448,7 @@
                         <tr>
                             <th>User ID</th>
                             <th>Full Name</th>
+                            <th>Password</th>
                             <th>Role ID</th>
                             <th>Phone</th>
                             <th>Actions</th>
@@ -458,6 +459,7 @@
                             <tr>
                                 <td>${user.userID}</td>
                                 <td>${user.fullName}</td>
+                                <td>${user.password}</td>
                                 <td>${user.roleID}</td>
                                 <td>${user.phone}</td>
                                 <td>
