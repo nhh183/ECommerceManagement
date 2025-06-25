@@ -44,7 +44,7 @@
         <header class="main-header">
             <nav class="main-nav">
                 <div class="header-left">
-                    <a href="homePage.jsp" class="<%= "home".equals(action) ? "active" : "" %>">Trang chủ</a>
+                    <a href="MainController?action=homePage" class="<%= "home".equals(action) ? "active" : "" %>">Trang chủ</a>
                     <a href="MainController?action=searchProduct" class="<%= "searchProduct".equals(action) ? "active" : "" %>">Danh sách sản phẩm</a>
                     <a href="MainController?action=searchCategory" class="<%= "searchCategory".equals(action) ? "active" : "" %>">Danh sách danh mục</a>
                 </div>

@@ -94,12 +94,15 @@ public class SearchProductController extends HttpServlet {
                 session.removeAttribute("ERROR");
             }
             
+            
             //kiem tra search den tu page nao
             if (sourcePage != null && !sourcePage.isEmpty()) {
                 if ("productList".equals(sourcePage)) {
                     request.getRequestDispatcher("productList.jsp").forward(request, response);
                 } else if ("home".equals(sourcePage)) {
                     request.getRequestDispatcher("homePage.jsp").forward(request, response);
+                }else if("productPage".equals(sourcePage)){
+                    request.getRequestDispatcher("productPage.jsp").forward(request, response);
                 }
             } else {
                 request.getRequestDispatcher("productList.jsp").forward(request, response);

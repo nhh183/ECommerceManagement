@@ -17,10 +17,26 @@ VALUES ('user001', N'Nguyễn Văn A', 'AD', '123456', '0901234567');
 -- Normal users
 INSERT INTO tblUsers (userID, fullName, roleID, password, phone)
 VALUES 
-('user002', N'Trần Thị B', 'NV', '123456', '0912345678'),
-('user003', N'Lê Văn C', 'NV', '123456', '0923456789'),
-('user004', N'Phạm Thị D', 'NV', '123456', '0934567890'),
-('user005', N'Hoàng Văn E', 'NV', '123456', '0945678901');
+('user002', N'Trần Thị B', 'SL', '123456', '0912345678'),
+('user003', N'Lê Văn C', 'CS', '123456', '0923456789'),
+('user004', N'Phạm Thị D', 'CS', '123456', '0934567890'),
+('user005', N'Hoàng Văn E', 'SL', '123456', '0945678901');
+
+UPDATE tblUsers
+SET roleID = 'SL' --seller
+WHERE userID = 'user002';
+
+UPDATE tblUsers
+SET roleID = 'CS'
+WHERE userID = 'user003';
+
+UPDATE tblUsers
+SET roleID = 'CS'
+WHERE userID = 'user004';
+
+UPDATE tblUsers
+SET roleID = 'SL'
+WHERE userID = 'user005';
 
 -- 2. Ngành hàng
 CREATE TABLE tblCategories (
