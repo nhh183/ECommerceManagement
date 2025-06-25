@@ -32,7 +32,7 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("login", loginUser);
                 
-                request.getRequestDispatcher("homePage.jsp").forward(request, response);
+                response.sendRedirect("HomePageController");
             } else {
                 request.setAttribute("ERROR", "Incorrect UserID or Password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);

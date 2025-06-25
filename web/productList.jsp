@@ -22,6 +22,24 @@
 
     </head>
     <body>
+        <div class="header">
+            <div class="header-top">
+                
+            </div>
+
+            <div class="header-top">
+                <div class="header-top-left">
+                    <div class="logo">
+                        <img src="images/shop.jpg" alt="Cart Logo" class="logo-img">
+                        Shoppy
+                    </div>
+                </div>
+                <div class="header-top-right">
+                    <span class="welcome-text">Welcome, ${sessionScope.login.fullName}!</span>
+                </div>
+                
+            </div>
+        </div>
 
         <header class="main-header">
             <nav class="main-nav">
@@ -133,7 +151,8 @@
 
                                 <td>
                                     <a class="action-link" href="MainController?action=updateProduct&id=${p.productID}">Sửa</a> |
-                                    <a class="action-link" href="MainController?action=deleteProduct&id=${p.productID}" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                                    <a class="action-link" href="MainController?action=deleteProduct&id=${p.productID}" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>|
+                                    <a class="action-link" href="ViewProductController?id=${p.productID}">xem sản phẩm</a> |
                                 </td>
                             </tr>
                         </c:forEach>

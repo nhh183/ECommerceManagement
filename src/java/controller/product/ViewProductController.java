@@ -2,13 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.product;
 
-import dao.CategoryDAO;
 import dao.ProductDAO;
-import dto.CategoryDTO;
 import dto.ProductDTO;
-import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,15 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
- * @author LENOVO
+ * @author User
  */
-@WebServlet(name = "HomePageController", urlPatterns = {"/HomePageController"})
-public class HomePageController extends HttpServlet {
+@WebServlet(name = "ViewProductController", urlPatterns = {"/ViewProductController"})
+public class ViewProductController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,6 +33,7 @@ public class HomePageController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -52,31 +48,27 @@ public class HomePageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserDTO loginUser = (UserDTO) request.getSession().getAttribute("login");
-        if (loginUser == null) {
-            response.sendRedirect("login.jsp");
-            return;
+        try {
+            String productIDRaw = request.getParameter("id");
+            if (productIDRaw != null && !productIDRaw.isEmpty()) {
+                int productID = Integer.parseInt(productIDRaw);
+                ProductDAO dao = new ProductDAO();
+                ProductDTO product = dao.getProductByID(productID);
+                if (product != null) {
+                    request.setAttribute("product", product);
+                    request.getRequestDispatcher("viewProduct.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("ERROR", "Gặp lỗi sản phẩm!");
+                    request.getRequestDispatcher("HomePageController").forward(request, response);
+                }
+            }else{
+                response.sendRedirect("HomePageController");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("HomePageController");
         }
-         ProductDAO productDAO = new ProductDAO();
-        CategoryDAO categoryDAO = new CategoryDAO();
 
-        // Lấy danh sách sản phẩm và danh mục
-        List<ProductDTO> productList = productDAO.getProductList();
-        List<CategoryDTO> categoryList = categoryDAO.getCategoryList();
-
-//        // Giả sử newArrivals là 4 sản phẩm mới nhất
-//        List<ProductDTO> newArrivals = productList.stream()
-//                .sorted((p1, p2) -> p2.getProductID() - p1.getProductID())
-//                .limit(4)
-//                .collect(Collectors.toList());
-
-        // Đặt các attribute vào request
-        request.setAttribute("productList", productList);
-        request.setAttribute("categoryList", categoryList);
-        
-
-        // Forward đến trang JSP
-        request.getRequestDispatcher("homePage.jsp").forward(request, response);
     }
 
     /**
@@ -90,7 +82,7 @@ public class HomePageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
