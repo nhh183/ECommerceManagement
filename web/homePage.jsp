@@ -90,7 +90,7 @@
 
                     <!-- Mục cho CS -->
                     <c:if test="${sessionScope.login.roleID == 'CS'}">
-                        <li><a class="admin-link" href="MainController?action=activateSeller">Kích hoạt Seller</a></li>
+                        <li><a class="admin-link" href="activateSeller.jsp">Kích hoạt Seller</a></li>
                         </c:if>
 
                     <!-- Mục cho SELLER -->
