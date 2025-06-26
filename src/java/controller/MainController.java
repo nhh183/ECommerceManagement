@@ -46,6 +46,8 @@ public class MainController extends HttpServlet {
     public static final String SEARCH_PRODUCT_CONTROLLER = "SearchProductController";
     public static final String VIEW_PRODUCT = "viewProduct";
     public static final String VIEW_PRODUCT_CONTROLLER = "ViewProductController";
+    public static final String PRODUCT_LIST = "productList";
+    public static final String PRODUCT_LIST_CONTROLLER = "ProductListController";
 
     // Category Management
     public static final String CREATE_CATEGORY = "createCategory";
@@ -104,7 +106,10 @@ public class MainController extends HttpServlet {
                     break;
                 case VIEW_PRODUCT:
                     url = VIEW_PRODUCT_CONTROLLER;
-                    break;    
+                    break;
+                case PRODUCT_LIST:
+                    url = PRODUCT_LIST_CONTROLLER;
+                    break;
                 // Category
                 case CREATE_CATEGORY:
                     url = CREATE_CATEGORY_CONTROLLER;

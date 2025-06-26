@@ -37,7 +37,6 @@
                     <div class="col-md-6">
                         <form action="MainController" method="GET" class="input-group">
                             <input type="text" name="name" class="form-control" placeholder="Tìm sản phẩm...">
-                            <input type="hidden" name="sourcePage" value="productPage">
                             <input type="hidden" name="action" value="searchProduct">
                             <div class="input-group-append">
                                 <button class="btn btn-solid-primary search-btn" type="submit"><i class="fa-solid fa-magnifying-glass text-white"></i></button>
@@ -85,18 +84,18 @@
                     <c:if test="${sessionScope.login.roleID == 'AD'}">
                         <li><a class="admin-link" href="MainController?action=searchUser">Quản lý KH</a></li>
                         <li><a class="admin-link" href="MainController?action=searchCategory">Danh mục</a></li>
-                        <li><a class="admin-link" href="MainController?action=searchProduct">Sản phẩm</a></li>
+                        <li><a class="admin-link" href="MainController?action=productList">Sản phẩm</a></li>
+                        <li><a class="admin-link" href="feedbackAdmin.jsp">Phản hồi</a></li>
                         </c:if>
 
                     <!-- Mục cho CS -->
                     <c:if test="${sessionScope.login.roleID == 'CS'}">
-                        <li><a class="admin-link" href="feedbackAdmin.jsp">Phản hồi</a></li>
                         <li><a class="admin-link" href="MainController?action=activateSeller">Kích hoạt Seller</a></li>
                         </c:if>
 
                     <!-- Mục cho SELLER -->
                     <c:if test="${sessionScope.login.roleID == 'SL'}">
-                        <li><a class="admin-link" href="MainController?action=searchProduct&sellerID=${sessionScope.login.userID}&sourcePage=productList">Sản phẩm của tôi</a></li>
+                        <li><a class="admin-link" href="MainController?action=productList">Sản phẩm của tôi</a></li>
                         <li><a class="admin-link" href="MainController?action=myOrders">Đơn hàng</a></li>
                         </c:if>
 

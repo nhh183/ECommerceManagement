@@ -10,8 +10,6 @@
         return;
     }
     request.setAttribute("loginUser", loginUser);
-    String action = request.getParameter("action");
-    if (action == null) action = "searchProduct";
 %>
 <!DOCTYPE html>
 <html>
@@ -24,7 +22,7 @@
     <body>
         <div class="header">
             <div class="header-top">
-                
+
             </div>
 
             <div class="header-top">
@@ -37,19 +35,23 @@
                 <div class="header-top-right">
                     <span class="welcome-text">Welcome, ${sessionScope.login.fullName}!</span>
                 </div>
-                
+
             </div>
         </div>
 
         <header class="main-header">
             <nav class="main-nav">
                 <div class="header-left">
-                    <a href="MainController?action=homePage" class="<%= "home".equals(action) ? "active" : "" %>">Trang chủ</a>
-                    <a href="MainController?action=searchProduct" class="<%= "searchProduct".equals(action) ? "active" : "" %>">Danh sách sản phẩm</a>
-                    <a href="MainController?action=searchCategory" class="<%= "searchCategory".equals(action) ? "active" : "" %>">Danh sách danh mục</a>
+                    <a href="MainController?action=homePage">HOME</a>
+                    <a href="MainController?action=productList" class="active">Danh sách sản phẩm</a>
+                    <c:if test="${loginUser.roleID=='AD'}">
+                        <a href="MainController?action=searchCategory">Danh sách danh mục</a>
+                        <a href="MainController?action=searchUser">Danh sách Khách Hàng</a>
+                    </c:if>
+
                 </div>
                 <div class="header-right">
-                    <a href="MainController?action=searchProduct">Logout</a>
+                    <a href="MainController?action=logout">Đăng xuất</a>
                 </div>
 
             </nav>
@@ -67,39 +69,48 @@
 
 
             <c:if test="${not empty MSG}">
-                <p class="message-success">${MSG}</p>
+                <div class="form-message success">${MSG}</div>
             </c:if>
 
             <c:if test="${not empty ERROR}">
-                <p class="message-error">${ERROR}</p>
+                <div class="form-message error">${ERROR}</div>
             </c:if>
 
-            <form class="search-form" action="MainController" method="get">
-                <input type="hidden" name="sellerID" value="<%= loginUser.getUserID()%>"/>
-                <input type="hidden" name="sourcePage" value="productList" />
 
-                <input type="text" name="name" placeholder="Tên sản phẩm..." value="${param.name}" />
+            <!-- Gộp tìm kiếm + nút tạo sản phẩm -->
+            <div class="search-create-wrapper">
+                <form class="search-form" action="MainController" method="get">
+                    <input type="hidden" name="page" value="1" />
+                    <input type="hidden" name="sellerID" value="<%= loginUser.getUserID()%>" />
 
-                <select name="categoryID">
-                    <option value="">Tất cả danh mục</option>
-                    <c:forEach var="c" items="${categoryList}">
-                        <option value="${c.categoryID}" ${param.categoryID == c.categoryID ? 'selected' : ''}>
-                            ${c.categoryName}
-                        </option>
-                    </c:forEach>
-                </select>
+                    <input type="text" name="name" placeholder="Tên sản phẩm..." value="${param.name}" />
+                    <select name="categoryID">
+                        <option value="">Tất cả danh mục</option>
+                        <c:forEach var="c" items="${categoryList}">
+                            <option value="${c.categoryID}" ${param.categoryID == c.categoryID ? 'selected' : ''}>
+                                ${c.categoryName}
+                            </option>
+                        </c:forEach>
+                    </select>
 
-                <input type="number" name="minPrice" step="0.01" min="0" value="${param.minPrice}" placeholder="Giá từ" />
-                <input type="number" name="maxPrice" step="0.01" min="0" value="${param.maxPrice}" placeholder="Đến" />
+                    <input type="number" name="minPrice" step="0.01" min="0" value="${param.minPrice}" placeholder="Giá từ" />
+                    <input type="number" name="maxPrice" step="0.01" min="0" value="${param.maxPrice}" placeholder="Đến" />
 
-                <select name="status">
-                    <option value="">Tất cả trạng thái</option>
-                    <option value="active" ${param.status == 'active' ? 'selected' : ''}>Đang bán</option>
-                    <option value="inactive" ${param.status == 'inactive' ? 'selected' : ''}>Ngừng bán</option>
-                </select>
+                    <select name="status">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="active" ${param.status == 'active' ? 'selected' : ''}>Đang bán</option>
+                        <option value="inactive" ${param.status == 'inactive' ? 'selected' : ''}>Ngừng bán</option>
+                    </select>
 
-                <button type="submit" name="action" value="searchProduct">Tìm kiếm</button>
-            </form>
+                    <button type="submit" name="action" value="productList">Tìm kiếm</button>
+                </form>
+
+                <!-- Nút tạo sản phẩm -->
+                <form action="MainController" method="GET">
+                    <input type="hidden" name="action" value="createProduct" />
+                    <button type="submit" class="create-button">+ Đăng sản phẩm mới</button>
+                </form>
+            </div>
 
 
 
@@ -152,7 +163,7 @@
                                 <td>
                                     <a class="action-link" href="MainController?action=updateProduct&id=${p.productID}">Sửa</a> |
                                     <a class="action-link" href="MainController?action=deleteProduct&id=${p.productID}" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>|
-                                    <a class="action-link" href="ViewProductController?id=${p.productID}">xem sản phẩm</a> |
+                                    <a class="action-link" href="ViewProductController?id=${p.productID}">xem sản phẩm</a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -164,14 +175,16 @@
                 <p>Không tồn tại sản phẩm.</p>
             </c:if>
 
-            <div style="text-align: center; margin-top: 30px;">
-                <form action="MainController" method="GET">
-                    <input type="hidden" name="action" value="createProduct" />
-                    <button type="submit" class="create-button">
-                        + Đăng sản phẩm mới
-                    </button>
-                </form>
-            </div>
+            <!-- Phan trang -->
+            <c:if test="${totalPages > 1}">
+                <div class="pagination">
+                    <c:forEach begin="1" end="${totalPages}" var="i">
+                        <a href="ProductListController?page=${i}&name=${param.name}&categoryID=${param.categoryID}&minPrice=${param.minPrice}&maxPrice=${param.maxPrice}&status=${param.status}&sellerID=${param.sellerID}" class="${i == currentPage ? 'active' : ''}">
+                            ${i}
+                        </a>
+                    </c:forEach>
+                </div>
+            </c:if>
 
         </div>
     </body>

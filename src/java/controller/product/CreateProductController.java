@@ -75,13 +75,13 @@ public class CreateProductController extends HttpServlet {
             }
 
             ProductDTO product = new ProductDTO(name, categoryID, price, quantity, sellerID, status, imgUrl, description);
-            System.out.println("INSERTING DESCRIPTION = " + product.getDescription());
+
             ProductDAO dao = new ProductDAO();
             boolean result = dao.createProduct(product);
 
             if (result) {
                 request.getSession().setAttribute("MSG", "Đăng bán sản phẩm thành công!");
-                response.sendRedirect("SearchProductController");
+                response.sendRedirect("ProductListController");
                 return;
             } else {
                 request.setAttribute("categoryList", catList);
@@ -90,11 +90,9 @@ public class CreateProductController extends HttpServlet {
                 return;
             }
         } catch (Exception e) {
-            CategoryDAO catDAO = new CategoryDAO();
-            List<CategoryDTO> catList = catDAO.getCategoryList();
-            request.setAttribute("categoryList", catList);
             e.printStackTrace();
-            request.setAttribute("ERROR", "Error occured: " + e.getMessage());
+            request.getSession().setAttribute("ERROR", "Lỗi. Hãy thử lại !");
+            response.sendRedirect("ProductListController");
 
         }
 

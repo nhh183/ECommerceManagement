@@ -90,12 +90,12 @@ INSERT INTO tblProducts (name, categoryID, price, quantity, imgUrl, sellerID, st
 VALUES
 (N'Dell Inspiron 15', 2, 18000000, 10, 'images/dellinspiron.jpg', 'user002', 'active', N'Laptop Dell hiệu năng cao, thiết kế hiện đại, phù hợp học tập và làm việc.'),
 (N'Áo thun nam', 3, 150000, 50, 'images/aothunnam.jpg', 'user002', 'active', N'Áo thun nam cotton, thoáng mát, phù hợp mặc hằng ngày.'),
-(N'Nồi cơm điện Sharp', 4, 900000, 15, 'images/noicomsharp.jpg', 'user003', 'active', N'Nồi cơm điện thương hiệu Sharp, dung tích 1.8L, nấu cơm nhanh và ngon.'),
-(N'Sách Đắc Nhân Tâm', 5, 89000, 100, 'images/dacnhantam.jpg', 'user002', 'active', N'Tác phẩm kinh điển về nghệ thuật giao tiếp và đối nhân xử thế.'),
-(N'Bóng đá Động Lực', 6, 250000, 30, 'images/bongdaluc.jpg', 'user003', 'active', N'Bóng đá thương hiệu Động Lực, chuẩn thi đấu, độ bền cao.'),
-(N'Son môi 3CE đỏ cam', 7, 320000, 60, 'images/son3ce.jpg', 'user003', 'active', N'Son môi 3CE màu đỏ cam, lên màu chuẩn, giữ màu lâu, thiết kế thời trang.'),
-(N'Bút bi Thiên Long', 9, 5000, 200, 'images/butthienlong.jpg', 'user003', 'active', N'Bút bi Thiên Long nét mảnh, mực ra đều, dùng trong học tập và văn phòng.'),
-(N'Nồi chiên không dầu Lock&Lock', 10, 2500000, 10, 'images/noichienlock.jpg', 'user003', 'active', N'Nồi chiên không dầu Lock&Lock, dung tích lớn, giúp món ăn giòn ngon mà không cần dầu.');
+(N'Nồi cơm điện Sharp', 4, 900000, 15, 'images/noicomsharp.jpg', 'user005', 'active', N'Nồi cơm điện thương hiệu Sharp, dung tích 1.8L, nấu cơm nhanh và ngon.'),
+(N'Sách Đắc Nhân Tâm', 5, 89000, 100, 'images/dacnhantam.jpg', 'user005', 'active', N'Tác phẩm kinh điển về nghệ thuật giao tiếp và đối nhân xử thế.'),
+(N'Bóng đá Động Lực', 6, 250000, 30, 'images/bongdaluc.jpg', 'user005', 'active', N'Bóng đá thương hiệu Động Lực, chuẩn thi đấu, độ bền cao.'),
+(N'Son môi 3CE đỏ cam', 7, 320000, 60, 'images/son3ce.jpg', 'user005', 'active', N'Son môi 3CE màu đỏ cam, lên màu chuẩn, giữ màu lâu, thiết kế thời trang.'),
+(N'Bút bi Thiên Long', 9, 5000, 200, 'images/butthienlong.jpg', 'user005', 'active', N'Bút bi Thiên Long nét mảnh, mực ra đều, dùng trong học tập và văn phòng.'),
+(N'Nồi chiên không dầu Lock&Lock', 10, 2500000, 10, 'images/noichienlock.jpg', 'user005', 'active', N'Nồi chiên không dầu Lock&Lock, dung tích lớn, giúp món ăn giòn ngon mà không cần dầu.');
 
 
 -- 4. Chương trình khuyến mãi
