@@ -8,8 +8,6 @@
         return;
     }
     request.setAttribute("loginUser", loginUser);
-    String action = request.getParameter("action");
-    if (action == null) action = "searchCategory";
 %>
 <!DOCTYPE html>
 <html>
@@ -40,12 +38,13 @@
         <header class="main-header">
             <nav class="main-nav">
                 <div class="header-left">
-                    <a href="MainController?action=homePage" class="<%= "home".equals(action) ? "active" : "" %>">HOME</a>
-                    <a href="MainController?action=searchProduct" class="<%= "searchProduct".equals(action) ? "active" : "" %>">Danh sách sản phẩm</a>
-                    <a href="MainController?action=searchCategory" class="<%= "searchCategory".equals(action) ? "active" : "" %>">Danh sách danh mục</a>
+                    <a href="MainController?action=homePage">HOME</a>
+                    <a href="MainController?action=productList">Danh Sách Sản Phẩm</a>
+                    <a href="MainController?action=searchCategory" class="active">Danh Sách Danh Mục</a>
+                    <a href="MainController?action=searchUser">Danh Sách Khách Hàng</a>
                 </div>
                 <div class="header-right">
-                    <a href="MainController?action=logout">Logout</a>
+                    <a href="MainController?action=logout">Đăng Xuất</a>
                 </div>
             </nav>
         </header>
@@ -63,10 +62,17 @@
                 <p class="message-error">${ERROR}</p>
             </c:if>
 
-            <form class="search-form" action="MainController" method="get">
-                <input type="text" name="keyword" placeholder="Tìm kiếm danh mục..." value="${param.keyword}" />
-                <button type="submit" name="action" value="searchCategory">Tìm kiếm</button>
-            </form>
+            <div class="search-create-wrapper">
+                <form class="search-form" action="MainController" method="get">
+                    <input type="text" name="keyword" placeholder="Tìm kiếm danh mục..." value="${param.keyword}" />
+                    <button type="submit" name="action" value="searchCategory">Tìm kiếm</button>
+                </form>
+
+                <a href="createCategory.jsp">
+                    <button class="create-button" type="button">+ Thêm danh mục mới</button>
+                </a>
+            </div>
+
 
             <c:if test="${not empty categoryList}">
                 <table>
@@ -98,11 +104,6 @@
                 <p>Không tồn tại danh mục.</p>
             </c:if>
 
-            <div style="text-align: center; margin-top: 30px;">
-                <a href="createCategory.jsp">
-                    <button class="create-button" type="button">+ Thêm danh mục mới</button>
-                </a>
-            </div>
         </div>
 
     </body>

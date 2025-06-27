@@ -64,15 +64,16 @@ public class HomePageController extends HttpServlet {
         List<ProductDTO> productList = productDAO.getProductList();
         List<CategoryDTO> categoryList = categoryDAO.getCategoryList();
 
-//        // Giả sử newArrivals là 4 sản phẩm mới nhất
-//        List<ProductDTO> newArrivals = productList.stream()
-//                .sorted((p1, p2) -> p2.getProductID() - p1.getProductID())
-//                .limit(4)
-//                .collect(Collectors.toList());
+        // Giả sử newArrivals là 4 sản phẩm mới nhất
+        List<ProductDTO> newArrivals = productList.stream()
+                .sorted((p1, p2) -> p2.getProductID() - p1.getProductID())
+                .limit(4)
+                .collect(Collectors.toList());
 
         // Đặt các attribute vào request
-        request.setAttribute("productList", productList);
+        request.setAttribute("newArrivals", newArrivals);
         request.setAttribute("categoryList", categoryList);
+      
         
 
         // Forward đến trang JSP

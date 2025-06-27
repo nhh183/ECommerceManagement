@@ -37,7 +37,6 @@
                     <div class="col-md-6">
                         <form action="MainController" method="GET" class="input-group">
                             <input type="text" name="name" class="form-control" placeholder="Tìm sản phẩm...">
-                            <input type="hidden" name="sourcePage" value="home">
                             <input type="hidden" name="action" value="searchProduct">
                             <div class="input-group-append">
                                 <button class="btn btn-solid-primary search-btn" type="submit"><i class="fa-solid fa-magnifying-glass text-white"></i></button>
@@ -70,23 +69,49 @@
         <div class="nav-wrapper">
             <div class="container">
                 <ul class="nav-menu">
+                    <!-- Mục chung -->
                     <li><a href="MainController?action=homePage">HOME</a></li>
-                    <li><a href="MainController?action=searchProduct&categoryID=1">ĐIỆN THOẠI</a></li>
-                    <li><a href="MainController?action=searchProduct&categoryID=2">LAPTOP</a></li>
-                    <li><a href="MainController?action=searchProduct&categoryID=3">ÁO THUN</a></li>
-                    <li><a href="MainController?action=searchProduct&categoryID=4">ĐỒ GIA DỤNG</a></li>
-                    <li><a href="MainController?action=searchProduct&categoryID=6">THỂ THAO</a></li>
+                        <c:forEach var="cat" items="${categoryList}">
+                        <li><a href="MainController?action=searchProduct&categoryID=${cat.categoryID}&sourcePage=productPage">${cat.categoryName}</a></li>
+                        </c:forEach>
 
-                    <c:if test="${sessionScope.login.roleID == 'AD'}">
-                        <li><a href="MainController?action=searchUser">Manage Users</a></li>
-                        <li><a href="MainController?action=searchCategory">Manage Categories</a></li>
+                    <!-- Divider nếu có chức năng quản lý -->
+                    <c:if test="${sessionScope.login.roleID == 'AD' || sessionScope.login.roleID == 'CS' || sessionScope.login.roleID == 'SL'}">
+                        <li class="divider">|</li>
                         </c:if>
-                        <c:if test="${sessionScope.login.roleID == 'CS'}">
-                        <li><a href="feedbackAdmin.jsp">Manage Feedback</a></li>
+
+                    <!-- Mục cho ADMIN -->
+                    <c:if test="${sessionScope.login.roleID == 'AD'}">
+                        <li><a class="admin-link" href="MainController?action=searchUser">Quản lý KH</a></li>
+                        <li><a class="admin-link" href="MainController?action=searchCategory">Danh mục</a></li>
+                        <li><a class="admin-link" href="MainController?action=productList">Sản phẩm</a></li>
+                        <li><a class="admin-link" href="feedbackAdmin.jsp">Phản hồi</a></li>
+                        </c:if>
+
+                    <!-- Mục cho CS -->
+                    <c:if test="${sessionScope.login.roleID == 'CS'}">
+                        <li><a class="admin-link" href="MainController?action=activateSeller">Kích hoạt Seller</a></li>
+                        </c:if>
+
+                    <!-- Mục cho SELLER -->
+                    <c:if test="${sessionScope.login.roleID == 'SL'}">
+                        <li><a class="admin-link" href="MainController?action=productList">Sản phẩm của tôi</a></li>
+                        <li><a class="admin-link" href="MainController?action=myOrders">Đơn hàng</a></li>
+                        </c:if>
+
+                    <!-- Nút Logout -->
+                    <c:if test="${not empty sessionScope.login}">
+                        <li class="logout-item">
+                            <a class="logout-link" href="MainController?action=logout">
+                                <i class="fa fa-sign-out-alt"></i> Đăng xuất
+                            </a>                        
+                        </li>
                         </c:if>
                 </ul>
             </div>
         </div>
+
+
 
         <!-- Phần còn lại của trang không thay đổi -->
         <!-- ... (giữ nguyên phần hero-section, featured-section, product-section, v.v.) ... -->
@@ -175,7 +200,7 @@
             <div class="container">
                 <h2>NEW ARRIVALS</h2>
                 <div class="product-grid">
-                    <c:forEach var="product" items="${productList}">
+                    <c:forEach var="product" items="${newArrivals}">
                         <div class="product-card">
                             <a href="MainController?action=viewProduct&id=${product.productID}">
                                 <img src="${product.imgUrl}" alt="${product.name}">
