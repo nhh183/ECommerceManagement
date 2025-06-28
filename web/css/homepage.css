@@ -259,13 +259,17 @@ body {
 }
 
 .logout-button {
-    background-color: white; /* Replace with your desired color */
+    background-color: white; 
 }
 
 .search-btn{
     background-color: #FD1D1D;
 }
-
+/* === NAV MENU === */
+.nav-wrapper {
+    background: linear-gradient(to right, #D95400, #E55D00) ;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
 
 /* === HERO SECTION === */
 .hero-section {

@@ -31,8 +31,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
+
         <%@include file="header.jsp" %>
-        <--<!-- Product Section -->
+        <!-- Product Section -->
         <div class="container my-5">
             <div class="row product-container">
                 <div class="col-md-4 product-image">
@@ -57,21 +58,26 @@
 
                     <div class="product-quantity">Số lượng còn: <strong>${product.quantity}</strong></div>
 
-                    <div class="quantity-select">
-                        <label for="quantity">Chọn số lượng:</label>
-                        <div class="quantity-box">
-                            <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
-                            <input type="number" id="quantity" name="quantity" value="1" min="1" max="${product.quantity}">
-                            <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
-                        </div>
-                    </div>
 
-                    <div class="action-buttons">
-                        <button class="buy-button">Mua ngay</button>
-                        <button class="add-to-cart-button">
-                            <i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng
-                        </button>
-                    </div>
+                            
+                    <form action="MainController"  method="POST">
+                        <input type="hidden" name="productID" value="${product.productID}">
+                        <div class="quantity-select">
+                            <label for="quantity">Chọn số lượng:</label>
+                            <div class="quantity-box">
+                                <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+                                <input type="number" id="quantity0" name="quantity" value="1" min="1" max="${product.quantity}">
+                                <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button type="submit" name="action" value="buyNow" class="buy-button">Mua ngay</button>
+                            <button type="button" onclick="addToCart(${product.productID})" class="add-to-cart-button">
+                                <i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng
+                            </button>
+                        </div>
+                        
+                    </form>
                 </div>
 
 
@@ -97,7 +103,7 @@
         </div>    
         <script>
             function changeQty(delta) {
-                const qtyInput = document.getElementById("quantity");
+                const qtyInput = document.getElementById("quantity0");
                 let current = parseInt(qtyInput.value);
                 const min = parseInt(qtyInput.min);
                 const max = parseInt(qtyInput.max);
@@ -107,6 +113,30 @@
                 if (newVal > max)
                     newVal = max;
                 qtyInput.value = newVal;
+            };
+            function addToCart(productId) {
+                const quantity = document.getElementById("quantity0").value;
+                fetch("MainController", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: `action=AddToCart&productID=`+productId+`&quantity=`+quantity
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Cập nhật số lượng trong giỏ hàng ở góc trên phải
+                        document.querySelector(".cart-count").innerText = data.cartSize;
+                        alert("Đã thêm vào giỏ hàng!");
+                    } else {
+                        alert("Thêm vào giỏ hàng thất bại!");
+                    }
+                })
+                .catch(error => {
+                    console.error("Lỗi:", error);
+                    alert("Đã có lỗi xảy ra!");
+                });
             }
         </script>
     </body>

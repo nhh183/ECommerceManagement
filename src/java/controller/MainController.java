@@ -63,6 +63,19 @@ public class MainController extends HttpServlet {
     public static final String SEARCH_CATEGORY = "searchCategory";
     public static final String SEARCH_CATEGORY_CONTROLLER = "SearchCategoryController";
 
+    //Cart Management
+    public static final String ADD_TO_CART = "AddToCart";
+    public static final String ADD_TO_CART_CONTROLLER = "AddToCartController";
+    public static final String BUY_NOW  = "BuyNow";
+    public static final String BUY_NOW_CONTROLLER  = "BuyNowController";
+    public static final String DELETE_FROM_CART = "DeleteFromCart";
+    public static final String DELETE_FROM_CART_CONTROLLER = "DeleteFromCartController";
+    public static final String UPDATE_CART = "UpdateCart";
+    public static final String UPDATE_CART_CONTROLLER = "UpdateCartController";
+    public static final String VIEW_CART = "ViewCart";
+    public static final String VIEW_CART_CONTROLLER = "ViewCartController";
+
+    
     // Customer Support
     public static final String CUSTOMER_SUPPORT = "CustomerSupport";
     public static final String CUSTOMER_SUPPORT_CONTROLLER = "CustomerCareController";
@@ -85,7 +98,7 @@ public class MainController extends HttpServlet {
         String url = "login.jsp";
         try {
             String action = request.getParameter("action");
-
+            System.out.println(action);
             switch (action) {
                 case LOGIN:
                     url = LOGIN_CONTROLLER;
@@ -139,6 +152,22 @@ public class MainController extends HttpServlet {
                     break;
                 case SEARCH_CATEGORY:
                     url = SEARCH_CATEGORY_CONTROLLER;
+                    break;
+                //Cart
+                case ADD_TO_CART:
+                    url= ADD_TO_CART_CONTROLLER;
+                    break;
+                case BUY_NOW:
+                    url = BUY_NOW_CONTROLLER;
+                    break;
+                case VIEW_CART:
+                    url = VIEW_CART_CONTROLLER;
+                    break;
+                case DELETE_FROM_CART:
+                    url = DELETE_FROM_CART_CONTROLLER;
+                    break;
+                case UPDATE_CART:
+                    url = UPDATE_CART_CONTROLLER;
                     break;
                 // Customer Support
                 case CUSTOMER_SUPPORT:
