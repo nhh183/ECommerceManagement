@@ -88,7 +88,7 @@ VALUES
 (N'Sách Cây Cam Ngọt', 5, 130000, 50, 'images/sachcaycamngot.jpg', 'user001', 'active', N'Sách....');
 
 
---mot so co the them-chua co anh 
+--mot so co the them-co anh roi 
 INSERT INTO tblProducts (name, categoryID, price, quantity, imgUrl, sellerID, status, description)
 VALUES
 (N'Dell Inspiron 15', 2, 18000000, 10, 'images/dellinspiron.jpg', 'user002', 'active', N'Laptop Dell hiệu năng cao, thiết kế hiện đại, phù hợp học tập và làm việc.'),
@@ -180,14 +180,15 @@ CREATE TABLE tblCustomerCares (
 
 --bai ca nhan cua Tien
 --10. 
-CREATE TABLE FAQs (
+drop 
+CREATE TABLE tblFAQs (
     faqID INT IDENTITY(1,1) PRIMARY KEY,
     question NVARCHAR(MAX) NOT NULL,
     answer NVARCHAR(MAX) NOT NULL,
     status VARCHAR(10) NOT NULL DEFAULT 'active'
 );
 
-INSERT INTO FAQs (question, answer, status) VALUES
+INSERT INTO tblFAQs (question, answer, status) VALUES
 (N'Làm sao để đặt hàng trên trang web?', 
  N'Bạn chỉ cần chọn sản phẩm, nhấn "Thêm vào giỏ" và tiến hành thanh toán theo hướng dẫn.', 
  'active'),

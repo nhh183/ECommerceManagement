@@ -37,7 +37,7 @@
                     <a href="MainController?action=productList">Danh Sách Sản Phẩm</a>
                     <a href="MainController?action=searchCategory">Danh Sách Danh Mục</a>
                     <a href="MainController?action=searchUser">Danh Sách Khách Hàng</a>
-                    <a href="MainController?action=searchFAQ" class="active">Danh sách FAQ</a>
+                    <a href="MainController?action=searchFAQ&sourcePage=faqList" class="active">Danh sách FAQ</a>
                 </div>
                 <div class="header-right">
                     <a href="MainController?action=logout">Đăng xuất</a>
@@ -60,6 +60,7 @@
             <div class="search-create-wrapper">
                 <!-- Form tìm kiếm -->
                 <form class="search-form" action="MainController" method="post">
+                    <input type="hidden" name="sourcePage" value="faqList"/>
                     <input type="text" name="keyword" placeholder="Từ khóa câu hỏi..." value="${param.keyword}" />
                     <select name="status">
                         <option value="">Tất cả trạng thái</option>

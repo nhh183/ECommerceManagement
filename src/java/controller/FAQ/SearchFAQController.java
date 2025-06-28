@@ -33,6 +33,7 @@ public class SearchFAQController extends HttpServlet {
             return;
         }
         try {
+            String sourcePage=request.getParameter("sourcePage");
             String keyword = request.getParameter("keyword");
             String status = request.getParameter("status");
 
@@ -54,7 +55,14 @@ public class SearchFAQController extends HttpServlet {
                 session.removeAttribute("ERROR");
             }
             
-            request.getRequestDispatcher("faqList.jsp").forward(request, response);
+            if(sourcePage.equals("faqList")){
+                request.getRequestDispatcher("faqList.jsp").forward(request, response);
+            }else if(sourcePage.equals("support")){
+                request.getRequestDispatcher("support.jsp").forward(request, response);
+            }else{
+                request.getRequestDispatcher("faqList.jsp").forward(request, response);
+            }
+            
         }catch(Exception e){
             e.printStackTrace();
             response.sendRedirect("faqList.jsp");

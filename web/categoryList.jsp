@@ -42,7 +42,7 @@
                     <a href="MainController?action=productList">Danh Sách Sản Phẩm</a>
                     <a href="MainController?action=searchCategory" class="active">Danh Sách Danh Mục</a>
                     <a href="MainController?action=searchUser">Danh Sách Khách Hàng</a>
-                    <a href="MainController?action=searchFAQ">Danh sách FAQ</a>
+                    <a href="MainController?action=searchFAQ&sourcePage=faqList">Danh sách FAQ</a>
                 </div>
                 <div class="header-right">
                     <a href="MainController?action=logout">Đăng Xuất</a>
