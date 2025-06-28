@@ -86,11 +86,13 @@
                         <li><a class="admin-link" href="MainController?action=searchCategory">Danh mục</a></li>
                         <li><a class="admin-link" href="MainController?action=productList">Sản phẩm</a></li>
                         <li><a class="admin-link" href="feedbackAdmin.jsp">Phản hồi</a></li>
+                        <li><a class="admin-link" href="MainController?action=searchFAQ">FAQs</a></li>
                         </c:if>
 
                     <!-- Mục cho CS -->
                     <c:if test="${sessionScope.login.roleID == 'CS'}">
                         <li><a class="admin-link" href="MainController?action=activateSeller">Kích hoạt Seller</a></li>
+                        
                         </c:if>
 
                     <!-- Mục cho SELLER -->

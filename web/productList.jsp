@@ -47,6 +47,7 @@
                     <c:if test="${loginUser.roleID=='AD'}">
                         <a href="MainController?action=searchCategory">Danh sách danh mục</a>
                         <a href="MainController?action=searchUser">Danh sách Khách Hàng</a>
+                        <a href="MainController?action=searchFAQ">Danh sách FAQ</a>
                     </c:if>
 
                 </div>

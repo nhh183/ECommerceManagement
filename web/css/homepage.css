@@ -446,6 +446,15 @@ p[style*="color:"] {
     border-bottom: 1px solid #FFE4CC;
     padding: 20px 10px;
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+}
+
+.category-item:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    position: relative;
 }
 
 .category-item img {
