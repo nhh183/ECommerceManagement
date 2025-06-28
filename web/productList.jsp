@@ -47,6 +47,7 @@
                     <c:if test="${loginUser.roleID=='AD'}">
                         <a href="MainController?action=searchCategory">Danh sách danh mục</a>
                         <a href="MainController?action=searchUser">Danh sách Khách Hàng</a>
+                        <a href="MainController?action=searchFAQ&sourcePage=faqList">Danh sách FAQ</a>
                     </c:if>
 
                 </div>
@@ -147,7 +148,7 @@
                                 <td>${p.sellerID}</td>
                                 <td>
                                     <c:if test="${not empty p.imgUrl}">
-                                        <img src="${pageContext.request.contextPath}/${p.imgUrl}?t=${now.time}" class="product-img" alt="Ảnh sản phẩm"/>
+                                        <img src="${pageContext.request.contextPath}/${p.imgUrl}?t=${now.time}" class="form-img" alt="Ảnh sản phẩm"/>
                                     </c:if>
                                 </td>
                                 <td>

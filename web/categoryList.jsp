@@ -42,6 +42,7 @@
                     <a href="MainController?action=productList">Danh Sách Sản Phẩm</a>
                     <a href="MainController?action=searchCategory" class="active">Danh Sách Danh Mục</a>
                     <a href="MainController?action=searchUser">Danh Sách Khách Hàng</a>
+                    <a href="MainController?action=searchFAQ&sourcePage=faqList">Danh sách FAQ</a>
                 </div>
                 <div class="header-right">
                     <a href="MainController?action=logout">Đăng Xuất</a>
@@ -55,11 +56,11 @@
             </div>
 
             <c:if test="${not empty MSG}">
-                <p class="message-success">${MSG}</p>
+                <div class="form-message success">${MSG}</div>
             </c:if>
 
             <c:if test="${not empty ERROR}">
-                <p class="message-error">${ERROR}</p>
+                <div class="form-message error">${ERROR}</div>
             </c:if>
 
             <div class="search-create-wrapper">
@@ -80,6 +81,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Tên danh mục</th>
+                            <th>Ảnh</th>
                             <th>Mô tả</th>
                             <th>Hành động</th>
                         </tr>
@@ -89,6 +91,11 @@
                             <tr>
                                 <td>${c.categoryID}</td>
                                 <td>${c.categoryName}</td>
+                                <td>
+                                    <c:if test="${not empty c.imgUrl}">
+                                        <img src="${pageContext.request.contextPath}/${c.imgUrl}?t=${now.time}" class="form-img" alt="Ảnh danh mục"/>
+                                    </c:if>
+                                </td>
                                 <td>${c.description}</td>
                                 <td>
                                     <a class="action-link" href="MainController?action=updateCategory&id=${c.categoryID}">Sửa</a> |

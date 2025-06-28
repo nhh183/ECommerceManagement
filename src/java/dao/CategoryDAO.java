@@ -26,7 +26,8 @@ public class CategoryDAO {
                 CategoryDTO c = new CategoryDTO(
                         rs.getInt("categoryID"),
                         rs.getString("categoryName"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getString("imgUrl")
                 );
                 list.add(c);
             }
@@ -37,10 +38,11 @@ public class CategoryDAO {
     }
 
     public boolean createCategory(CategoryDTO c) {
-        String sql = "INSERT INTO tblCategories (categoryName, description) VALUES (?, ?)";
+        String sql = "INSERT INTO tblCategories (categoryName, description, imgUrl) VALUES (?, ?, ?)";
         try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, c.getCategoryName());
             ps.setString(2, c.getDescription());
+            ps.setString(3, c.getImgUrl());
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,11 +51,12 @@ public class CategoryDAO {
     }
 
     public boolean updateCategory(CategoryDTO c) {
-        String sql = "UPDATE tblCategories SET categoryName = ?, description = ? WHERE categoryID = ?";
+        String sql = "UPDATE tblCategories SET categoryName = ?, description = ?, imgUrl = ? WHERE categoryID = ?";
         try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, c.getCategoryName());
             ps.setString(2, c.getDescription());
-            ps.setInt(3, c.getCategoryID());
+            ps.setString(3, c.getImgUrl());
+            ps.setInt(4, c.getCategoryID());
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +84,8 @@ public class CategoryDAO {
                     return new CategoryDTO(
                             rs.getInt("categoryID"),
                             rs.getString("categoryName"),
-                            rs.getString("description")
+                            rs.getString("description"),
+                            rs.getString("imgUrl")
                     );
                 }
             }
@@ -106,7 +110,8 @@ public class CategoryDAO {
                     CategoryDTO c = new CategoryDTO(
                             rs.getInt("categoryID"),
                             rs.getString("categoryName"),
-                            rs.getString("description")
+                            rs.getString("description"),
+                            rs.getString("imgUrl")
                     );
                     list.add(c);
                 }

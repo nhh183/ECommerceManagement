@@ -2,29 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.category;
+package controller.FAQ;
 
-import dao.CategoryDAO;
-import dto.CategoryDTO;
+import dao.FAQDAO;
+import dto.FAQDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.nio.file.Paths;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
-@MultipartConfig
-@WebServlet(name = "CreateCategoryController", urlPatterns = {"/CreateCategoryController"})
-public class CreateCategoryController extends HttpServlet {
+/**
+ *
+ * @author User
+ */
+@WebServlet(name = "SearchFAQController", urlPatterns = {"/SearchFAQController"})
+public class SearchFAQController extends HttpServlet {
 
-     private static final String UPLOAD_DIR = "images";
-     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -33,45 +32,40 @@ public class CreateCategoryController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-
         try {
-            String name = request.getParameter("categoryName");
-            String description = request.getParameter("description");
+            String sourcePage=request.getParameter("sourcePage");
+            String keyword = request.getParameter("keyword");
+            String status = request.getParameter("status");
 
-            String rootPath = getServletContext().getRealPath("");
-            String uploadPath = rootPath.replace("build\\web", "web").replace("build/web", "web");
-            uploadPath += File.separator + "images";
-
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
+            FAQDAO dao = new FAQDAO();
+            List<FAQDTO> list = dao.searchFAQ(keyword, status);
+                        
+            request.setAttribute("faqList", list);
+            
+             //lay MSG,ERROR
+            HttpSession session = request.getSession();
+            String msg = (String) session.getAttribute("MSG");
+            String error = (String) session.getAttribute("ERROR");
+            if (msg != null) {
+                request.setAttribute("MSG", msg);
+                session.removeAttribute("MSG");
             }
-
-            Part filePart = request.getPart("image");
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            String imgUrl = null;
-
-            if (fileName != null && !fileName.isEmpty()) {
-                String filePath = uploadPath + File.separator + fileName;
-                filePart.write(filePath);
-                imgUrl = UPLOAD_DIR + "/" + fileName;
+            if (error != null) {
+                request.setAttribute("ERROR", error);
+                session.removeAttribute("ERROR");
             }
             
-            CategoryDTO category = new CategoryDTO(name, description,imgUrl);
-            CategoryDAO dao = new CategoryDAO();
-
-            if (dao.createCategory(category)) {
-                request.getSession().setAttribute("MSG", "Thêm danh mục thành công!");
-                response.sendRedirect("SearchCategoryController");
+            if(sourcePage.equals("faqList")){
+                request.getRequestDispatcher("faqList.jsp").forward(request, response);
+            }else if(sourcePage.equals("support")){
+                request.getRequestDispatcher("support.jsp").forward(request, response);
             }else{
-                request.setAttribute("ERROR", "Thêm danh mục thất bại!");
-                request.getRequestDispatcher("createCategory.jsp").forward(request, response);
+                request.getRequestDispatcher("faqList.jsp").forward(request, response);
             }
-
-        } catch (Exception e) {
+            
+        }catch(Exception e){
             e.printStackTrace();
-            request.setAttribute("ERROR", "Lỗi.Không thể thêm danh mục.Hãy thử lại sau!");
-            response.sendRedirect("SearchCategoryController");
+            response.sendRedirect("faqList.jsp");
         }
 
     }

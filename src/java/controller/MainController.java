@@ -6,6 +6,7 @@ package controller;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author LENOVO
  */
+@MultipartConfig
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
 
@@ -66,6 +68,16 @@ public class MainController extends HttpServlet {
     public static final String CUSTOMER_SUPPORT_CONTROLLER = "CustomerCareController";
     public static final String REPLY_FEEDBACK = "ReplyFeedback";
     public static final String REPLY_FEEDBACK_CONTROLLER = "CustomerCareController";
+
+    //FAQs
+    public static final String SEARCH_FAQ = "searchFAQ";
+    public static final String SEARCH_FAQ_CONTROLLER = "SearchFAQController";
+    public static final String CREATE_FAQ = "createFAQ";
+    public static final String CREATE_FAQ_CONTROLLER = "CreateFAQController";
+    public static final String UPDATE_FAQ = "updateFAQ";
+    public static final String UPDATE_FAQ_CONTROLLER = "UpdateFAQController";
+    public static final String DELETE_FAQ = "deleteFAQ";
+    public static final String DELETE_FAQ_CONTROLLER = "DeleteFAQController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -135,7 +147,19 @@ public class MainController extends HttpServlet {
                 case REPLY_FEEDBACK:
                     url = REPLY_FEEDBACK_CONTROLLER;
                     break;
-
+                //FAQs
+                case SEARCH_FAQ:
+                    url = SEARCH_FAQ_CONTROLLER;
+                    break;
+                case CREATE_FAQ:
+                    url = CREATE_FAQ_CONTROLLER;
+                    break;
+                case UPDATE_FAQ:
+                    url = UPDATE_FAQ_CONTROLLER;
+                    break;
+                case DELETE_FAQ:
+                    url = DELETE_FAQ_CONTROLLER;
+                    break;
                 default:
                     System.out.println("Unknown action: " + action);
                     url = "login.jsp"; // fallback
