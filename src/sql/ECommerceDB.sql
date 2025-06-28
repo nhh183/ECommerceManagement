@@ -45,6 +45,9 @@ CREATE TABLE tblCategories (
     description NVARCHAR(255)
 );
 
+ALTER TABLE tblCategories
+ADD imgUrl TEXT;
+
 INSERT INTO tblCategories (categoryName, description) 
 VALUES 
 (N'Điện thoại', N'Sản phẩm điện thoại di động và phụ kiện'),
@@ -174,3 +177,33 @@ CREATE TABLE tblCustomerCares (
     reply TEXT,
     FOREIGN KEY (userID) REFERENCES tblUsers(userID)
 );
+
+--bai ca nhan cua Tien
+--10. 
+CREATE TABLE FAQs (
+    faqID INT IDENTITY(1,1) PRIMARY KEY,
+    question NVARCHAR(MAX) NOT NULL,
+    answer NVARCHAR(MAX) NOT NULL,
+    status VARCHAR(10) NOT NULL DEFAULT 'active'
+);
+
+INSERT INTO FAQs (question, answer, status) VALUES
+(N'Làm sao để đặt hàng trên trang web?', 
+ N'Bạn chỉ cần chọn sản phẩm, nhấn "Thêm vào giỏ" và tiến hành thanh toán theo hướng dẫn.', 
+ 'active'),
+
+(N'Tôi có thể thanh toán bằng hình thức nào?', 
+ N'Bạn có thể thanh toán qua ví điện tử, thẻ ngân hàng hoặc thanh toán khi nhận hàng (COD).', 
+ 'active'),
+
+(N'Bao lâu thì tôi nhận được hàng?', 
+ N'Thời gian giao hàng thường từ 2-5 ngày tùy khu vực. Bạn có thể theo dõi đơn hàng trong mục “Đơn hàng của tôi”.', 
+ 'active'),
+
+(N'Tôi muốn hủy đơn hàng thì phải làm sao?', 
+ N'Bạn có thể hủy đơn trong vòng 24h sau khi đặt hàng, nếu đơn chưa được vận chuyển.', 
+ 'active'),
+
+(N'Tôi có thể đổi/trả hàng không?', 
+ N'Có. Bạn có thể yêu cầu đổi/trả hàng trong vòng 7 ngày nếu sản phẩm bị lỗi hoặc không đúng mô tả.', 
+ 'active');

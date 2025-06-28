@@ -10,27 +10,25 @@ import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
 
 /**
  *
  * @author User
  */
+@MultipartConfig
 @WebServlet(name = "UpdateCategoryController", urlPatterns = {"/UpdateCategoryController"})
 public class UpdateCategoryController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private static final String UPLOAD_DIR = "images";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -46,8 +44,31 @@ public class UpdateCategoryController extends HttpServlet {
             String name = request.getParameter("categoryName");
             String description = request.getParameter("description");
 
+            String oldImageUrl = request.getParameter("oldImageUrl");
+            String imgUrl = oldImageUrl;
+
+            // Xử lý ảnh mới nếu có
+            Part filePart = request.getPart("image");
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+
+            if (fileName != null && !fileName.isEmpty()) {
+                String rootPath = getServletContext().getRealPath("");
+                String uploadPath = rootPath.replace("build\\web", "web").replace("build/web", "web");
+                uploadPath += File.separator + "images";
+
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+
+                String filePath = uploadPath + File.separator + fileName;
+                filePart.write(filePath);
+                imgUrl = UPLOAD_DIR + "/" + fileName;
+            }
+            
+            
             CategoryDAO dao = new CategoryDAO();
-            CategoryDTO category = new CategoryDTO(id, name, description);
+            CategoryDTO category = new CategoryDTO(id, name, description,imgUrl);
             request.setAttribute("category", category);
             if (dao.updateCategory(category)) {
                 request.getSession().setAttribute("MSG", "Cập nhật danh mục thành công!");

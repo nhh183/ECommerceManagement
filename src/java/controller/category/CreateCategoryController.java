@@ -10,14 +10,21 @@ import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
 
+@MultipartConfig
 @WebServlet(name = "CreateCategoryController", urlPatterns = {"/CreateCategoryController"})
 public class CreateCategoryController extends HttpServlet {
 
+     private static final String UPLOAD_DIR = "images";
+     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -31,7 +38,26 @@ public class CreateCategoryController extends HttpServlet {
             String name = request.getParameter("categoryName");
             String description = request.getParameter("description");
 
-            CategoryDTO category = new CategoryDTO(name, description);
+            String rootPath = getServletContext().getRealPath("");
+            String uploadPath = rootPath.replace("build\\web", "web").replace("build/web", "web");
+            uploadPath += File.separator + "images";
+
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            Part filePart = request.getPart("image");
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String imgUrl = null;
+
+            if (fileName != null && !fileName.isEmpty()) {
+                String filePath = uploadPath + File.separator + fileName;
+                filePart.write(filePath);
+                imgUrl = UPLOAD_DIR + "/" + fileName;
+            }
+            
+            CategoryDTO category = new CategoryDTO(name, description,imgUrl);
             CategoryDAO dao = new CategoryDAO();
 
             if (dao.createCategory(category)) {

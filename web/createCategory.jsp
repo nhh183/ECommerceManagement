@@ -9,8 +9,8 @@
             body {
                 height: 100vh;
                 display: flex;
-                justify-content: center; 
-                align-items: center;      
+                justify-content: center;
+                align-items: center;
                 margin: 0;
             }
 
@@ -31,12 +31,17 @@
 
         <div class="wide-form-layout single">
             <h2 class="form-title">Thêm danh mục</h2>
-            <form action="MainController" method="post" class="wide-form single-column">
+            <form action="MainController" method="post" enctype="multipart/form-data" class="wide-form single-column">
                 <div class="form-group">
                     <label class="form-label">Tên danh mục <span>*</span></label>
                     <input type="text" name="categoryName" class="form-input" placeholder="Nhập tên danh mục..." required>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label">Ảnh danh mục <span>*</span></label>
+                    <input type="file" name="image" class="form-file" accept="image/*" required>
+                </div>
+                
                 <div class="form-group">
                     <label class="form-label">Mô tả</label>
                     <textarea name="description" class="form-textarea" rows="5" placeholder="Mô tả danh mục..."></textarea>
@@ -48,6 +53,7 @@
                         <a href="MainController?action=searchCategory" class="form-cancel">Hủy</a>
                     </div>
                 </div>
+
             </form>
         </div>
 

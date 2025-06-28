@@ -1,21 +1,21 @@
 /* =========== RESET CSS =========== */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 ul {
-  list-style: none;
+    list-style: none;
 }
 
 a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 img {
-  width: 100%;
+    width: 100%;
 }
 
 body {
@@ -42,7 +42,7 @@ body {
 }
 
 .header-bottom{
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,7 +112,7 @@ body {
 }
 
 .user-actions .btn {
-    
+
     border: 2px solid #fff;
     border-radius: 5px;
     padding: 8px 15px;
@@ -220,7 +220,7 @@ body {
 }
 
 .nav-menu li .admin-link {
-    color: #FFE0B3; 
+    color: #FFE0B3;
     font-weight: 600;
     font-size: 14px;
     padding: 6px 12px;
@@ -342,7 +342,7 @@ body {
     border-radius: 8px;
     transition: transform 0.3s ease;
     border: 1px solid #FFE4CC;
-    
+
 }
 
 .product-card:hover {
@@ -414,4 +414,50 @@ p[style*="color:"] {
 .container a:hover {
     color: #E55D00;
     text-decoration: underline;
+}
+
+/* === Category Section === */
+.category-section {
+    max-width: 1110px;
+    margin: 20px auto;
+    padding: 0;
+    border: 1px solid #FFE4CC;
+    background-color: #fff;
+}
+
+.category-title {
+    font-size: 15px;
+    color: #FF6B00;
+    padding: 10px 15px;
+    border-bottom: 1px solid #FFE4CC;
+    background-color: #f9f9f9;
+    font-weight: 500;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid #FFE4CC;
+    border-left: 1px solid #FFE4CC;
+}
+
+.category-item {
+    border-right: 1px solid #FFE4CC;
+    border-bottom: 1px solid #FFE4CC;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+.category-item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+.category-name {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #333;
 }

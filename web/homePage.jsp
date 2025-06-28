@@ -72,7 +72,7 @@
                     <!-- Mục chung -->
                     <li><a href="MainController?action=homePage">HOME</a></li>
                         <c:forEach var="cat" items="${categoryList}">
-                        <li><a href="MainController?action=searchProduct&categoryID=${cat.categoryID}&sourcePage=productPage">${cat.categoryName}</a></li>
+                        <li><a href="MainController?action=searchProduct&categoryID=${cat.categoryID}">${cat.categoryName}</a></li>
                         </c:forEach>
 
                     <!-- Divider nếu có chức năng quản lý -->
@@ -106,10 +106,12 @@
                                 <i class="fa fa-sign-out-alt"></i> Đăng xuất
                             </a>                        
                         </li>
-                        </c:if>
+                    </c:if>
                 </ul>
             </div>
         </div>
+
+
 
 
 
@@ -145,11 +147,25 @@
                     </button>
                 </div>
 
+
                 <!-- 2 ảnh bên phải -->
                 <div class="right-banner d-flex flex-column justify-content-between ms-3 w-25">
                     <img src="images/dakNhanTam.jpg" class="mb-3 banner-img" alt="Banner 1">
                     <img src="images/c3.jpg" class="banner-img" alt="Banner 2">
                 </div>
+            </div>
+        </div>
+
+        <!-- Danh mục -->
+        <div class="category-section">
+            <div class="category-title">DANH MỤC</div>
+            <div class="category-grid">
+                <c:forEach var="cat" items="${categoryList}">
+                    <div class="category-item" onclick="window.location.href = 'MainController?action=searchProduct&categoryID=${cat.categoryID}'">
+                        <img src="${cat.imgUrl}" alt="${cat.categoryName}" />
+                        <div class="category-name">${cat.categoryName}</div>
+                    </div>
+                </c:forEach>
             </div>
         </div>
 
