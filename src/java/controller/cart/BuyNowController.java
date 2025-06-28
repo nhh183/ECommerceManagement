@@ -5,9 +5,6 @@
 
 package controller.cart;
 
-import dao.CartDAO;
-import dao.CartDetailDAO;
-import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,14 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author NHH
  */
-@WebServlet(name="AddToCartController", urlPatterns={"/AddToCartController"})
-public class AddToCartController extends HttpServlet {
+@WebServlet(name="BuyNowController", urlPatterns={"/BuyNowController"})
+public class BuyNowController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,30 +29,7 @@ public class AddToCartController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
-        UserDTO user = (UserDTO) session.getAttribute("login");
-        int cartId;
-        if(session.getAttribute("cartId")==null){
-            CartDAO cartDAO = new CartDAO();
-            cartId = cartDAO.createCart(user.getUserID());
-            session.setAttribute("cartId",cartId);
-        }else{
-            cartId = (Integer) session.getAttribute("cartId");
-        }
-        int productID = Integer.parseInt(request.getParameter("productID"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-        CartDetailDAO cartDetailDAO = new CartDetailDAO();
-        int checkProduct = cartDetailDAO.getQuantity(cartId, productID);
-        if(checkProduct == -1){
-            cartDetailDAO.addToCart(cartId, productID, quantity);
-        }else{
-            cartDetailDAO.updateCartDetail(cartId, productID, quantity+1);
-        }
-        int cartSize = cartDetailDAO.getCartSize(cartId);
-        session.setAttribute("cartSize",cartSize);
-        out.print("{\"success\": true , \"cartSize\":"+cartSize+"}");
+        response.setContentType("text/html;charset=UTF-8");
         
     } 
 
@@ -71,11 +44,7 @@ public class AddToCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int cartId = Integer.parseInt(request.getParameter("cartId"));
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        
-        
-        
+        processRequest(request, response);
     } 
 
     /** 

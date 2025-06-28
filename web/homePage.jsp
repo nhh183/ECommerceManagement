@@ -48,12 +48,12 @@
                     <!-- User Actions -->
                     <div class="col-md-3 text-right">
                         <c:if test="${not empty sessionScope.login}">
-                            <a href="viewCart.jsp" class="cart-icon">
+                            <a href="MainController?action=ViewCart" class="cart-icon">
                                 <i class="fa fa-shopping-cart"></i>
-                                <c:if test="${not empty sessionScope.cart}">
-                                    <span class="cart-count">${sessionScope.cart.size()}</span>
+                                <c:if test="${not empty sessionScope.cartId}">
+                                    <span class="cart-count">${sessionScope.cartSize}</span>
                                 </c:if>
-                                <c:if test="${empty sessionScope.cart}">
+                                <c:if test="${empty sessionScope.cartId}">
                                     <span class="cart-count">0</span>
                                 </c:if>
                             </a>

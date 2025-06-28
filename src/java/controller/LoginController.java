@@ -4,7 +4,10 @@
  */
 package controller;
 
+import dao.CartDAO;
+import dao.CartDetailDAO;
 import dao.UserDAO;
+import dto.Cart;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,7 +34,15 @@ public class LoginController extends HttpServlet {
             if (loginUser != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("login", loginUser);
-                
+                CartDAO cartDAO = new CartDAO();
+                Cart cart  = cartDAO.getCartsByUser(userID);
+                if(cart != null){
+                    System.out.println(cart.getCartID());
+                    session.setAttribute("cartId",cart.getCartID());
+                    CartDetailDAO cartDetailDAO = new CartDetailDAO();
+                    int cartSize = cartDetailDAO.getCartSize(cart.getCartID());
+                    session.setAttribute("cartSize",cartSize);
+                }
                 response.sendRedirect("HomePageController");
             } else {
                 request.setAttribute("ERROR", "Incorrect UserID or Password");

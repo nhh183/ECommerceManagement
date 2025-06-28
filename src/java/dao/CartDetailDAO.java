@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.*;
 import utils.DBUtil;
 import dto.CartDetail;
+import dto.CartItem;
 /**
  *
  * @author NHH
@@ -51,24 +52,30 @@ public class CartDetailDAO {
         }
     }
 
-    public List<CartDetail> getCartDetails(int cartId) {
-        List<CartDetail> details = new ArrayList<>();
-        String sql = "SELECT * FROM tblCartDetails WHERE cartID = ?";
+    public List<CartItem> getCartDetails(int cartId) {
+        List<CartItem> list = new ArrayList<>();
+        String sql = "SELECT p.productID ,p.name, p.quantity, p.price, p.imgUrl\n" +
+                        "FROM tblCartDetails cd\n" +
+                        "INNER JOIN tblProducts p ON cd.productID=p.productID\n" +
+                        "WHERE cartID = ?";
         try (Connection con = DBUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, cartId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                details.add(new CartDetail(
-                    rs.getInt("cartID"),
+                list.add(new CartItem(
                     rs.getInt("productID"),
-                    rs.getInt("quantity")
+                    rs.getString("name"),
+                    rs.getInt("quantity"),
+                    rs.getDouble("price"),
+                    rs.getString("imgUrl")
+                        
                 ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return details;
+        return list;
     }
 
     public void clear(int cartId) {
@@ -80,5 +87,37 @@ public class CartDetailDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public int getQuantity(int cartId, int productId){
+        String sql = "SELECT quantity FROM tblCartDetails WHERE cartID = ? AND productID = ? ";
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, cartId);
+            ps.setInt(2,productId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt("quantity");
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    public int getCartSize(int cartId){
+        String sql = "SELECT COUNT(*) 'cartSize' FROM tblCartDetails WHERE cartID = ?";
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, cartId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+               return rs.getInt("cartSize"); 
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

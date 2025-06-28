@@ -5,6 +5,9 @@
 
 package controller.cart;
 
+import dao.CartDetailDAO;
+import dto.CartDetail;
+import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -29,19 +33,17 @@ public class ViewCartController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewCartController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewCartController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        UserDTO loginUser = (UserDTO) request.getSession().getAttribute("login");
+        if (loginUser == null) {
+            response.sendRedirect("login.jsp");
+            return;
         }
+        HttpSession session = request.getSession();
+        System.out.println(session.getAttribute("cartId"));
+        int cartId = (Integer) session.getAttribute("cartId");
+        CartDetailDAO cartDetailDAO = new CartDetailDAO();
+        request.setAttribute("cartItems",cartDetailDAO.getCartDetails(cartId));
+        request.getRequestDispatcher("viewCart.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
