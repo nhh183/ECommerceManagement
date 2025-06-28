@@ -12,20 +12,24 @@ public class CategoryDTO {
     private int categoryID;
     private String categoryName;
     private String description;
+    private String imgUrl;
 
     public CategoryDTO() {
     }
 
-    public CategoryDTO(int categoryID, String categoryName, String description) {
+    public CategoryDTO(int categoryID, String categoryName, String description, String imgUrl) {
         this.categoryID = categoryID;
         this.categoryName = categoryName;
         this.description = description;
+        this.imgUrl = imgUrl;
     }
 
-    public CategoryDTO(String categoryName, String description) {
+    public CategoryDTO(String categoryName, String description, String imgUrl) {
         this.categoryName = categoryName;
         this.description = description;
+        this.imgUrl = imgUrl;
     }
+
 
     
     public int getCategoryID() {
@@ -50,6 +54,14 @@ public class CategoryDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
     
     

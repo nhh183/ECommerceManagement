@@ -4,7 +4,9 @@
  */
 package controller.product;
 
+import dao.CategoryDAO;
 import dao.ProductDAO;
+import dto.CategoryDTO;
 import dto.ProductDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
@@ -52,9 +55,12 @@ public class ViewProductController extends HttpServlet {
             String productIDRaw = request.getParameter("id");
             if (productIDRaw != null && !productIDRaw.isEmpty()) {
                 int productID = Integer.parseInt(productIDRaw);
-                ProductDAO dao = new ProductDAO();
-                ProductDTO product = dao.getProductByID(productID);
+                ProductDAO proDAO = new ProductDAO();
+                CategoryDAO catDAO=new CategoryDAO();
+                ProductDTO product = proDAO.getProductByID(productID);
+                List<CategoryDTO> categoryList=catDAO.getCategoryList();
                 if (product != null) {
+                    request.setAttribute("categoryList", categoryList);
                     request.setAttribute("product", product);
                     request.getRequestDispatcher("viewProduct.jsp").forward(request, response);
                 } else {

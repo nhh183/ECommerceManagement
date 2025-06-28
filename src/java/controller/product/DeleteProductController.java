@@ -39,9 +39,9 @@ public class DeleteProductController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.getSession().setAttribute("ERROE","Lỗi khi xóa. Hãy thử lại sau.");
-            response.sendRedirect("SearchProductController");
+            response.sendRedirect("ProductListController");
         }
-        response.sendRedirect("SearchProductController");
+        response.sendRedirect("ProductListController");
     }
 
 

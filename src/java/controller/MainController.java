@@ -6,6 +6,7 @@ package controller;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author LENOVO
  */
+@MultipartConfig
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 public class MainController extends HttpServlet {
 
@@ -34,6 +36,8 @@ public class MainController extends HttpServlet {
     public static final String UPDATE_USER_CONTROLLER = "UpdateUserController";
     public static final String DELETE_USER = "deleteUser";
     public static final String DELETE_USER_CONTROLLER = "DeleteUserController";
+    public static final String UPDATE_ROLEID = "activateSeller";
+    public static final String UPDATE_ROLEID_CONTROLLER = "UpdateCSToSellerController";
 
     // Product Management
     public static final String CREATE_PRODUCT = "createProduct";
@@ -46,6 +50,8 @@ public class MainController extends HttpServlet {
     public static final String SEARCH_PRODUCT_CONTROLLER = "SearchProductController";
     public static final String VIEW_PRODUCT = "viewProduct";
     public static final String VIEW_PRODUCT_CONTROLLER = "ViewProductController";
+    public static final String PRODUCT_LIST = "productList";
+    public static final String PRODUCT_LIST_CONTROLLER = "ProductListController";
 
     // Category Management
     public static final String CREATE_CATEGORY = "createCategory";
@@ -76,6 +82,16 @@ public class MainController extends HttpServlet {
     public static final String REPLY_FEEDBACK = "ReplyFeedback";
     public static final String REPLY_FEEDBACK_CONTROLLER = "CustomerCareController";
 
+    //FAQs
+    public static final String SEARCH_FAQ = "searchFAQ";
+    public static final String SEARCH_FAQ_CONTROLLER = "SearchFAQController";
+    public static final String CREATE_FAQ = "createFAQ";
+    public static final String CREATE_FAQ_CONTROLLER = "CreateFAQController";
+    public static final String UPDATE_FAQ = "updateFAQ";
+    public static final String UPDATE_FAQ_CONTROLLER = "UpdateFAQController";
+    public static final String DELETE_FAQ = "deleteFAQ";
+    public static final String DELETE_FAQ_CONTROLLER = "DeleteFAQController";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -102,6 +118,9 @@ public class MainController extends HttpServlet {
                 case DELETE_USER:
                     url = DELETE_USER_CONTROLLER;
                     break;
+                case UPDATE_ROLEID:
+                    url = UPDATE_ROLEID_CONTROLLER;
+                    break;
                 // Product    
                 case CREATE_PRODUCT:
                     url = CREATE_PRODUCT_CONTROLLER;
@@ -117,7 +136,10 @@ public class MainController extends HttpServlet {
                     break;
                 case VIEW_PRODUCT:
                     url = VIEW_PRODUCT_CONTROLLER;
-                    break;    
+                    break;
+                case PRODUCT_LIST:
+                    url = PRODUCT_LIST_CONTROLLER;
+                    break;
                 // Category
                 case CREATE_CATEGORY:
                     url = CREATE_CATEGORY_CONTROLLER;
@@ -153,6 +175,19 @@ public class MainController extends HttpServlet {
                     break;
                 case REPLY_FEEDBACK:
                     url = REPLY_FEEDBACK_CONTROLLER;
+                    break;
+                //FAQs
+                case SEARCH_FAQ:
+                    url = SEARCH_FAQ_CONTROLLER;
+                    break;
+                case CREATE_FAQ:
+                    url = CREATE_FAQ_CONTROLLER;
+                    break;
+                case UPDATE_FAQ:
+                    url = UPDATE_FAQ_CONTROLLER;
+                    break;
+                case DELETE_FAQ:
+                    url = DELETE_FAQ_CONTROLLER;
                     break;
                 default:
                     System.out.println("Unknown action: " + action);

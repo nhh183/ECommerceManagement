@@ -1,0 +1,231 @@
+/* === HEADER CHUNG === */
+.header {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    border-bottom: none;
+}
+
+/* === HEADER TOP === */
+.header-top {
+    background-color: #fff;
+    padding: 12px 0;
+    border-bottom: 1px solid #FFD4B0;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #E55D00;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    margin-right: 5px;
+}
+
+.support-link {
+    font-weight: 600;
+    color: #E55D00;
+    text-decoration: none;
+}
+
+.support-link:hover {
+    text-decoration: underline;
+    color: #D95400;
+}
+
+/* === GẠCH DỌC NGĂN CÁCH === */
+.divider-line {
+    font-weight: bold;
+    color: #FFD4B0;
+}
+
+/* === HEADER BOTTOM === */
+.header-bottom {
+    background: linear-gradient(180deg, rgba(253,29,29,1) 0%, rgba(255,121,43,1) 100%);
+    padding: 25px 0;
+}
+
+.support-title {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+/* === Search Form === */
+.search-form {
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    font-size: 15px;
+}
+
+.search-btn {
+    background-color: #fff;
+    color: #E55D00;
+    font-weight: bold;
+    padding: 0 20px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+/* Màu cam chính */
+:root {
+    --orange-main: #E55D00;
+    --orange-light: #FFEDCC;
+}
+
+/* === TIÊU ĐỀ PHẦN GỢI Ý === */
+.section-title {
+    color: #F4511E;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+/* === Accordion container === */
+.custom-accordion .accordion-item {
+    border: 1px solid #FFD4B0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    background-color: #FFFDFB;
+    transition: all 0.3s ease;
+}
+
+/* === Accordion Button === */
+.custom-accordion .accordion-button {
+    width: 100%;
+    background-color: #FFFDFB;
+    color: #F4511E;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 15px 20px;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    transition: all 0.3s ease;
+    border-radius: 0;
+    text-align: left !important;
+    justify-content: flex-start !important;
+}
+
+.custom-accordion .accordion-button:hover {
+    background-color: #FFF7ED;
+    color: #D84315;
+}
+
+.custom-accordion .accordion-button:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+/* === Accordion Button Khi Đang Mở === */
+.custom-accordion .accordion-button:not(.collapsed) {
+    background-color: #FFF1E6;
+    color: #D84315;
+    box-shadow: none;
+}
+
+/* === Accordion Nội dung === */
+.custom-accordion .accordion-body {
+    font-size: 15px;
+    color: #333;
+    background-color: white;
+    padding: 20px;
+    border-top: 1px solid #FFE4CC;
+    line-height: 1.6;
+}
+
+/* Icon trong button */
+.accordion-button i {
+    color: #F4511E;
+    margin-right: 8px;
+}
+
+/* Gỡ mũi tên mặc định */
+.accordion-button::after {
+    background-image: none;
+    font-family: 'Font Awesome 5 Free';
+    content: "\f107"; /* caret down */
+    font-weight: 900;
+    color: #F4511E;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+}
+
+/* Khi mở */
+.accordion-button:not(.collapsed)::after {
+    transform: rotate(180deg);
+    color: #D84315;
+}
+
+#showMoreBtn {
+    background-color: #fff;
+    border: 2px solid #FFA14D;
+    color: #F4511E;
+    font-weight: bold;
+    padding: 10px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#showMoreBtn:hover {
+    background-color: #FFA14D;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+
+/* Phần hỗ trợ thêm */
+.need-help-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.contact-btn {
+    padding: 10px 20px;
+    color: var(--orange-main);
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+    color: #d94d00;
+}
+
+/* Footer */
+.footer {
+    font-size: 14px;
+    color: #777;
+}
+
+
+

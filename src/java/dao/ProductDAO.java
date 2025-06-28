@@ -40,7 +40,7 @@ public class ProductDAO {
 
     // UPDATE sản phẩm
     public boolean updateProduct(ProductDTO product) {
-        String sql = "UPDATE tblProducts SET name=?, categoryID=?, price=?, quantity=?, status=?, imgUrl=?, description=? WHERE productID=? AND sellerID=?";
+        String sql = "UPDATE tblProducts SET name=?, categoryID=?, price=?, quantity=?, status=?, imgUrl=?, description=? WHERE productID=?";
         try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, product.getName());
             ps.setInt(2, product.getCategoryID());
@@ -50,7 +50,6 @@ public class ProductDAO {
             ps.setString(6, product.getImgUrl());
             ps.setString(7, product.getDescription());
             ps.setInt(8, product.getProductID());
-            ps.setString(9, product.getSellerID());
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,6 +205,141 @@ public class ProductDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<ProductDTO> searchProductPaginated(
+            String name, Integer categoryID, String status,
+            Double minPrice, Double maxPrice,
+            String roleID, String sellerID,
+            int offset, int limit) throws SQLException {
+
+        List<ProductDTO> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM tblProducts WHERE 1=1");
+
+        if (name != null && !name.isEmpty()) {
+            sql.append(" AND name LIKE ?");
+        }
+        if (categoryID != null) {
+            sql.append(" AND categoryID = ?");
+        }
+        if (status != null && !status.isEmpty()) {
+            sql.append(" AND status = ?");
+        }
+        if (minPrice != null) {
+            sql.append(" AND price >= ?");
+        }
+        if (maxPrice != null) {
+            sql.append(" AND price <= ?");
+        }
+        if (!"AD".equals(roleID)) {
+            sql.append(" AND sellerID = ?");
+        }
+
+        sql.append(" ORDER BY productID DESC"); // hoặc ORDER BY name, date...
+        sql.append(" OFFSET ? ROWS FETCH NEXT ? ROWS ONLY"); // phân trang kiểu SQL Server
+
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql.toString())) {
+
+            int paramIndex = 1;
+
+            if (name != null && !name.isEmpty()) {
+                ps.setString(paramIndex++, "%" + name + "%");
+            }
+            if (categoryID != null) {
+                ps.setInt(paramIndex++, categoryID);
+            }
+            if (status != null && !status.isEmpty()) {
+                ps.setString(paramIndex++, status);
+            }
+            if (minPrice != null) {
+                ps.setDouble(paramIndex++, minPrice);
+            }
+            if (maxPrice != null) {
+                ps.setDouble(paramIndex++, maxPrice);
+            }
+            if (!"AD".equals(roleID)) {
+                ps.setString(paramIndex++, sellerID);
+            }
+
+            ps.setInt(paramIndex++, offset);
+            ps.setInt(paramIndex, limit);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductDTO p = new ProductDTO();
+                p.setProductID(rs.getInt("productID"));
+                p.setName(rs.getString("name"));
+                p.setCategoryID(rs.getInt("categoryID"));
+                p.setPrice(rs.getDouble("price"));
+                p.setQuantity(rs.getInt("quantity"));
+                p.setSellerID(rs.getString("sellerID"));
+                p.setImgUrl(rs.getString("imgUrl"));
+                p.setStatus(rs.getString("status"));
+                p.setDescription(rs.getString("description"));
+                list.add(p);
+            }
+        }
+
+        return list;
+    }
+
+    public int countSearchResults(
+            String name, Integer categoryID, String status,
+            Double minPrice, Double maxPrice,
+            String roleID, String sellerID) throws SQLException {
+
+        int count = 0;
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM tblProducts WHERE 1=1");
+
+        if (name != null && !name.isEmpty()) {
+            sql.append(" AND name LIKE ?");
+        }
+        if (categoryID != null) {
+            sql.append(" AND categoryID = ?");
+        }
+        if (status != null && !status.isEmpty()) {
+            sql.append(" AND status = ?");
+        }
+        if (minPrice != null) {
+            sql.append(" AND price >= ?");
+        }
+        if (maxPrice != null) {
+            sql.append(" AND price <= ?");
+        }
+        if (!"AD".equals(roleID)) {
+            sql.append(" AND sellerID = ?");
+        }
+
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql.toString())) {
+
+            int paramIndex = 1;
+
+            if (name != null && !name.isEmpty()) {
+                ps.setString(paramIndex++, "%" + name + "%");
+            }
+            if (categoryID != null) {
+                ps.setInt(paramIndex++, categoryID);
+            }
+            if (status != null && !status.isEmpty()) {
+                ps.setString(paramIndex++, status);
+            }
+            if (minPrice != null) {
+                ps.setDouble(paramIndex++, minPrice);
+            }
+            if (maxPrice != null) {
+                ps.setDouble(paramIndex++, maxPrice);
+            }
+            if (!"AD".equals(roleID)) {
+                ps.setString(paramIndex++, sellerID);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        }
+
+        return count;
     }
 
 }

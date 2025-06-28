@@ -17,10 +17,26 @@ VALUES ('user001', N'Nguyễn Văn A', 'AD', '123456', '0901234567');
 -- Normal users
 INSERT INTO tblUsers (userID, fullName, roleID, password, phone)
 VALUES 
-('user002', N'Trần Thị B', 'NV', '123456', '0912345678'),
-('user003', N'Lê Văn C', 'NV', '123456', '0923456789'),
-('user004', N'Phạm Thị D', 'NV', '123456', '0934567890'),
-('user005', N'Hoàng Văn E', 'NV', '123456', '0945678901');
+('user002', N'Trần Thị B', 'SL', '123456', '0912345678'),
+('user003', N'Lê Văn C', 'CS', '123456', '0923456789'),
+('user004', N'Phạm Thị D', 'CS', '123456', '0934567890'),
+('user005', N'Hoàng Văn E', 'SL', '123456', '0945678901');
+
+UPDATE tblUsers
+SET roleID = 'SL' --seller
+WHERE userID = 'user002';
+
+UPDATE tblUsers
+SET roleID = 'CS'
+WHERE userID = 'user003';
+
+UPDATE tblUsers
+SET roleID = 'CS'
+WHERE userID = 'user004';
+
+UPDATE tblUsers
+SET roleID = 'SL'
+WHERE userID = 'user005';
 
 -- 2. Ngành hàng
 CREATE TABLE tblCategories (
@@ -28,6 +44,9 @@ CREATE TABLE tblCategories (
     categoryName NVARCHAR(100),
     description NVARCHAR(255)
 );
+
+ALTER TABLE tblCategories
+ADD imgUrl TEXT;
 
 INSERT INTO tblCategories (categoryName, description) 
 VALUES 
@@ -69,17 +88,17 @@ VALUES
 (N'Sách Cây Cam Ngọt', 5, 130000, 50, 'images/sachcaycamngot.jpg', 'user001', 'active', N'Sách....');
 
 
---mot so co the them-chua co anh 
+--mot so co the them-co anh roi 
 INSERT INTO tblProducts (name, categoryID, price, quantity, imgUrl, sellerID, status, description)
 VALUES
 (N'Dell Inspiron 15', 2, 18000000, 10, 'images/dellinspiron.jpg', 'user002', 'active', N'Laptop Dell hiệu năng cao, thiết kế hiện đại, phù hợp học tập và làm việc.'),
 (N'Áo thun nam', 3, 150000, 50, 'images/aothunnam.jpg', 'user002', 'active', N'Áo thun nam cotton, thoáng mát, phù hợp mặc hằng ngày.'),
-(N'Nồi cơm điện Sharp', 4, 900000, 15, 'images/noicomsharp.jpg', 'user003', 'active', N'Nồi cơm điện thương hiệu Sharp, dung tích 1.8L, nấu cơm nhanh và ngon.'),
-(N'Sách Đắc Nhân Tâm', 5, 89000, 100, 'images/dacnhantam.jpg', 'user002', 'active', N'Tác phẩm kinh điển về nghệ thuật giao tiếp và đối nhân xử thế.'),
-(N'Bóng đá Động Lực', 6, 250000, 30, 'images/bongdaluc.jpg', 'user003', 'active', N'Bóng đá thương hiệu Động Lực, chuẩn thi đấu, độ bền cao.'),
-(N'Son môi 3CE đỏ cam', 7, 320000, 60, 'images/son3ce.jpg', 'user003', 'active', N'Son môi 3CE màu đỏ cam, lên màu chuẩn, giữ màu lâu, thiết kế thời trang.'),
-(N'Bút bi Thiên Long', 9, 5000, 200, 'images/butthienlong.jpg', 'user003', 'active', N'Bút bi Thiên Long nét mảnh, mực ra đều, dùng trong học tập và văn phòng.'),
-(N'Nồi chiên không dầu Lock&Lock', 10, 2500000, 10, 'images/noichienlock.jpg', 'user003', 'active', N'Nồi chiên không dầu Lock&Lock, dung tích lớn, giúp món ăn giòn ngon mà không cần dầu.');
+(N'Nồi cơm điện Sharp', 4, 900000, 15, 'images/noicomsharp.jpg', 'user005', 'active', N'Nồi cơm điện thương hiệu Sharp, dung tích 1.8L, nấu cơm nhanh và ngon.'),
+(N'Sách Đắc Nhân Tâm', 5, 89000, 100, 'images/dacnhantam.jpg', 'user005', 'active', N'Tác phẩm kinh điển về nghệ thuật giao tiếp và đối nhân xử thế.'),
+(N'Bóng đá Động Lực', 6, 250000, 30, 'images/bongdaluc.jpg', 'user005', 'active', N'Bóng đá thương hiệu Động Lực, chuẩn thi đấu, độ bền cao.'),
+(N'Son môi 3CE đỏ cam', 7, 320000, 60, 'images/son3ce.jpg', 'user005', 'active', N'Son môi 3CE màu đỏ cam, lên màu chuẩn, giữ màu lâu, thiết kế thời trang.'),
+(N'Bút bi Thiên Long', 9, 5000, 200, 'images/butthienlong.jpg', 'user005', 'active', N'Bút bi Thiên Long nét mảnh, mực ra đều, dùng trong học tập và văn phòng.'),
+(N'Nồi chiên không dầu Lock&Lock', 10, 2500000, 10, 'images/noichienlock.jpg', 'user005', 'active', N'Nồi chiên không dầu Lock&Lock, dung tích lớn, giúp món ăn giòn ngon mà không cần dầu.');
 
 
 -- 4. Chương trình khuyến mãi
@@ -158,3 +177,34 @@ CREATE TABLE tblCustomerCares (
     reply TEXT,
     FOREIGN KEY (userID) REFERENCES tblUsers(userID)
 );
+
+--bai ca nhan cua Tien
+--10. 
+drop 
+CREATE TABLE tblFAQs (
+    faqID INT IDENTITY(1,1) PRIMARY KEY,
+    question NVARCHAR(MAX) NOT NULL,
+    answer NVARCHAR(MAX) NOT NULL,
+    status VARCHAR(10) NOT NULL DEFAULT 'active'
+);
+
+INSERT INTO tblFAQs (question, answer, status) VALUES
+(N'Làm sao để đặt hàng trên trang web?', 
+ N'Bạn chỉ cần chọn sản phẩm, nhấn "Thêm vào giỏ" và tiến hành thanh toán theo hướng dẫn.', 
+ 'active'),
+
+(N'Tôi có thể thanh toán bằng hình thức nào?', 
+ N'Bạn có thể thanh toán qua ví điện tử, thẻ ngân hàng hoặc thanh toán khi nhận hàng (COD).', 
+ 'active'),
+
+(N'Bao lâu thì tôi nhận được hàng?', 
+ N'Thời gian giao hàng thường từ 2-5 ngày tùy khu vực. Bạn có thể theo dõi đơn hàng trong mục “Đơn hàng của tôi”.', 
+ 'active'),
+
+(N'Tôi muốn hủy đơn hàng thì phải làm sao?', 
+ N'Bạn có thể hủy đơn trong vòng 24h sau khi đặt hàng, nếu đơn chưa được vận chuyển.', 
+ 'active'),
+
+(N'Tôi có thể đổi/trả hàng không?', 
+ N'Có. Bạn có thể yêu cầu đổi/trả hàng trong vòng 7 ngày nếu sản phẩm bị lỗi hoặc không đúng mô tả.', 
+ 'active');

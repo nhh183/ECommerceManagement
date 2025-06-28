@@ -174,4 +174,21 @@ public class UserDAO {
         }
         return userList;
     }
+
+    public boolean updateUserRoleID(String userID, String newRoleID) throws Exception {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        String sql = "UPDATE tblUsers SET roleID = ? WHERE userID = ?";
+        try {
+            conn = DBUtil.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, newRoleID);
+            ps.setString(2, userID);
+            System.out.println(userID);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

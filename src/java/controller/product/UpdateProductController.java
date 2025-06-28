@@ -32,15 +32,6 @@ public class UpdateProductController extends HttpServlet {
 
     private static final String UPLOAD_DIR = "images";
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -84,10 +75,11 @@ public class UpdateProductController extends HttpServlet {
 
             ProductDTO updatedProduct = new ProductDTO(productID, name, categoryID, price, quantity, sellerID, status, imgUrl, description);
             ProductDAO proDAO = new ProductDAO();
+
             boolean success = proDAO.updateProduct(updatedProduct);
             if (success) {
                 request.getSession().setAttribute("MSG", "Cập nhật sản phẩm thành công!");
-                response.sendRedirect("SearchProductController");
+                response.sendRedirect("ProductListController");
             } else {
                 request.setAttribute("ERROR", "Cập nhật thất bại!");
                 CategoryDAO catDAO = new CategoryDAO();
@@ -99,7 +91,7 @@ public class UpdateProductController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             request.getSession().setAttribute("ERROR", "Lỗi khi cập nhật: " + e.getMessage());
-            response.sendRedirect("SearchProductController");
+            response.sendRedirect("ProductListController");
         }
     }
 

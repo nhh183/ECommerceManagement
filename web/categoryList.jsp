@@ -8,8 +8,6 @@
         return;
     }
     request.setAttribute("loginUser", loginUser);
-    String action = request.getParameter("action");
-    if (action == null) action = "searchCategory";
 %>
 <!DOCTYPE html>
 <html>
@@ -40,12 +38,14 @@
         <header class="main-header">
             <nav class="main-nav">
                 <div class="header-left">
-                    <a href="MainController?action=homePage" class="<%= "home".equals(action) ? "active" : "" %>">HOME</a>
-                    <a href="MainController?action=searchProduct" class="<%= "searchProduct".equals(action) ? "active" : "" %>">Danh sách sản phẩm</a>
-                    <a href="MainController?action=searchCategory" class="<%= "searchCategory".equals(action) ? "active" : "" %>">Danh sách danh mục</a>
+                    <a href="MainController?action=homePage">HOME</a>
+                    <a href="MainController?action=productList">Danh Sách Sản Phẩm</a>
+                    <a href="MainController?action=searchCategory" class="active">Danh Sách Danh Mục</a>
+                    <a href="MainController?action=searchUser">Danh Sách Khách Hàng</a>
+                    <a href="MainController?action=searchFAQ&sourcePage=faqList">Danh sách FAQ</a>
                 </div>
                 <div class="header-right">
-                    <a href="MainController?action=logout">Logout</a>
+                    <a href="MainController?action=logout">Đăng Xuất</a>
                 </div>
             </nav>
         </header>
@@ -56,17 +56,24 @@
             </div>
 
             <c:if test="${not empty MSG}">
-                <p class="message-success">${MSG}</p>
+                <div class="form-message success">${MSG}</div>
             </c:if>
 
             <c:if test="${not empty ERROR}">
-                <p class="message-error">${ERROR}</p>
+                <div class="form-message error">${ERROR}</div>
             </c:if>
 
-            <form class="search-form" action="MainController" method="get">
-                <input type="text" name="keyword" placeholder="Tìm kiếm danh mục..." value="${param.keyword}" />
-                <button type="submit" name="action" value="searchCategory">Tìm kiếm</button>
-            </form>
+            <div class="search-create-wrapper">
+                <form class="search-form" action="MainController" method="get">
+                    <input type="text" name="keyword" placeholder="Tìm kiếm danh mục..." value="${param.keyword}" />
+                    <button type="submit" name="action" value="searchCategory">Tìm kiếm</button>
+                </form>
+
+                <a href="createCategory.jsp">
+                    <button class="create-button" type="button">+ Thêm danh mục mới</button>
+                </a>
+            </div>
+
 
             <c:if test="${not empty categoryList}">
                 <table>
@@ -74,6 +81,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Tên danh mục</th>
+                            <th>Ảnh</th>
                             <th>Mô tả</th>
                             <th>Hành động</th>
                         </tr>
@@ -83,6 +91,11 @@
                             <tr>
                                 <td>${c.categoryID}</td>
                                 <td>${c.categoryName}</td>
+                                <td>
+                                    <c:if test="${not empty c.imgUrl}">
+                                        <img src="${pageContext.request.contextPath}/${c.imgUrl}?t=${now.time}" class="form-img" alt="Ảnh danh mục"/>
+                                    </c:if>
+                                </td>
                                 <td>${c.description}</td>
                                 <td>
                                     <a class="action-link" href="MainController?action=updateCategory&id=${c.categoryID}">Sửa</a> |
@@ -98,11 +111,6 @@
                 <p>Không tồn tại danh mục.</p>
             </c:if>
 
-            <div style="text-align: center; margin-top: 30px;">
-                <a href="createCategory.jsp">
-                    <button class="create-button" type="button">+ Thêm danh mục mới</button>
-                </a>
-            </div>
         </div>
 
     </body>

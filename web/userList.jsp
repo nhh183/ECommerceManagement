@@ -378,7 +378,7 @@
                 </c:if>
             </div>
             <ul class="nav-menu">
-                <li><a href="homePage.jsp">HOME</a></li>
+                <li><a href="MainController?action=homePage">HOME</a></li>
                 <c:if test="${sessionScope.login.roleID == 'AD'}">
                     <li><a href="MainController?action=searchUser">Manage Users</a></li>
                     <li><a href="MainController?action=searchCategory">Manage Categories</a></li>
@@ -448,6 +448,7 @@
                         <tr>
                             <th>User ID</th>
                             <th>Full Name</th>
+                            <th>Password</th>
                             <th>Role ID</th>
                             <th>Phone</th>
                             <th>Actions</th>
@@ -458,6 +459,7 @@
                             <tr>
                                 <td>${user.userID}</td>
                                 <td>${user.fullName}</td>
+                                <td>${user.password}</td>
                                 <td>${user.roleID}</td>
                                 <td>${user.phone}</td>
                                 <td>

@@ -97,7 +97,7 @@
                 <div class="form-bottom">
                     <button type="submit" class="form-button">Cập nhật sản phẩm</button>
                     <div>
-                        <a href="MainController?action=searchProduct" class="form-cancel">Hủy</a>
+                        <a href="MainController?action=productList" class="form-cancel">Hủy</a>
                     </div>
                 </div>
             </form>
