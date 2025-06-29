@@ -61,6 +61,18 @@ VALUES
 (N'Thiết bị văn phòng', N'Máy in, giấy, bút và các vật dụng khác'),
 (N'Thiết bị nhà bếp', N'Đồ dùng nấu ăn và thiết bị nhà bếp');
 
+UPDATE tblCategories SET imgUrl = 'images/dienthoai.jpg' WHERE categoryID = 1;
+UPDATE tblCategories SET imgUrl = 'images/maytinh.jpg' WHERE categoryID = 2;
+UPDATE tblCategories SET imgUrl = 'images/thoitrang.jpg' WHERE categoryID = 3;
+UPDATE tblCategories SET imgUrl = 'images/dogiadung.jpg' WHERE categoryID = 4;
+UPDATE tblCategories SET imgUrl = 'images/sach.jpg' WHERE categoryID = 5;
+UPDATE tblCategories SET imgUrl = 'images/thethao.jpg' WHERE categoryID = 6;
+UPDATE tblCategories SET imgUrl = 'images/mypham.jpg' WHERE categoryID = 7;
+UPDATE tblCategories SET imgUrl = 'images/dochoi.jpg' WHERE categoryID = 8;
+UPDATE tblCategories SET imgUrl = 'images/thietbivanphong.jpg' WHERE categoryID = 9;
+UPDATE tblCategories SET imgUrl = 'images/thietbinhaBep.png' WHERE categoryID = 10;
+
+
 -- 3. Sản phẩm
 CREATE TABLE tblProducts (
     productID INT IDENTITY PRIMARY KEY,
