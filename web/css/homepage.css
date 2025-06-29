@@ -48,7 +48,7 @@ body {
 .header-top-right {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 5px;
     margin: 0 20px;
 }
 
@@ -66,7 +66,8 @@ body {
 .header-nav-list li a,
 .header-top-right .header-link {
     color: white;
-    font-weight: 500;
+    font-weight: 300;
+    font-size: 13px;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -80,7 +81,7 @@ body {
 
 .header-link:hover {
     color: white;
-    text-decoration: underline;
+    text-decoration: none !important;
     opacity: 0.85;
 }
 
@@ -100,7 +101,8 @@ body {
 
 .user-toggle {
     color: white;
-    font-weight: 500;
+    font-weight: 300;
+    font-size: 13px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     display: flex;
     align-items: center;
@@ -148,6 +150,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: -10px;
 }
 
 .inner-header-bottom{
