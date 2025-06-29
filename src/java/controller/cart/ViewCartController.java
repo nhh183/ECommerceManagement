@@ -40,6 +40,9 @@ public class ViewCartController extends HttpServlet {
             return;
         }
         HttpSession session = request.getSession();
+        if(request.getParameter("selectedProductId")!=null){
+            request.setAttribute("selectedId",request.getParameter("selectedProductId"));
+        }
         int cartId;
         if(session.getAttribute("cartId") != null){
             cartId = (Integer) session.getAttribute("cartId");

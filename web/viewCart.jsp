@@ -152,10 +152,11 @@
         <c:if test="${not empty cartItems}">
             <div class="container bg-white mt-2">
                 <c:forEach var="item" items="${cartItems}">
-                    <div class="row align-items-center py-3 border-bottom">
+                    <div class="row align-items-center py-3 border-bottom" id="product-${item.getProductID()}"
+                                    ${selectedId != null && selectedId.equals(String.valueOf(item.getProductID())) ? 'data-selected="true"' : ''}>
                         <div class="col-1 d-flex justify-content-center">
                             <label class="custom-checkbox">
-                                <input type="checkbox" class="cart-checkbox">
+                                <input type="checkbox" class="cart-checkbox" ${selectedId != null && selectedId.equals(String.valueOf(item.getProductID())) ? "checked" : ""}>
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -184,10 +185,10 @@
                         </div>
                         <div class="col-2 text-center text-danger">
                             ₫<span class="item-total" data-productid="${item.getProductID()}">
-                                <fmt:formatNumber value="${item.getPrice() * item.getQuantity()}" type="number" groupingUsed="true" />
+                               <fmt:formatNumber value="${item.getPrice() * item.getQuantity()}" type="number" groupingUsed="true" />
                             </span>
                         </div>
-                        <div class="col-2 text-center"><a href="#" class="text-danger">Xóa</a></div>
+                        <div class="col-2 text-center"><a href="#" class="text-danger btn-delete" data-productid="${item.getProductID()}">Xóa</a></div>
                     </div>
                 </c:forEach>
             </div>
@@ -311,9 +312,38 @@
             }
         });
     });
+    document.querySelectorAll(".btn-delete").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault(); // Ngăn chuyển trang
 
-    // Gọi khi trang vừa load
-    window.onload = updateCartTotal;
+            const productId = this.dataset.productid;
+            
+            fetch("MainController", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `action=DeleteFromCart&productId=` + productId
+            })
+            .then(response => response.text())
+            .then(data => {
+                const json = JSON.parse(data); 
+                const row = document.getElementById("product-" + productId);
+                if (row) {
+                    row.remove(); // Xóa dòng sản phẩm trên giao diện
+                    updateCartTotal(); // Cập nhật lại tổng tiền
+                }
+                if (json.status === "empty") {
+                    // Reload lại trang để hiển thị "Không có sản phẩm trong giỏ hàng"
+                    location.reload();
+                }
+                        })
+            .catch(err => {
+                console.error("Lỗi khi xóa:", err);
+            });
+        });
+    });
+  
     function updateQuantityAjax(productId, quantity) {
     fetch("MainController", {
         method: "POST",
@@ -337,6 +367,15 @@
             updateQuantityAjax(productId, quantity);
         }, 300); // chỉ gửi sau 300ms kể từ lần nhấn cuối
     }
+    window.onload = function () {
+        updateCartTotal();
 
+        const target = document.querySelector('[data-selected="true"]');
+        if (target) {
+            setTimeout(() => {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 100);
+        }
+    };
 </script>
 </html>
