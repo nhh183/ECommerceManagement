@@ -239,30 +239,9 @@
         </div>
     </c:if>
 
-    <div class="feature-box">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 feature">
-                    <h3>CAM KẾT CHÍNH HÀNG</h3>
-                    <p>100% Authentic<br>Cam kết sản phẩm chính hãng từ Châu Âu, Châu Mỹ...</p>
-                </div>
-                <div class="col-md-4 feature">
-                    <h3>GIAO HÀNG HỎA TỐC</h3>
-                    <p>Express delivery<br>SHIP hỏa tốc 1h nhận hàng trong nội thành HCM</p>
-                </div>
-                <div class="col-md-4 feature">
-                    <h3>HỖ TRỢ 24/24</h3>
-                    <p>Supporting 24/24<br>Gọi ngay 0909300746</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
-    <div class="footer">
-        <div class="container">
-            <p>Ecommerce WordPress Theme</p>
-        </div>
-    </div>
+    <%@include file="footer.jsp" %>
 
     <c:if test="${not empty requestScope.MSG}">
         <p style="color: ${requestScope.MSG.contains('successfully') ? 'green' : 'red'}">${requestScope.MSG}</p>

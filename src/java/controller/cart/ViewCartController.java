@@ -40,12 +40,11 @@ public class ViewCartController extends HttpServlet {
             return;
         }
         HttpSession session = request.getSession();
-        int cartId = (Integer) session.getAttribute("cartId");
-        CartDetailDAO cartDetailDAO = new CartDetailDAO();
-        request.setAttribute("cartItems",cartDetailDAO.getCartDetails(cartId));
-        System.out.println("Cart Details Loaded:");
-        for (CartItem item : cartDetailDAO.getCartDetails(cartId)) {
-            System.out.println("ProductID: " + item.getProductID() + ", Quantity: " + item.getQuantity());
+        int cartId;
+        if(session.getAttribute("cartId") != null){
+            cartId = (Integer) session.getAttribute("cartId");
+            CartDetailDAO cartDetailDAO = new CartDetailDAO();
+            request.setAttribute("cartItems",cartDetailDAO.getCartDetails(cartId));
         }
         request.getRequestDispatcher("viewCart.jsp").forward(request, response);
     } 
