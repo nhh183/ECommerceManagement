@@ -373,7 +373,7 @@
         const target = document.querySelector('[data-selected="true"]');
         if (target) {
             setTimeout(() => {
-                target.scrollIntoView({ behavior: "smooth", block: "start" });
+                target.scrollIntoView({ behavior: "smooth", block: "center" });
             }, 100);
         }
     };
