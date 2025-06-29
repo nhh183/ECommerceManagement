@@ -7,6 +7,7 @@ package controller.cart;
 
 import dao.CartDetailDAO;
 import dto.CartDetail;
+import dto.CartItem;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,10 +40,12 @@ public class ViewCartController extends HttpServlet {
             return;
         }
         HttpSession session = request.getSession();
-        System.out.println(session.getAttribute("cartId"));
-        int cartId = (Integer) session.getAttribute("cartId");
-        CartDetailDAO cartDetailDAO = new CartDetailDAO();
-        request.setAttribute("cartItems",cartDetailDAO.getCartDetails(cartId));
+        int cartId;
+        if(session.getAttribute("cartId") != null){
+            cartId = (Integer) session.getAttribute("cartId");
+            CartDetailDAO cartDetailDAO = new CartDetailDAO();
+            request.setAttribute("cartItems",cartDetailDAO.getCartDetails(cartId));
+        }
         request.getRequestDispatcher("viewCart.jsp").forward(request, response);
     } 
 

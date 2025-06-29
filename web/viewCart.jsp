@@ -202,7 +202,7 @@
                     </div>
                 </div>
                 <div>
-                    Tổng cộng (sản phẩm đã chọn): <span class="text-danger font-weight-bold" id="cart-total">₫0</span>
+                    Tổng cộng (sản phẩm đã chọn: <span id="selected-count">0</span>, số lượng: <span id="total-quantity">0</span>): <span class="text-danger font-weight-bold" id="cart-total">₫0</span>
                     <button class="btn btn-danger ml-3">Mua Hàng</button>
                 </div>
             </div>
@@ -213,47 +213,7 @@
             </div>
         </c:if>
     </div>
-    <div class="footer mt-5 pt-4 pb-4 text-muted">
-        <div class="footer-line py-1 mb-3"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h6>Về Shoppy</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Giới thiệu</a></li>
-                        <li><a href="#">Tuyển dụng</a></li>
-                        <li><a href="#">Điều khoản sử dụng</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Chính sách</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Chính sách bảo mật</a></li>
-                        <li><a href="#">Chính sách đổi trả</a></li>
-                        <li><a href="#">Chính sách giao hàng</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Hỗ trợ khách hàng</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Trung tâm trợ giúp</a></li>
-                        <li><a href="#">Liên hệ hỗ trợ</a></li>
-                        <li><a href="#">Hướng dẫn mua hàng</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Liên hệ</h6>
-                    <ul class="list-unstyled">
-                        <li>Email: support@shoppy.vn</li>
-                        <li>Hotline: 1900 9999</li>
-                        <li>Địa chỉ: TP.HCM</li>
-                    </ul>
-                </div>
-            </div>
-            <hr>
-            <div class="text-center small">© 2025 Shoppy. All rights reserved.</div>
-        </div>
-    </div>
+    <%@include file="footer.jsp" %>
 </body>
 
 <script>
@@ -287,7 +247,7 @@
     // Cập nhật lại giá cho từng item
     function updateTotal(productId, price, quantity) {
         document.querySelectorAll(".item-total").forEach(el => {
-            if (el.dataset.productid == productId) {
+            if (el.dataset.productid === productId) {
                 el.textContent = formatCurrency(price * quantity);
             }
         });
@@ -297,6 +257,8 @@
     // Cập nhật tổng tiền chỉ các sản phẩm được tick
     function updateCartTotal() {
         let total = 0;
+        let count = 0;
+        let totalQuantity = 0;
         document.querySelectorAll(".quantity-input").forEach(input => {
             const row = input.closest(".row");
             const checkbox = row.querySelector(".cart-checkbox");
@@ -305,10 +267,14 @@
                 const quantity = parseInt(input.value);
                 if (!isNaN(price) && !isNaN(quantity)) {
                     total += price * quantity;
+                    count += 1;
+                    totalQuantity+=quantity;
                 }
             }
         });
         document.querySelector("#cart-total").textContent = '₫' + formatCurrency(total);
+        document.querySelector("#selected-count").textContent = count;
+        document.querySelector("#total-quantity").textContent = totalQuantity;
     }
 
     // Nút tăng số lượng
@@ -323,6 +289,8 @@
                 quantity++;
                 input.value = quantity;
                 updateTotal(productId, price, quantity);
+                updateQuantityDebounced(productId, quantity);
+                
             }
         });
     });
@@ -339,11 +307,36 @@
                 quantity--;
                 input.value = quantity;
                 updateTotal(productId, price, quantity);
+                updateQuantityDebounced(productId, quantity);
             }
         });
     });
 
     // Gọi khi trang vừa load
     window.onload = updateCartTotal;
+    function updateQuantityAjax(productId, quantity) {
+    fetch("MainController", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `action=UpdateCart&productId=`+productId+`&quantity=`+quantity
+        })
+        .then(response => response.text())
+        .then(data => {
+            
+        })
+        .catch(err => {
+            console.error("Lỗi kết nối:", err);
+        });
+    }
+    let debounceTimeout;
+    function updateQuantityDebounced(productId, quantity) {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+            updateQuantityAjax(productId, quantity);
+        }, 300); // chỉ gửi sau 300ms kể từ lần nhấn cuối
+    }
+
 </script>
 </html>

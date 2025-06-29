@@ -11,6 +11,11 @@
         <link rel="stylesheet" href="css/homepage.css">
         <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            a {
+                text-decoration: none;
+            }
+        </style>
     </head>
     <body class="container-fluid px-0">
         <div class="header sticky-top">
@@ -214,15 +219,13 @@
             <h2>NEW ARRIVALS</h2>
             <div class="product-grid">
                 <c:forEach var="product" items="${newArrivals}">
-                    <div class="product-card">
-                        <a href="MainController?action=viewProduct&id=${product.productID}">
+                    <a href="MainController?action=viewProduct&id=${product.productID}">
+                        <div class="product-card">
                             <img src="${product.imgUrl}" alt="${product.name}">
-                        </a>
-                        <a href="MainController?action=viewProduct&id=${product.productID}">
                             <h3>${product.name}</h3>
-                        </a>
-                        <p><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</p>
-                    </div>
+                            <p><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</p>
+                        </div>
+                    </a>
                 </c:forEach>
             </div>
         </div>
@@ -236,30 +239,9 @@
         </div>
     </c:if>
 
-    <div class="feature-box">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 feature">
-                    <h3>CAM KẾT CHÍNH HÀNG</h3>
-                    <p>100% Authentic<br>Cam kết sản phẩm chính hãng từ Châu Âu, Châu Mỹ...</p>
-                </div>
-                <div class="col-md-4 feature">
-                    <h3>GIAO HÀNG HỎA TỐC</h3>
-                    <p>Express delivery<br>SHIP hỏa tốc 1h nhận hàng trong nội thành HCM</p>
-                </div>
-                <div class="col-md-4 feature">
-                    <h3>HỖ TRỢ 24/24</h3>
-                    <p>Supporting 24/24<br>Gọi ngay 0909300746</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
-    <div class="footer">
-        <div class="container">
-            <p>Ecommerce WordPress Theme</p>
-        </div>
-    </div>
+    <%@include file="footer.jsp" %>
 
     <c:if test="${not empty requestScope.MSG}">
         <p style="color: ${requestScope.MSG.contains('successfully') ? 'green' : 'red'}">${requestScope.MSG}</p>

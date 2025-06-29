@@ -27,16 +27,18 @@ public class CartDetailDAO {
         }
     }
     
-    public void updateCartDetail(int cartId, int productId, int quantity) {
+    public boolean updateCartDetail(int cartId, int productId, int quantity) {
         String sql = "UPDATE tblCartDetails SET quantity = ? WHERE cartID = ? AND productID = ?";
         try (Connection con = DBUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, quantity);
             ps.setInt(2, cartId);
             ps.setInt(3, productId);
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
     
@@ -54,7 +56,7 @@ public class CartDetailDAO {
 
     public List<CartItem> getCartDetails(int cartId) {
         List<CartItem> list = new ArrayList<>();
-        String sql = "SELECT p.productID ,p.name, p.quantity, p.price, p.imgUrl\n" +
+        String sql = "SELECT p.productID ,p.name, cd.quantity, p.price, p.imgUrl\n" +
                         "FROM tblCartDetails cd\n" +
                         "INNER JOIN tblProducts p ON cd.productID=p.productID\n" +
                         "WHERE cartID = ?";
@@ -79,7 +81,7 @@ public class CartDetailDAO {
     }
 
     public void clear(int cartId) {
-        String sql = "DELETE FROM tblCartDetails WHERE cartID = ?";
+        String sql = "DELETE FROM tblCarts WHERE cartID = ?";
         try (Connection con = DBUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, cartId);

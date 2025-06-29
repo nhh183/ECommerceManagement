@@ -316,27 +316,7 @@ body {
 }
 
 /* === FEATURE BOX === */
-.feature-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 30px 0;
-    background-color: #FFF5E6;
-    text-align: center;
-}
 
-.feature h3 {
-    color: #FF6B00;
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-
-.feature p {
-    color: #666;
-    font-size: 14px;
-    line-height: 1.4;
-    margin-top: 5px;
-}
 
 /* === PRODUCTS === */
 .product-section {

@@ -32,7 +32,11 @@ public class LoginController extends HttpServlet {
             String password = request.getParameter("password");
             UserDTO loginUser = dao.login(userID, password);
             if (loginUser != null) {
-                HttpSession session = request.getSession();
+                HttpSession oldSession = request.getSession(false);
+                if (oldSession != null) {
+                    oldSession.invalidate();
+                }
+                HttpSession session = request.getSession(true);
                 session.setAttribute("login", loginUser);
                 CartDAO cartDAO = new CartDAO();
                 Cart cart  = cartDAO.getCartsByUser(userID);
@@ -49,7 +53,9 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (Exception e) {
-            log(e.getMessage());
+             e.printStackTrace();
+            request.setAttribute("ERROR", "Internal server error.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 
