@@ -11,6 +11,11 @@
         <link rel="stylesheet" href="css/homepage.css">
         <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            a {
+                text-decoration: none;
+            }
+        </style>
     </head>
     <body class="container-fluid px-0">
         <div class="header sticky-top">
@@ -214,15 +219,13 @@
             <h2>NEW ARRIVALS</h2>
             <div class="product-grid">
                 <c:forEach var="product" items="${newArrivals}">
-                    <div class="product-card">
-                        <a href="MainController?action=viewProduct&id=${product.productID}">
+                    <a href="MainController?action=viewProduct&id=${product.productID}">
+                        <div class="product-card">
                             <img src="${product.imgUrl}" alt="${product.name}">
-                        </a>
-                        <a href="MainController?action=viewProduct&id=${product.productID}">
                             <h3>${product.name}</h3>
-                        </a>
-                        <p><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</p>
-                    </div>
+                            <p><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</p>
+                        </div>
+                    </a>
                 </c:forEach>
             </div>
         </div>

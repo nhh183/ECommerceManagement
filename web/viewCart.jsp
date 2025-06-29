@@ -287,7 +287,7 @@
     // Cập nhật lại giá cho từng item
     function updateTotal(productId, price, quantity) {
         document.querySelectorAll(".item-total").forEach(el => {
-            if (el.dataset.productid == productId) {
+            if (el.dataset.productid === productId) {
                 el.textContent = formatCurrency(price * quantity);
             }
         });
@@ -323,6 +323,8 @@
                 quantity++;
                 input.value = quantity;
                 updateTotal(productId, price, quantity);
+                updateQuantityDebounced(productId, quantity);
+                
             }
         });
     });
@@ -339,11 +341,36 @@
                 quantity--;
                 input.value = quantity;
                 updateTotal(productId, price, quantity);
+                updateQuantityDebounced(productId, quantity);
             }
         });
     });
 
     // Gọi khi trang vừa load
     window.onload = updateCartTotal;
+    function updateQuantityAjax(productId, quantity) {
+    fetch("MainController", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `action=UpdateCart&productId=`+productId+`&quantity=`+quantity
+        })
+        .then(response => response.text())
+        .then(data => {
+            
+        })
+        .catch(err => {
+            console.error("Lỗi kết nối:", err);
+        });
+    }
+    let debounceTimeout;
+    function updateQuantityDebounced(productId, quantity) {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+            updateQuantityAjax(productId, quantity);
+        }, 300); // chỉ gửi sau 300ms kể từ lần nhấn cuối
+    }
+
 </script>
 </html>
