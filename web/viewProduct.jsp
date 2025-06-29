@@ -61,7 +61,7 @@
 
                             
                     <form action="MainController"  method="POST">
-                        <input type="hidden" name="productID" value="${product.productID}">
+                        <input type="hidden" name="selectedProductId" value="${product.productID}">
                         <div class="quantity-select">
                             <label for="quantity">Chọn số lượng:</label>
                             <div class="quantity-box">
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <button type="submit" name="action" value="buyNow" class="buy-button">Mua ngay</button>
+                            <button type="submit" name="action" value="BuyNow" class="buy-button">Mua ngay</button>
                             <button type="button" onclick="addToCart(${product.productID})" class="add-to-cart-button">
                                 <i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng
                             </button>
