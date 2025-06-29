@@ -5,6 +5,9 @@
 
 package controller.cart;
 
+import dao.CartDetailDAO;
+import dto.CartDetail;
+import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -68,7 +72,18 @@ public class UpdateCartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        HttpSession session = request.getSession();
+        UserDTO user = (UserDTO) session.getAttribute("login");
+        int cartId = (Integer) session.getAttribute("cartId");
+        if (user != null) {
+            CartDetailDAO cartDetailDAO = new CartDetailDAO();
+            boolean success = cartDetailDAO.updateCartDetail(cartId, productId, quantity);
+            response.getWriter().print(success ? "success" : "fail");
+        } else {
+            response.getWriter().print("unauthenticated");
+        }
     }
 
     /** 

@@ -26,7 +26,6 @@
         <title>Xem chi tiết sản Phẩm</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/header.css">
-        <link rel="stylesheet" href="css/footer.css">
         <link rel="stylesheet" href="css/viewProduct.css">
         <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -101,7 +100,8 @@
                 <strong>Ngọc Trinh:</strong> Chất lượng tốt, đúng như mô tả.
             </div>
             <!-- Thêm input hoặc form nếu muốn cho người dùng bình luận -->
-        </div>    
+        </div>  
+        <%@include file="footer.jsp" %>
         <script>
             function changeQty(delta) {
                 const qtyInput = document.getElementById("quantity0");
@@ -141,7 +141,5 @@
                         });
             }
         </script>
-
-        <%@include file="footer.jsp" %>
     </body>
 </html>
