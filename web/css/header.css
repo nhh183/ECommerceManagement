@@ -1,10 +1,5 @@
 /* === HEADER === */
 .header {
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    background: linear-gradient(180deg,rgba(253, 29, 29, 1) 0%, rgba(255, 121, 43, 1) 100%);
-}
-
-.header {
     border-bottom: none;
     justify-content: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -26,7 +21,7 @@
 .header-top-right {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 5px;
     margin: 0 20px;
 }
 
@@ -44,7 +39,8 @@
 .header-nav-list li a,
 .header-top-right .header-link {
     color: white;
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 13px;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -58,7 +54,7 @@
 
 .header-link:hover {
     color: white;
-    text-decoration: underline;
+    text-decoration: none !important;
     opacity: 0.85;
 }
 
@@ -78,7 +74,8 @@
 
 .user-toggle {
     color: white;
-    font-weight: 500;
+    font-weight: 300;
+    font-size: 13px;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     display: flex;
     align-items: center;
@@ -119,43 +116,75 @@
 }
 
 
-/* === HEADER-BOTTOM === */
-.header-bottom {
+
+
+.header-bottom{
+    background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: -10px;
 }
 
-.inner-header-bottom {
+.inner-header-bottom{
     align-items: center;
 }
 
-.logo {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
-    font-weight: bold;
-    font-size: 28px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.logo-img {
-    width: 45px;
-    height: 45px;
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
-}
 
 @media (max-width: 767px) {
     .logo, .user-actions {
         text-align: center;
         justify-content: center;
     }
-
     .header .row {
         gap: 15px;
     }
+}
+
+.search-box input {
+    border: 2px solid #fff ;
+    border-radius: 5px 0 0 5px ;
+}
+
+.search-box button {
+    padding: 8px 15px;
+    background-color: white;
+    color: #E55D00 ; /* Màu cam đậm */
+    border: 2px solid #fff ;
+    border-radius: 0 5px 5px 0 ;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.search-box button:hover {
+    background-color: #FFEDCC;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.user-actions {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.user-actions .btn {
+
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.user-actions .btn:hover {
+    background-color: #FFEDCC;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 .welcome-text {
@@ -164,7 +193,6 @@
     margin-right: 15px;
     font-weight: bold;
 }
-
 .cart-icon {
     position: relative;
     display: inline-flex;

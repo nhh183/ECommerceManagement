@@ -72,7 +72,7 @@ public class ProductDAO {
     // GET tất cả sản phẩm (admin)
     public List<ProductDTO> getProductList() {
         List<ProductDTO> list = new ArrayList<>();
-        String sql = "SELECT * FROM tblProducts";
+        String sql = "SELECT * FROM tblProducts ORDER BY productID DESC";
         try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 ProductDTO p = new ProductDTO(
@@ -117,7 +117,8 @@ public class ProductDAO {
         if (!isAdmin && SellerID != null && !SellerID.isEmpty()) {
             sql.append(" AND sellerID = ?");
         }
-
+        
+        sql.append(" ORDER BY productID DESC");
         try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql.toString())) {
 
             int idx = 1;
