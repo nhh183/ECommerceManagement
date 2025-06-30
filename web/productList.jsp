@@ -60,6 +60,17 @@
                     <c:if test="${loginUser.roleID == 'CS'}">
                         <a href="MainController?action=searchDelivery">Xem giao hàng</a>
                     </c:if>
+                    <c:if test="${loginUser.roleID == 'AD'}">
+                        <a href="MainController?action=listReturns">Quản lý trả hàng</a>
+                    </c:if>
+
+                    <c:if test="${loginUser.roleID == 'SL'}">
+                        <a href="MainController?action=listReturns">Cập nhật tra hàng</a>
+                    </c:if>
+
+                    <c:if test="${loginUser.roleID == 'CS'}">
+                        <a href="MainController?action=listReturns">Trả hàng</a>
+                    </c:if>
 
                 </div>
                 <div class="header-right">

@@ -229,6 +229,17 @@ public class MainController extends HttpServlet {
                 case NOTIFICATION_LIST:
                     url = NOTIFICATION_LIST_CONTROLLER;
                     break;
+                    
+                    case "createReturn":
+    url = "CreateReturnController";
+    break;
+case "listReturns":
+    url = "ReturnListController";
+    break;
+case "updateReturnStatus":
+    url = "UpdateReturnStatusController";
+    break;
+
                 default:
                     System.out.println("Unknown action: " + action);
                     url = "login.jsp"; // fallback
