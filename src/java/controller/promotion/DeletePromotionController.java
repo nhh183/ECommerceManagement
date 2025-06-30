@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.FAQ;
+package controller.promotion;
 
-import dao.FAQDAO;
-import dto.FAQDTO;
+import dao.PromotionDAO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,69 +14,48 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "SearchFAQController", urlPatterns = {"/SearchFAQController"})
-public class SearchFAQController extends HttpServlet {
+@WebServlet(name = "DeletePromotionController", urlPatterns = {"/DeletePromotionController"})
+public class DeletePromotionController extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        UserDTO loginUser = (UserDTO) request.getSession().getAttribute("login");
+        HttpSession session = request.getSession();
+        UserDTO loginUser = (UserDTO) session.getAttribute("login");
         if (loginUser == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
         try {
-            String sourcePage = request.getParameter("sourcePage");
-            String keyword = request.getParameter("keyword");
-            String status = request.getParameter("status");
+            int promoID = Integer.parseInt(request.getParameter("id"));
+            PromotionDAO dao = new PromotionDAO();
 
-            if (sourcePage != null && sourcePage.trim().equals("support")) {
-                status = "active"; // ép buộc status là active nếu đến từ support
-            }
-
-            if (keyword != null) {
-                keyword = keyword.trim();
-            }
-            if (status != null) {
-                status = status.trim();
-            }
-
-            FAQDAO dao = new FAQDAO();
-            List<FAQDTO> list = dao.searchFAQ(keyword, status);
-            request.setAttribute("faqList", list);
-
-            // Lấy MSG, ERROR
-            HttpSession session = request.getSession();
-            String msg = (String) session.getAttribute("MSG");
-            String error = (String) session.getAttribute("ERROR");
-            if (msg != null) {
-                request.setAttribute("MSG", msg);
-                session.removeAttribute("MSG");
-            }
-            if (error != null) {
-                request.setAttribute("ERROR", error);
-                session.removeAttribute("ERROR");
-            }
-
-            if ("faqList".equals(sourcePage)) {
-                request.getRequestDispatcher("faqList.jsp").forward(request, response);
-            } else if ("support".equals(sourcePage)) {
-                request.getRequestDispatcher("support.jsp").forward(request, response);
+            if (dao.deletePromotion(promoID)) {
+                session.setAttribute("MSG", "Xóa khuyến mãi thành công!");
             } else {
-                request.getRequestDispatcher("faqList.jsp").forward(request, response);
+                session.setAttribute("ERROR", "Không thể xóa. Khuyến mãi có thể đang hoạt động.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("faqList.jsp");
+            session.setAttribute("ERROR", "Lỗi khi xóa khuyến mãi.");
         }
+        response.sendRedirect("SearchPromotionController");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

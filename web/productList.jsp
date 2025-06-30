@@ -20,65 +20,9 @@
 
     </head>
     <body>
-        <div class="header">
-            <div class="header-top">
-
-            </div>
-
-            <div class="header-top">
-                <div class="header-top-left">
-                    <div class="logo">
-                        <img src="images/shop.jpg" alt="Cart Logo" class="logo-img">
-                        Shoppy
-                    </div>
-                </div>
-                <div class="header-top-right">
-                    <span class="welcome-text">Welcome, ${sessionScope.login.fullName}!</span>
-                </div>
-
-            </div>
-        </div>
-
-        <header class="main-header">
-            <nav class="main-nav">
-                <div class="header-left">
-                    <a href="MainController?action=homePage">HOME</a>
-                    <a href="MainController?action=productList" class="active">Danh sách sản phẩm</a>
-                    <c:if test="${loginUser.roleID=='AD'}">
-                        <a href="MainController?action=searchCategory">Danh sách danh mục</a>
-                        <a href="MainController?action=searchUser">Danh sách Khách Hàng</a>
-                        <a href="MainController?action=searchFAQ&sourcePage=faqList">Danh sách FAQ</a>
-                    </c:if>
-                    <c:if test="${loginUser.roleID == 'AD'}">
-                        <a href="MainController?action=searchDelivery">Quản lý Giao hàng</a>
-                    </c:if>
-
-                    <c:if test="${loginUser.roleID == 'SL'}">
-                        <a href="MainController?action=searchDelivery">Cập nhật giao hàng</a>
-                    </c:if>
-
-                    <c:if test="${loginUser.roleID == 'CS'}">
-                        <a href="MainController?action=searchDelivery">Xem giao hàng</a>
-                    </c:if>
-                    <c:if test="${loginUser.roleID == 'AD'}">
-                        <a href="MainController?action=listReturns">Quản lý trả hàng</a>
-                    </c:if>
-
-                    <c:if test="${loginUser.roleID == 'SL'}">
-                        <a href="MainController?action=listReturns">Cập nhật tra hàng</a>
-                    </c:if>
-
-                    <c:if test="${loginUser.roleID == 'CS'}">
-                        <a href="MainController?action=listReturns">Trả hàng</a>
-                    </c:if>
-
-                </div>
-                <div class="header-right">
-                    <a href="MainController?action=logout">Đăng xuất</a>
-                </div>
-
-            </nav>
-        </header>
+        <jsp:include page="headerList.jsp">
+            <jsp:param name="page" value="products"/>
+        </jsp:include>
 
         <div class="container">
             <div class="title">

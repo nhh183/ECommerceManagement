@@ -90,11 +90,90 @@ VALUES
 CREATE TABLE tblPromotions (
     promoID INT IDENTITY PRIMARY KEY,
     name NVARCHAR(100),
-    discountPercent FLOAT,
+    discountPercent FLOAT CHECK (discountPercent >= 0 AND discountPercent <= 100),
     startDate DATE,
     endDate DATE,
-    status VARCHAR(20)
+    status VARCHAR(20) -- Ví dụ: 'active', 'inactive'
 );
+
+-- 🔸 Bảng liên kết khuyến mãi với sản phẩm
+CREATE TABLE tblPromotion_Product (
+    promoID INT,
+    productID INT,
+    PRIMARY KEY (promoID, productID),
+    FOREIGN KEY (promoID) REFERENCES tblPromotions(promoID) ON DELETE CASCADE,
+    FOREIGN KEY (productID) REFERENCES tblProducts(productID) ON DELETE CASCADE
+);
+
+
+
+
+-- Khuyến mãi điện thoại
+INSERT INTO tblPromotions (name, discountPercent, startDate, endDate, status)
+VALUES (N'Khuyến mãi điện thoại mùa hè', 10, '2025-06-25', '2025-07-31', 'active');
+
+-- Khuyến mãi laptop
+INSERT INTO tblPromotions (name, discountPercent, startDate, endDate, status)
+VALUES (N'Giảm giá laptop tháng 6', 15, '2025-06-28', '2025-07-25', 'active');
+
+-- Khuyến mãi sách hè
+INSERT INTO tblPromotions (name, discountPercent, startDate, endDate, status)
+VALUES (N'Mua sách hè giảm giá', 20, '2025-06-20', '2025-07-30', 'active');
+
+-- Khuyến mãi đồ gia dụng
+INSERT INTO tblPromotions (name, discountPercent, startDate, endDate, status)
+VALUES (N'Siêu khuyến mãi gia dụng', 12, '2025-06-26', '2025-07-31', 'active');
+
+--neu insert giu lieu theo thu tu thi id nhu nay
+-- Gán sản phẩm vào khuyến mãi điện thoại (promoID = 1)
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(1, 1), -- Iphone 12 promax
+(1, 2); -- Iphone 15 promax
+
+-- Gán sản phẩm vào khuyến mãi laptop (promoID = 2)
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(2, 4), -- Macbook Air M1
+(2, 6); -- Dell Inspiron 15
+
+-- Gán sản phẩm vào khuyến mãi sách (promoID = 3)
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(3, 5),  -- Sách Cây Cam Ngọt
+(3, 9);  -- Sách Đắc Nhân Tâm
+
+-- Gán sản phẩm vào khuyến mãi đồ gia dụng (promoID = 4)
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(4, 8),  -- Nồi cơm điện Sharp
+(4, 13); -- Nồi chiên không dầu Lock&Lock
+
+
+
+-- 🔸 promoID = 1: Khuyến mãi điện thoại
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(1, 3), -- Iphone 12 promax
+(1, 4); -- Iphone 15 promax
+
+-- 🔸 promoID = 2: Khuyến mãi laptop
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(2, 10), -- macbook air m1
+(2, 13); -- Dell Inspiron 15
+
+-- 🔸 promoID = 3: Khuyến mãi sách
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(3, 12), -- Sách Cây Cam Ngọt
+(3, 22); -- Sách Đắc Nhân Tâm
+
+-- 🔸 promoID = 4: Khuyến mãi đồ gia dụng
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(4, 21), -- Nồi cơm điện Sharp
+(4, 26); -- Nồi chiên không dầu Lock&Lock
 
 -- 5. Giỏ hàng
 CREATE TABLE tblCarts (

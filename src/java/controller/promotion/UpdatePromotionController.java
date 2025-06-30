@@ -2,13 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.promotion;
 
-import dao.CategoryDAO;
-import dao.ProductDAO;
 import dao.PromotionDAO;
-import dto.CategoryDTO;
-import dto.ProductDTO;
 import dto.PromotionDTO;
 import dto.UserDTO;
 import java.io.IOException;
@@ -18,15 +14,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.stream.Collectors;
+import jakarta.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
- * @author LENOVO
+ * @author User
  */
-@WebServlet(name = "HomePageController", urlPatterns = {"/HomePageController"})
-public class HomePageController extends HttpServlet {
+@WebServlet(name = "UpdatePromotionController", urlPatterns = {"/UpdatePromotionController"})
+public class UpdatePromotionController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,6 +37,39 @@ public class HomePageController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        UserDTO loginUser = (UserDTO) session.getAttribute("login");
+        if (loginUser == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        try {
+            int promoID = Integer.parseInt(request.getParameter("promoID"));
+            String name = request.getParameter("name");
+            double discount = Double.parseDouble(request.getParameter("discount"));
+            String startStr = request.getParameter("startDate");
+            String endStr = request.getParameter("endDate");
+            String status = request.getParameter("status");
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = sdf.parse(startStr);
+            Date endDate = sdf.parse(endStr);
+
+            PromotionDTO dto = new PromotionDTO(promoID, name, discount, startDate, endDate, status);
+            PromotionDAO dao = new PromotionDAO();
+
+            if (dao.updatePromotion(dto)) {
+                session.setAttribute("MSG", "Cập nhật khuyến mãi thành công!");
+            } else {
+                session.setAttribute("ERROR", "Không thể cập nhật khuyến mãi.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("ERROR", "Lỗi khi cập nhật khuyến mãi.");
+        }
+        response.sendRedirect("SearchPromotionController");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -54,34 +84,25 @@ public class HomePageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserDTO loginUser = (UserDTO) request.getSession().getAttribute("login");
+        HttpSession session = request.getSession();
+        UserDTO loginUser = (UserDTO) session.getAttribute("login");
         if (loginUser == null) {
             response.sendRedirect("login.jsp");
             return;
         }
+        
         try {
-            ProductDAO productDAO = new ProductDAO();
-            CategoryDAO categoryDAO = new CategoryDAO();
-
-            // Lấy danh sách sản phẩm và danh mục
-            List<ProductDTO> productList = productDAO.getAllProductsIncludePromotion();
-            List<CategoryDTO> categoryList = categoryDAO.getCategoryList();
-
-// Lọc ra các sản phẩm đang có khuyến mãi (promotion khác null)
-            List<ProductDTO> flashSaleProducts = productList.stream()
-                    .filter(p -> p.getPromotion() != null)
-                    .collect(Collectors.toList());
-            
-            request.setAttribute("promotedProducts", flashSaleProducts);
-            request.setAttribute("productList", productList);
-            request.setAttribute("categoryList", categoryList);
+            int id = Integer.parseInt(request.getParameter("id"));
+            PromotionDAO dao = new PromotionDAO();
+            PromotionDTO promotion = dao.getPromotionByID(id);
+            request.setAttribute("promotion", promotion);
+            request.getRequestDispatcher("updatePromotion.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("login.jsp");
+            session.setAttribute("ERROR", "Lỗi. Hãy thực hiện lại sau.");
+            response.sendRedirect("SearchPromotionController");
         }
 
-        // Forward đến trang JSP
-        request.getRequestDispatcher("homePage.jsp").forward(request, response);
     }
 
     /**

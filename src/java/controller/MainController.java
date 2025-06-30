@@ -56,6 +56,26 @@ public class MainController extends HttpServlet {
     public static final String PRODUCT_LIST = "productList";
     public static final String PRODUCT_LIST_CONTROLLER = "ProductListController";
 
+    //Promotion
+    public static final String SEARCH_PROMOTION = "searchPromotion";
+    public static final String SEARCH_PROMOTION_CONTROLLER = "SearchPromotionController";
+    public static final String CREATE_PROMOTION = "createPromotion";
+    public static final String CREATE_PROMOTION_CONTROLLER = "CreatePromotionController";
+    public static final String UPDATE_PROMOTION = "updatePromotion";
+    public static final String UPDATE_PROMOTION_CONTROLLER = "UpdatePromotionController";
+    public static final String DELETE_PROMOTION = "deletePromotion";
+    public static final String DELETE_PROMOTION_CONTROLLER = "DeletePromotionController";
+
+    //PromotionProduct
+    public static final String SEARCH_PROMOTION_PRODUCT = "searchPromotionProduct";
+    public static final String SEARCH_PROMOTION_PRODUCT_CONTROLLER = "SearchPromotionProductController";
+    public static final String CREATE_PROMOTION_PRODUCT = "createPromotionProduct";
+    public static final String CREATE_PROMOTION_PRODUCT_CONTROLLER = "CreatePromotionProductController";
+    public static final String UPDATE_PROMOTION_PRODUCT = "updatePromotionProduct";
+    public static final String UPDATE_PROMOTION_PRODUCT_CONTROLLER = "UpdatePromotionProductController";
+    public static final String DELETE_PROMOTION_PRODUCT = "deletePromotionProduct";
+    public static final String DELETE_PROMOTION_PRODUCT_CONTROLLER = "DeletePromotionProductController";
+
     // Category Management
     public static final String CREATE_CATEGORY = "createCategory";
     public static final String CREATE_CATEGORY_CONTROLLER = "CreateCategoryController";
@@ -138,6 +158,7 @@ public class MainController extends HttpServlet {
                 case UPDATE_ROLEID:
                     url = UPDATE_ROLEID_CONTROLLER;
                     break;
+
                 // Product    
                 case CREATE_PRODUCT:
                     url = CREATE_PRODUCT_CONTROLLER;
@@ -157,6 +178,35 @@ public class MainController extends HttpServlet {
                 case PRODUCT_LIST:
                     url = PRODUCT_LIST_CONTROLLER;
                     break;
+
+                //Promotion
+                case CREATE_PROMOTION:
+                    url = CREATE_PROMOTION_CONTROLLER;
+                    break;
+                case UPDATE_PROMOTION:
+                    url = UPDATE_PROMOTION_CONTROLLER;
+                    break;
+                case DELETE_PROMOTION:
+                    url = DELETE_PROMOTION_CONTROLLER;
+                    break;
+                case SEARCH_PROMOTION:
+                    url = SEARCH_PROMOTION_CONTROLLER;
+                    break;
+
+                // PromotionProduct
+                case CREATE_PROMOTION_PRODUCT:
+                    url = CREATE_PROMOTION_PRODUCT_CONTROLLER;
+                    break;
+                case UPDATE_PROMOTION_PRODUCT:
+                    url = UPDATE_PROMOTION_PRODUCT_CONTROLLER;
+                    break;
+                case DELETE_PROMOTION_PRODUCT:
+                    url = DELETE_PROMOTION_PRODUCT_CONTROLLER;
+                    break;
+                case SEARCH_PROMOTION_PRODUCT:
+                    url = SEARCH_PROMOTION_PRODUCT_CONTROLLER;
+                    break;
+
                 // Category
                 case CREATE_CATEGORY:
                     url = CREATE_CATEGORY_CONTROLLER;
