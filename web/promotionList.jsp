@@ -16,10 +16,10 @@
         <link rel="stylesheet" href="css/tableList.css">
     </head>
     <body>
+
         <jsp:include page="headerList.jsp">
             <jsp:param name="page" value="promotions"/>
         </jsp:include>
-
         <div class="container">
             <div class="title">
                 <h1>Danh sách khuyến mãi</h1>

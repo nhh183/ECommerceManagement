@@ -120,17 +120,20 @@ CREATE TABLE tblPromotions (
     discountPercent FLOAT CHECK (discountPercent >= 0 AND discountPercent <= 100),
     startDate DATE,
     endDate DATE,
-    status VARCHAR(20) -- ví dụ: 'active', 'inactive'
+    status VARCHAR(20) -- Ví dụ: 'active', 'inactive'
 );
 
--- Khuyen mai theo san pham
+-- 🔸 Bảng liên kết khuyến mãi với sản phẩm
 CREATE TABLE tblPromotion_Product (
     promoID INT,
     productID INT,
     PRIMARY KEY (promoID, productID),
-    FOREIGN KEY (promoID) REFERENCES tblPromotions(promoID),
-    FOREIGN KEY (productID) REFERENCES tblProducts(productID)
+    FOREIGN KEY (promoID) REFERENCES tblPromotions(promoID) ON DELETE CASCADE,
+    FOREIGN KEY (productID) REFERENCES tblProducts(productID) ON DELETE CASCADE
 );
+
+
+
 
 -- Khuyến mãi điện thoại
 INSERT INTO tblPromotions (name, discountPercent, startDate, endDate, status)
@@ -174,6 +177,30 @@ VALUES
 (4, 13); -- Nồi chiên không dầu Lock&Lock
 
 
+
+-- 🔸 promoID = 1: Khuyến mãi điện thoại
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(1, 3), -- Iphone 12 promax
+(1, 4); -- Iphone 15 promax
+
+-- 🔸 promoID = 2: Khuyến mãi laptop
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(2, 10), -- macbook air m1
+(2, 13); -- Dell Inspiron 15
+
+-- 🔸 promoID = 3: Khuyến mãi sách
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(3, 12), -- Sách Cây Cam Ngọt
+(3, 22); -- Sách Đắc Nhân Tâm
+
+-- 🔸 promoID = 4: Khuyến mãi đồ gia dụng
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(4, 21), -- Nồi cơm điện Sharp
+(4, 26); -- Nồi chiên không dầu Lock&Lock
 
 -- 5. Giỏ hàng
 CREATE TABLE tblCarts (

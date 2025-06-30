@@ -8,6 +8,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="dto.UserDTO" %>
 
+<c:set var="loginUser" value="${sessionScope.login}" />
+
 
 <style>
     /* === HEADER === */
