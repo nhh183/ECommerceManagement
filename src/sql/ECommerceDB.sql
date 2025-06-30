@@ -147,6 +147,11 @@ CREATE TABLE tblDeliveries (
 (1, N'123 Nguyễn Huệ, Q1, TP.HCM', '2025-06-21', 'pending'),
 (2, N'456 Lê Lợi, Q1, TP.HCM', '2025-06-22', 'delivered');
 
+UPDATE tblDeliveries
+SET status = 'pending'
+WHERE status = 'delivered';
+
+
 -- 8. Trả hàng
 CREATE TABLE tblReturns (
     returnID INT IDENTITY PRIMARY KEY,
@@ -166,3 +171,34 @@ CREATE TABLE tblCustomerCares (
     reply TEXT,
     FOREIGN KEY (userID) REFERENCES tblUsers(userID)
 );
+
+
+CREATE TABLE tblNotifications (
+    notificationID INT IDENTITY(1,1) PRIMARY KEY,
+    userID VARCHAR(20) NOT NULL,
+    eventType NVARCHAR(100),
+    message NVARCHAR(255),
+    isRead BIT DEFAULT 0,
+    createdAt DATETIME DEFAULT GETDATE()
+);
+-- Thêm thông báo cho user002
+INSERT INTO tblNotifications (userID, eventType, message, isRead)
+VALUES 
+('user002', N'Delivery', N'Đơn hàng #5 của bạn đang được giao.', 0),
+('user002', N'Return', N'Yêu cầu trả hàng của bạn đã được duyệt.', 0),
+('user002', N'Order', N'Đơn hàng #6 đã được tạo thành công.', 1);
+
+-- Thêm thông báo cho user003
+INSERT INTO tblNotifications (userID, eventType, message, isRead)
+VALUES 
+('user003', N'Promotion', N'Khuyến mãi mới 20% cho đơn hàng trên 1 triệu.', 0),
+('user003', N'Order', N'Đơn hàng #7 đã bị hủy theo yêu cầu của bạn.', 1);
+-- Thêm thông báo cho Admin (user001)
+INSERT INTO tblNotifications (userID, eventType, message, isRead)
+VALUES 
+('user001', N'Order', N'Bạn vừa duyệt đơn hàng #8 của người dùng.', 0),
+('user001', N'Return', N'Yêu cầu trả hàng #3 vừa được gửi từ user002.', 0),
+('user001', N'System', N'Sao lưu dữ liệu hệ thống lúc 10:00 AM hoàn tất.', 1),
+('user001', N'CustomerCare', N'Bạn có 2 phản hồi chăm sóc khách hàng chưa đọc.', 0),
+('user001', N'Promotion', N'Bạn đã cập nhật khuyến mãi tháng 7 thành công.', 1);
+

@@ -302,7 +302,7 @@
 
 
             <div class="header-top-right">
-                <a href="notification.jsp" class="header-link">
+                <a href="NotificationListController" class="header-link">
                     <i class="fas fa-bell"></i> Thông báo
                 </a>
                 <a href="support.jsp" class="header-link">
