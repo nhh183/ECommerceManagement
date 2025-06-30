@@ -5,6 +5,9 @@
 
 package controller.cart;
 
+import dao.CartDAO;
+import dao.CartDetailDAO;
+import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -29,7 +33,36 @@ public class BuyNowController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        UserDTO loginUser = (UserDTO) request.getSession().getAttribute("login");
+        if (loginUser == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        int cartId;
+        if(session.getAttribute("cartId")==null){
+            CartDAO cartDAO = new CartDAO();
+            cartId = cartDAO.createCart(loginUser.getUserID());
+            session.setAttribute("cartId",cartId);
+        }else{
+            cartId = (Integer) session.getAttribute("cartId");
+        }
+        int productID = Integer.parseInt(request.getParameter("selectedProductId"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        CartDetailDAO cartDetailDAO = new CartDetailDAO();
+        
+        int checkProduct = cartDetailDAO.getQuantity(cartId, productID);
+        if(checkProduct == -1){
+            cartDetailDAO.addToCart(cartId, productID, quantity);
+        }else{
+            cartDetailDAO.updateCartDetail(cartId, productID,checkProduct + quantity);
+        }
+        int cartSize = cartDetailDAO.getCartSize(cartId);
+        session.setAttribute("cartSize",cartSize);
+        request.setAttribute("cartItems",cartDetailDAO.getCartDetails(cartId));
+        request.setAttribute("selectedId",request.getParameter("selectedProductId"));
+        request.getRequestDispatcher("viewCart.jsp").forward(request, response);
         
     } 
 
