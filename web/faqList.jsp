@@ -19,31 +19,9 @@
         <link rel="stylesheet" href="css/tableList.css">
     </head>
     <body>
-        <div class="header">
-            <div class="header-top">
-                <div class="logo">
-                    <img src="images/shop.jpg" alt="Logo" class="logo-img"> Shoppy
-                </div>
-                <div class="welcome-text">
-                    Welcome, ${sessionScope.login.fullName}!
-                </div>
-            </div>
-        </div>
-
-        <header class="main-header">
-            <nav class="main-nav">
-                <div class="header-left">
-                    <a href="MainController?action=homePage">HOME</a>
-                    <a href="MainController?action=productList">Danh Sách Sản Phẩm</a>
-                    <a href="MainController?action=searchCategory">Danh Sách Danh Mục</a>
-                    <a href="MainController?action=searchUser">Danh Sách Khách Hàng</a>
-                    <a href="MainController?action=searchFAQ&sourcePage=faqList" class="active">Danh sách FAQ</a>
-                </div>
-                <div class="header-right">
-                    <a href="MainController?action=logout">Đăng xuất</a>
-                </div>
-            </nav>
-        </header>
+        <jsp:include page="headerList.jsp">
+            <jsp:param name="page" value="faqs"/>
+        </jsp:include>
 
         <div class="container">
             <div class="title">

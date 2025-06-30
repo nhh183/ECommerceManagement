@@ -1,4 +1,4 @@
-﻿CREATE DATABASE ECommerceDB;
+CREATE DATABASE ECommerceDB;
 USE ECommerceDB;
 
 -- 1. Bảng người dùng
@@ -17,26 +17,14 @@ VALUES ('user001', N'Nguyễn Văn A', 'AD', '123456', '0901234567');
 -- Normal users
 INSERT INTO tblUsers (userID, fullName, roleID, password, phone)
 VALUES 
-('user002', N'Trần Thị B', 'SL', '123456', '0912345678'),
-('user003', N'Lê Văn C', 'CS', '123456', '0923456789'),
-('user004', N'Phạm Thị D', 'CS', '123456', '0934567890'),
-('user005', N'Hoàng Văn E', 'SL', '123456', '0945678901');
+('user002', N'Trần Thị B', 'NV', '123456', '0912345678'),
+('user003', N'Lê Văn C', 'NV', '123456', '0923456789'),
+('user004', N'Phạm Thị D', 'NV', '123456', '0934567890'),
+('user005', N'Hoàng Văn E', 'NV', '123456', '0945678901');
 
-UPDATE tblUsers
-SET roleID = 'SL' --seller
-WHERE userID = 'user002';
-
-UPDATE tblUsers
-SET roleID = 'CS'
-WHERE userID = 'user003';
-
-UPDATE tblUsers
-SET roleID = 'CS'
-WHERE userID = 'user004';
-
-UPDATE tblUsers
-SET roleID = 'SL'
-WHERE userID = 'user005';
+-- SL
+INSERT INTO tblUsers (userID, fullName, roleID, password, phone)
+VALUES ('user077', N'Nguyen Thúc Thùy Tiên', 'SL', '123456', '0945678971');
 
 -- 2. Ngành hàng
 CREATE TABLE tblCategories (
@@ -44,9 +32,6 @@ CREATE TABLE tblCategories (
     categoryName NVARCHAR(100),
     description NVARCHAR(255)
 );
-
-ALTER TABLE tblCategories
-ADD imgUrl TEXT;
 
 INSERT INTO tblCategories (categoryName, description) 
 VALUES 
@@ -60,18 +45,6 @@ VALUES
 (N'Đồ chơi', N'Đồ chơi trẻ em và người lớn'),
 (N'Thiết bị văn phòng', N'Máy in, giấy, bút và các vật dụng khác'),
 (N'Thiết bị nhà bếp', N'Đồ dùng nấu ăn và thiết bị nhà bếp');
-
-UPDATE tblCategories SET imgUrl = 'images/dienthoai.jpg' WHERE categoryID = 1;
-UPDATE tblCategories SET imgUrl = 'images/maytinh.jpg' WHERE categoryID = 2;
-UPDATE tblCategories SET imgUrl = 'images/thoitrang.jpg' WHERE categoryID = 3;
-UPDATE tblCategories SET imgUrl = 'images/dogiadung.jpg' WHERE categoryID = 4;
-UPDATE tblCategories SET imgUrl = 'images/sach.jpg' WHERE categoryID = 5;
-UPDATE tblCategories SET imgUrl = 'images/thethao.jpg' WHERE categoryID = 6;
-UPDATE tblCategories SET imgUrl = 'images/mypham.jpg' WHERE categoryID = 7;
-UPDATE tblCategories SET imgUrl = 'images/dochoi.jpg' WHERE categoryID = 8;
-UPDATE tblCategories SET imgUrl = 'images/thietbivanphong.jpg' WHERE categoryID = 9;
-UPDATE tblCategories SET imgUrl = 'images/thietbinhaBep.png' WHERE categoryID = 10;
-
 
 -- 3. Sản phẩm
 CREATE TABLE tblProducts (
@@ -100,28 +73,107 @@ VALUES
 (N'Sách Cây Cam Ngọt', 5, 130000, 50, 'images/sachcaycamngot.jpg', 'user001', 'active', N'Sách....');
 
 
---mot so co the them-co anh roi 
+--mot so co the them-chua co anh 
 INSERT INTO tblProducts (name, categoryID, price, quantity, imgUrl, sellerID, status, description)
 VALUES
 (N'Dell Inspiron 15', 2, 18000000, 10, 'images/dellinspiron.jpg', 'user002', 'active', N'Laptop Dell hiệu năng cao, thiết kế hiện đại, phù hợp học tập và làm việc.'),
 (N'Áo thun nam', 3, 150000, 50, 'images/aothunnam.jpg', 'user002', 'active', N'Áo thun nam cotton, thoáng mát, phù hợp mặc hằng ngày.'),
-(N'Nồi cơm điện Sharp', 4, 900000, 15, 'images/noicomsharp.jpg', 'user005', 'active', N'Nồi cơm điện thương hiệu Sharp, dung tích 1.8L, nấu cơm nhanh và ngon.'),
-(N'Sách Đắc Nhân Tâm', 5, 89000, 100, 'images/dacnhantam.jpg', 'user005', 'active', N'Tác phẩm kinh điển về nghệ thuật giao tiếp và đối nhân xử thế.'),
-(N'Bóng đá Động Lực', 6, 250000, 30, 'images/bongdaluc.jpg', 'user005', 'active', N'Bóng đá thương hiệu Động Lực, chuẩn thi đấu, độ bền cao.'),
-(N'Son môi 3CE đỏ cam', 7, 320000, 60, 'images/son3ce.jpg', 'user005', 'active', N'Son môi 3CE màu đỏ cam, lên màu chuẩn, giữ màu lâu, thiết kế thời trang.'),
-(N'Bút bi Thiên Long', 9, 5000, 200, 'images/butthienlong.jpg', 'user005', 'active', N'Bút bi Thiên Long nét mảnh, mực ra đều, dùng trong học tập và văn phòng.'),
-(N'Nồi chiên không dầu Lock&Lock', 10, 2500000, 10, 'images/noichienlock.jpg', 'user005', 'active', N'Nồi chiên không dầu Lock&Lock, dung tích lớn, giúp món ăn giòn ngon mà không cần dầu.');
+(N'Nồi cơm điện Sharp', 4, 900000, 15, 'images/noicomsharp.jpg', 'user003', 'active', N'Nồi cơm điện thương hiệu Sharp, dung tích 1.8L, nấu cơm nhanh và ngon.'),
+(N'Sách Đắc Nhân Tâm', 5, 89000, 100, 'images/dacnhantam.jpg', 'user002', 'active', N'Tác phẩm kinh điển về nghệ thuật giao tiếp và đối nhân xử thế.'),
+(N'Bóng đá Động Lực', 6, 250000, 30, 'images/bongdaluc.jpg', 'user003', 'active', N'Bóng đá thương hiệu Động Lực, chuẩn thi đấu, độ bền cao.'),
+(N'Son môi 3CE đỏ cam', 7, 320000, 60, 'images/son3ce.jpg', 'user003', 'active', N'Son môi 3CE màu đỏ cam, lên màu chuẩn, giữ màu lâu, thiết kế thời trang.'),
+(N'Bút bi Thiên Long', 9, 5000, 200, 'images/butthienlong.jpg', 'user003', 'active', N'Bút bi Thiên Long nét mảnh, mực ra đều, dùng trong học tập và văn phòng.'),
+(N'Nồi chiên không dầu Lock&Lock', 10, 2500000, 10, 'images/noichienlock.jpg', 'user003', 'active', N'Nồi chiên không dầu Lock&Lock, dung tích lớn, giúp món ăn giòn ngon mà không cần dầu.');
 
 
 -- 4. Chương trình khuyến mãi
 CREATE TABLE tblPromotions (
     promoID INT IDENTITY PRIMARY KEY,
     name NVARCHAR(100),
-    discountPercent FLOAT,
+    discountPercent FLOAT CHECK (discountPercent >= 0 AND discountPercent <= 100),
     startDate DATE,
     endDate DATE,
-    status VARCHAR(20)
+    status VARCHAR(20) -- Ví dụ: 'active', 'inactive'
 );
+
+-- 🔸 Bảng liên kết khuyến mãi với sản phẩm
+CREATE TABLE tblPromotion_Product (
+    promoID INT,
+    productID INT,
+    PRIMARY KEY (promoID, productID),
+    FOREIGN KEY (promoID) REFERENCES tblPromotions(promoID) ON DELETE CASCADE,
+    FOREIGN KEY (productID) REFERENCES tblProducts(productID) ON DELETE CASCADE
+);
+
+
+
+
+-- Khuyến mãi điện thoại
+INSERT INTO tblPromotions (name, discountPercent, startDate, endDate, status)
+VALUES (N'Khuyến mãi điện thoại mùa hè', 10, '2025-06-25', '2025-07-31', 'active');
+
+-- Khuyến mãi laptop
+INSERT INTO tblPromotions (name, discountPercent, startDate, endDate, status)
+VALUES (N'Giảm giá laptop tháng 6', 15, '2025-06-28', '2025-07-25', 'active');
+
+-- Khuyến mãi sách hè
+INSERT INTO tblPromotions (name, discountPercent, startDate, endDate, status)
+VALUES (N'Mua sách hè giảm giá', 20, '2025-06-20', '2025-07-30', 'active');
+
+-- Khuyến mãi đồ gia dụng
+INSERT INTO tblPromotions (name, discountPercent, startDate, endDate, status)
+VALUES (N'Siêu khuyến mãi gia dụng', 12, '2025-06-26', '2025-07-31', 'active');
+
+--neu insert giu lieu theo thu tu thi id nhu nay
+-- Gán sản phẩm vào khuyến mãi điện thoại (promoID = 1)
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(1, 1), -- Iphone 12 promax
+(1, 2); -- Iphone 15 promax
+
+-- Gán sản phẩm vào khuyến mãi laptop (promoID = 2)
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(2, 4), -- Macbook Air M1
+(2, 6); -- Dell Inspiron 15
+
+-- Gán sản phẩm vào khuyến mãi sách (promoID = 3)
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(3, 5),  -- Sách Cây Cam Ngọt
+(3, 9);  -- Sách Đắc Nhân Tâm
+
+-- Gán sản phẩm vào khuyến mãi đồ gia dụng (promoID = 4)
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(4, 8),  -- Nồi cơm điện Sharp
+(4, 13); -- Nồi chiên không dầu Lock&Lock
+
+
+
+-- 🔸 promoID = 1: Khuyến mãi điện thoại
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(1, 3), -- Iphone 12 promax
+(1, 4); -- Iphone 15 promax
+
+-- 🔸 promoID = 2: Khuyến mãi laptop
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(2, 10), -- macbook air m1
+(2, 13); -- Dell Inspiron 15
+
+-- 🔸 promoID = 3: Khuyến mãi sách
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(3, 12), -- Sách Cây Cam Ngọt
+(3, 22); -- Sách Đắc Nhân Tâm
+
+-- 🔸 promoID = 4: Khuyến mãi đồ gia dụng
+INSERT INTO tblPromotion_Product (promoID, productID)
+VALUES 
+(4, 21), -- Nồi cơm điện Sharp
+(4, 26); -- Nồi chiên không dầu Lock&Lock
 
 -- 5. Giỏ hàng
 CREATE TABLE tblCarts (
@@ -150,6 +202,8 @@ CREATE TABLE tblInvoices (
     FOREIGN KEY (userID) REFERENCES tblUsers(userID)
 );
 
+('user002', 5000000, 'completed', '2025-06-20'),
+('user003', 7000000, 'completed', '2025-06-21');
 CREATE TABLE tblInvoiceDetails (
     invoiceID INT,
     productID INT,
@@ -169,6 +223,13 @@ CREATE TABLE tblDeliveries (
     status VARCHAR(50),
     FOREIGN KEY (invoiceID) REFERENCES tblInvoices(invoiceID)
 );
+(1, N'123 Nguyễn Huệ, Q1, TP.HCM', '2025-06-21', 'pending'),
+(2, N'456 Lê Lợi, Q1, TP.HCM', '2025-06-22', 'delivered');
+
+UPDATE tblDeliveries
+SET status = 'pending'
+WHERE status = 'delivered';
+
 
 -- 8. Trả hàng
 CREATE TABLE tblReturns (
@@ -190,33 +251,33 @@ CREATE TABLE tblCustomerCares (
     FOREIGN KEY (userID) REFERENCES tblUsers(userID)
 );
 
---bai ca nhan cua Tien
---10. 
-drop 
-CREATE TABLE tblFAQs (
-    faqID INT IDENTITY(1,1) PRIMARY KEY,
-    question NVARCHAR(MAX) NOT NULL,
-    answer NVARCHAR(MAX) NOT NULL,
-    status VARCHAR(10) NOT NULL DEFAULT 'active'
+
+CREATE TABLE tblNotifications (
+    notificationID INT IDENTITY(1,1) PRIMARY KEY,
+    userID VARCHAR(20) NOT NULL,
+    eventType NVARCHAR(100),
+    message NVARCHAR(255),
+    isRead BIT DEFAULT 0,
+    createdAt DATETIME DEFAULT GETDATE()
 );
+-- Thêm thông báo cho user002
+INSERT INTO tblNotifications (userID, eventType, message, isRead)
+VALUES 
+('user002', N'Delivery', N'Đơn hàng #5 của bạn đang được giao.', 0),
+('user002', N'Return', N'Yêu cầu trả hàng của bạn đã được duyệt.', 0),
+('user002', N'Order', N'Đơn hàng #6 đã được tạo thành công.', 1);
 
-INSERT INTO tblFAQs (question, answer, status) VALUES
-(N'Làm sao để đặt hàng trên trang web?', 
- N'Bạn chỉ cần chọn sản phẩm, nhấn "Thêm vào giỏ" và tiến hành thanh toán theo hướng dẫn.', 
- 'active'),
+-- Thêm thông báo cho user003
+INSERT INTO tblNotifications (userID, eventType, message, isRead)
+VALUES 
+('user003', N'Promotion', N'Khuyến mãi mới 20% cho đơn hàng trên 1 triệu.', 0),
+('user003', N'Order', N'Đơn hàng #7 đã bị hủy theo yêu cầu của bạn.', 1);
+-- Thêm thông báo cho Admin (user001)
+INSERT INTO tblNotifications (userID, eventType, message, isRead)
+VALUES 
+('user001', N'Order', N'Bạn vừa duyệt đơn hàng #8 của người dùng.', 0),
+('user001', N'Return', N'Yêu cầu trả hàng #3 vừa được gửi từ user002.', 0),
+('user001', N'System', N'Sao lưu dữ liệu hệ thống lúc 10:00 AM hoàn tất.', 1),
+('user001', N'CustomerCare', N'Bạn có 2 phản hồi chăm sóc khách hàng chưa đọc.', 0),
+('user001', N'Promotion', N'Bạn đã cập nhật khuyến mãi tháng 7 thành công.', 1);
 
-(N'Tôi có thể thanh toán bằng hình thức nào?', 
- N'Bạn có thể thanh toán qua ví điện tử, thẻ ngân hàng hoặc thanh toán khi nhận hàng (COD).', 
- 'active'),
-
-(N'Bao lâu thì tôi nhận được hàng?', 
- N'Thời gian giao hàng thường từ 2-5 ngày tùy khu vực. Bạn có thể theo dõi đơn hàng trong mục “Đơn hàng của tôi”.', 
- 'active'),
-
-(N'Tôi muốn hủy đơn hàng thì phải làm sao?', 
- N'Bạn có thể hủy đơn trong vòng 24h sau khi đặt hàng, nếu đơn chưa được vận chuyển.', 
- 'active'),
-
-(N'Tôi có thể đổi/trả hàng không?', 
- N'Có. Bạn có thể yêu cầu đổi/trả hàng trong vòng 7 ngày nếu sản phẩm bị lỗi hoặc không đúng mô tả.', 
- 'active');

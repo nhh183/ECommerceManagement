@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -72,9 +74,12 @@
             </div>
 
             <!-- Nút xem thêm -->
-            <div class="text-center mt-3">
-                <button class="btn btn-outline-warning fw-bold" id="showMoreBtn">Xem thêm</button>
-            </div>
+            <c:if test="${fn:length(faqList) > 6}">
+                <div class="text-center mt-3">
+                    <button class="btn btn-outline-warning fw-bold" id="showMoreBtn">Xem thêm</button>
+                </div>
+            </c:if>
+
 
 
 
