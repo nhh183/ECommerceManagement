@@ -191,4 +191,19 @@ public class UserDAO {
             return false;
         }
     }
+    public boolean checkUserExists(String userID) {
+    boolean exists = false;
+    String sql = "SELECT userID FROM tblUsers WHERE userID = ?";
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, userID);
+        try (ResultSet rs = ps.executeQuery()) {
+            exists = rs.next(); // nếu có dòng => tồn tại
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return exists;
+}
+
 }
