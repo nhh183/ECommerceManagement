@@ -191,4 +191,27 @@ public class UserDAO {
             return false;
         }
     }
+
+    public UserDTO checkUserIDAndPhone(String userID, String phone) throws Exception {
+        String sql = "SELECT fullName, roleID  FROM tblUsers WHERE userID = ? AND phone = ?";
+        try ( Connection conn = DBUtil.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, userID);
+            ps.setString(2, phone);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new UserDTO(userID, rs.getString("fullName"), rs.getString("roleID"), "", phone);
+            }
+        }
+        return null;
+    }
+
+    public boolean updatePassword(String userID, String newPassword) throws SQLException {
+        String sql = "UPDATE tblUsers SET password = ? WHERE userID = ?";
+        try ( Connection conn = DBUtil.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newPassword); // Có thể mã hoá bằng BCrypt nếu muốn
+            ps.setString(2, userID);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
 }

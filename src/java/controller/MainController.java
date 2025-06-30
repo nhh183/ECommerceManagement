@@ -66,8 +66,8 @@ public class MainController extends HttpServlet {
     //Cart Management
     public static final String ADD_TO_CART = "AddToCart";
     public static final String ADD_TO_CART_CONTROLLER = "AddToCartController";
-    public static final String BUY_NOW  = "BuyNow";
-    public static final String BUY_NOW_CONTROLLER  = "BuyNowController";
+    public static final String BUY_NOW = "BuyNow";
+    public static final String BUY_NOW_CONTROLLER = "BuyNowController";
     public static final String DELETE_FROM_CART = "DeleteFromCart";
     public static final String DELETE_FROM_CART_CONTROLLER = "DeleteFromCartController";
     public static final String UPDATE_CART = "UpdateCart";
@@ -75,7 +75,6 @@ public class MainController extends HttpServlet {
     public static final String VIEW_CART = "ViewCart";
     public static final String VIEW_CART_CONTROLLER = "ViewCartController";
 
-    
     // Customer Support
     public static final String CUSTOMER_SUPPORT = "CustomerSupport";
     public static final String CUSTOMER_SUPPORT_CONTROLLER = "CustomerCareController";
@@ -91,6 +90,16 @@ public class MainController extends HttpServlet {
     public static final String UPDATE_FAQ_CONTROLLER = "UpdateFAQController";
     public static final String DELETE_FAQ = "deleteFAQ";
     public static final String DELETE_FAQ_CONTROLLER = "DeleteFAQController";
+
+    //Brand
+    public static final String SEARCH_BRAND = "searchBrand";
+    public static final String SEARCH_BRAND_CONTROLLER = "SearchBrandController";
+    public static final String CREATE_BRAND = "createBrand";
+    public static final String CREATE_BRAND_CONTROLLER = "CreateBrand";
+    public static final String UPDATE_BRAND = "updateBrand";
+    public static final String UPDATE_BRAND_CONTROLLER = "UpdateBrandController";
+    public static final String DELETE_BRAND = "deleteBrandx ";
+    public static final String DELETE_BRAND_CONTROLLER = "DeleteBrandController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -155,7 +164,7 @@ public class MainController extends HttpServlet {
                     break;
                 //Cart
                 case ADD_TO_CART:
-                    url= ADD_TO_CART_CONTROLLER;
+                    url = ADD_TO_CART_CONTROLLER;
                     break;
                 case BUY_NOW:
                     url = BUY_NOW_CONTROLLER;
@@ -188,6 +197,19 @@ public class MainController extends HttpServlet {
                     break;
                 case DELETE_FAQ:
                     url = DELETE_FAQ_CONTROLLER;
+                    break;
+                //brand
+                case SEARCH_BRAND:
+                    url = SEARCH_BRAND_CONTROLLER;
+                    break;
+                case CREATE_BRAND:
+                    url = CREATE_BRAND_CONTROLLER;
+                    break;
+                case UPDATE_BRAND:
+                    url = UPDATE_BRAND_CONTROLLER;
+                    break;
+                case DELETE_BRAND:
+                    url = DELETE_BRAND_CONTROLLER;
                     break;
                 default:
                     System.out.println("Unknown action: " + action);
