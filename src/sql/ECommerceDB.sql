@@ -153,7 +153,7 @@ CREATE TABLE tblInvoices (
 CREATE TABLE tblInvoiceDetails (
     invoiceID INT,
     productID INT,
-    quantity INT,
+    quantity INT, 
     price FLOAT,
     PRIMARY KEY (invoiceID, productID),
     FOREIGN KEY (invoiceID) REFERENCES tblInvoices(invoiceID),

@@ -1,5 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
+    .footer-line {
+            background: linear-gradient(90deg, rgba(253, 29, 29, 1) 0%, rgba(252, 176, 69, 1) 100%);
+        }
     .feature-box {
         display: flex;
         justify-content: space-between;

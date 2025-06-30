@@ -97,9 +97,7 @@
             border-top: 1px solid #ccc;
             z-index: 1000;
         }
-        .footer-line {
-            background: linear-gradient(90deg, rgba(253, 29, 29, 1) 0%, rgba(252, 176, 69, 1) 100%);
-        }
+        
         .cus-check2 { left: -2px; }
     </style>
 </head>
