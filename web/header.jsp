@@ -305,7 +305,7 @@
                 <a href="notification.jsp" class="header-link">
                     <i class="fas fa-bell"></i> Thông báo
                 </a>
-                <a href="support.jsp" class="header-link">
+                <a href="MainController?action=searchFAQ&sourcePage=support" class="header-link">
                     <i class="fas fa-circle-question"></i> Hỗ trợ
                 </a>
 
