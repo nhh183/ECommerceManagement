@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body class="container-fluid px-0">
-        
+
         <%@include file="header.jsp" %>
 
 
@@ -71,63 +71,82 @@
             </div>
         </div>
 
+
         <div class="featured-section">
             <div class="container">
                 <h2>Flash Sale</h2>
                 <div class="product-grid">
                     <c:if test="${not empty promotedProducts}">
-                        <c:forEach var="product" items="${promotedProducts}" end="3">
-                            <div class="product-card">
-                                <img src="${product.imgUrl}" alt="${product.name}">
-                                <h3>${product.name}</h3>
-                                <p><s>$${product.price * 1.2}</s> $${product.price}</p>
-                                <form action="MainController" method="POST">
-                                    <input type="hidden" name="action" value="addToCart">
-                                    <input type="hidden" name="productID" value="${product.productID}">
-                                    <button type="submit">ADD TO CART</button>
-                                </form>
-                            </div>
+                        <c:forEach var="product" items="${promotedProducts}">
+                            <a href="MainController?action=viewProduct&id=${product.productID}" style="text-decoration: none;">
+                                <div class="product-card">
+                                    <img src="${product.imgUrl}" alt="${product.name}">
+                                    <h3>${product.name}</h3>
+
+                                    <c:if test="${product.promotion != null}">
+                                        <p>
+                                            <s><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true"/> ₫</s>
+                                            <strong class="text-danger">
+                                                <fmt:formatNumber value="${product.price * (1 - product.promotion.discountPercent / 100)}" type="number" groupingUsed="true"/> ₫
+                                            </strong>
+                                        </p>
+                                        <div class="discount-badge">-${product.promotion.discountPercent}%</div>
+                                    </c:if>
+                                </div>
+                            </a>
                         </c:forEach>
                     </c:if>
                 </div>
             </div>
         </div>
 
-        <div class="product-section">
-            <div class="container">
-                <h2>BEST SELLER</h2>
-                <div class="product-grid">
-                    <c:forEach var="product" items="${bestSellerProducts}" end="3">
-                        <div class="product-card">
-                            <img src="${product.imgUrl}" alt="${product.name}">
-                            <h3>${product.name}</h3>
-                            <p>$${product.price}</p>
-                            <form action="MainController" method="POST">
-                                <input type="hidden" name="action" value="addToCart">
-                                <input type="hidden" name="productID" value="${product.productID}">
-                                <button type="submit">ADD TO CART</button>
-                            </form>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
-        </div>
+
+
 
 
         <div class="product-section">
             <div class="container">
-                <h2>NEW ARRIVALS</h2>
+                <h2>Sản Phẩm</h2>
                 <div class="product-grid">
-                    <c:forEach var="product" items="${newArrivals}">
+                    <c:forEach var="product" items="${productList}">
                         <a href="MainController?action=viewProduct&id=${product.productID}">
-                            <div class="product-card">
+                            <div class="product-card position-relative">
+
+                                <!-- Badge Giảm giá -->
+                                <c:if test="${product.promotion != null}">
+                                    <div class="discount-badge">-${product.promotion.discountPercent}%</div>
+                                </c:if>
+
+                                <!-- Ảnh sản phẩm -->
                                 <img src="${product.imgUrl}" alt="${product.name}">
+
+                                <!-- Tên sản phẩm -->
                                 <h3>${product.name}</h3>
-                                <p><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</p>
+
+                                <!-- Hiển thị giá -->
+                                <c:choose>
+                                    <c:when test="${product.promotion != null}">
+                                        <p>
+                                            <s><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</s><br>
+                                            <strong class="text-danger fs-5">
+                                                <fmt:formatNumber value="${product.price * (1 - product.promotion.discountPercent / 100)}" type="number" groupingUsed="true" /> ₫
+                                            </strong>
+                                        </p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p>
+                                            <strong class="text-dark">
+                                                <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫
+                                            </strong>
+                                        </p>
+                                    </c:otherwise>
+                                </c:choose>
+
                             </div>
                         </a>
                     </c:forEach>
                 </div>
+
             </div>
         </div>
 

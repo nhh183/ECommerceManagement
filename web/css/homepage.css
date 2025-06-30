@@ -99,7 +99,7 @@ body {
     border-radius: 8px;
     transition: transform 0.3s ease;
     border: 1px solid #FFE4CC;
-
+    position: relative;
 }
 
 .product-card:hover {
@@ -119,12 +119,21 @@ body {
     margin: 10px 0 5px;
 }
 
-.product-card p {
-    font-size: 16px;
-    color: #FF6B00;
-    font-weight: bold;
+/* ===== Giá ===== */
+.product-card .old-price {
+    text-decoration: line-through;
+    font-size: 14px;
+    color: #999;
+    display: block;
 }
 
+.product-card .sale-price {
+    color: #FF6B00;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* ===== Nút ===== */
 .product-card button {
     margin-top: 10px;
     padding: 8px 12px;
@@ -137,10 +146,46 @@ body {
     transition: all 0.3s ease;
 }
 
+.product-card a {
+    text-decoration: none;       
+    color: inherit;              
+    display: block;              
+    height: 100%;               
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+.product-grid a {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+
+
 .product-card button:hover {
     background-color: #E55D00;
     transform: scale(1.05);
 }
+
+/* ===== Badge giảm giá ===== */
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+
 
 
 /* === MESSAGES === */

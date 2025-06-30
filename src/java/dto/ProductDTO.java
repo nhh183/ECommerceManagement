@@ -18,6 +18,9 @@ public class ProductDTO {
     private String status;
     private String imgUrl;
     private String description;
+    
+    private PromotionDTO promotion;
+
 
     public ProductDTO() {
     }
@@ -44,6 +47,15 @@ public class ProductDTO {
         this.imgUrl = imgUrl;
         this.description = description;
     }
+
+    public ProductDTO(int productID, String name, double price, String imgUrl, PromotionDTO promotion) {
+        this.productID = productID;
+        this.name = name;
+        this.price = price;
+        this.imgUrl = imgUrl;
+        this.promotion = promotion;
+    }
+    
     
 
     public int getProductID() {
@@ -116,6 +128,14 @@ public class ProductDTO {
 
     public void setDescription(String desciption) {
         this.description = desciption;
+    }
+
+    public PromotionDTO getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(PromotionDTO promotion) {
+        this.promotion = promotion;
     }
 
     

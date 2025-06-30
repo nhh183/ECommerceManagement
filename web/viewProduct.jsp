@@ -35,9 +35,13 @@
         <!-- Product Section -->
         <div class="container my-5">
             <div class="row product-container">
-                <div class="col-md-4 product-image">
+                <div class="col-md-4 product-image position-relative">
                     <img src="${product.imgUrl}" alt="${product.name}">
+                    <c:if test="${not empty promotion}">
+                        <div class="discount-badge">-${promotion.discountPercent}%</div>
+                    </c:if>
                 </div>
+
                 <div class="col-md-6">
                     <div class="product-details">
                         <div class="product-name">${product.name}</div>
@@ -47,13 +51,28 @@
                         </div>
                     </div>
                     <div class="price-container">
-                        <span class="product-price">
-                            <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫
-                        </span>
-                        <span class="product-sale-price">
-                            <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫
-                        </span>
+                        <c:choose>
+                            <c:when test="${not empty promotion}">
+                                <div class="price-container">
+                                    <span class="product-price">
+                                        <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫
+                                    </span>
+                                    <span class="product-sale-price">
+                                        <fmt:formatNumber value="${product.price * (1 - promotion.discountPercent / 100)}" type="number" groupingUsed="true" /> ₫
+                                    </span>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="price-container">
+                                    <span class="product-sale-price">
+                                        <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫
+                                    </span>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+
                     </div>
+
 
                     <div class="product-quantity">Số lượng còn: <strong>${product.quantity}</strong></div>
 
