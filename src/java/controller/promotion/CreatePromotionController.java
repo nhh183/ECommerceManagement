@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.FAQ;
 
-import dao.FAQDAO;
-import dto.FAQDTO;
+package controller.promotion;
+
+import dao.PromotionDAO;
+import dto.PromotionDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,75 +16,64 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "SearchFAQController", urlPatterns = {"/SearchFAQController"})
-public class SearchFAQController extends HttpServlet {
-
+@WebServlet(name="CreatePromotionController", urlPatterns={"/CreatePromotionController"})
+public class CreatePromotionController extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        UserDTO loginUser = (UserDTO) request.getSession().getAttribute("login");
+        HttpSession session = request.getSession();
+        UserDTO loginUser = (UserDTO) session.getAttribute("login");
         if (loginUser == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
         try {
-            String sourcePage = request.getParameter("sourcePage");
-            String keyword = request.getParameter("keyword");
+            String name = request.getParameter("name");
+            double discount = Double.parseDouble(request.getParameter("discount"));
+            String startStr = request.getParameter("startDate");
+            String endStr = request.getParameter("endDate");
             String status = request.getParameter("status");
 
-            if (sourcePage != null && sourcePage.trim().equals("support")) {
-                status = "active"; // ép buộc status là active nếu đến từ support
-            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = sdf.parse(startStr);
+            Date endDate = sdf.parse(endStr);
 
-            if (keyword != null) {
-                keyword = keyword.trim();
-            }
-            if (status != null) {
-                status = status.trim();
-            }
+            PromotionDTO dto = new PromotionDTO(0, name, discount, startDate, endDate, status);
+            PromotionDAO dao = new PromotionDAO();
 
-            FAQDAO dao = new FAQDAO();
-            List<FAQDTO> list = dao.searchFAQ(keyword, status);
-            request.setAttribute("faqList", list);
-
-            // Lấy MSG, ERROR
-            HttpSession session = request.getSession();
-            String msg = (String) session.getAttribute("MSG");
-            String error = (String) session.getAttribute("ERROR");
-            if (msg != null) {
-                request.setAttribute("MSG", msg);
-                session.removeAttribute("MSG");
-            }
-            if (error != null) {
-                request.setAttribute("ERROR", error);
-                session.removeAttribute("ERROR");
-            }
-
-            if ("faqList".equals(sourcePage)) {
-                request.getRequestDispatcher("faqList.jsp").forward(request, response);
-            } else if ("support".equals(sourcePage)) {
-                request.getRequestDispatcher("support.jsp").forward(request, response);
+            if (dao.createPromotion(dto)) {
+                session.setAttribute("MSG", "Tạo khuyến mãi thành công!");
             } else {
-                request.getRequestDispatcher("faqList.jsp").forward(request, response);
+                session.setAttribute("ERROR", "Không thể tạo khuyến mãi.");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("faqList.jsp");
+            session.setAttribute("ERROR", "Lỗi khi tạo khuyến mãi.");
+            response.sendRedirect("SearchPromotionController");
         }
+        response.sendRedirect("SearchPromotionController");
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -91,13 +81,12 @@ public class SearchFAQController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
-    }
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -105,13 +94,12 @@ public class SearchFAQController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

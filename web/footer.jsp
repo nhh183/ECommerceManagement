@@ -1,10 +1,11 @@
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
     .feature-box {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        background-color: #FFF5E6;
+        background-color: #FFF5E6 !important;
         text-align: center;
     }
 
@@ -18,11 +19,23 @@
         font-size: 14px;
         line-height: 1.4;
     }
+    .footer a {
+        color: #E55D00; /* màu cam nhẹ */
+        text-decoration: none;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+        font-weight: 500;
+    }
+
+    .footer a:hover {
+        color: #CC4400; /* cam đậm hơn khi hover */
+        text-decoration: underline;
+    }
+
 </style>
 
 <div class="footer mt-5 pt-4 pb-4 text-muted">
-        <div class="footer-line py-1"></div>
-        <div class="feature-box pt-5 pb-5 mb-4">
+    <div class="footer-line py-1"></div>
+    <div class="feature-box pt-5 pb-5 mb-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 feature">
@@ -39,43 +52,43 @@
                 </div>
             </div>
         </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h6>Về Shoppy</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Giới thiệu</a></li>
-                        <li><a href="#">Tuyển dụng</a></li>
-                        <li><a href="#">Điều khoản sử dụng</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Chính sách</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Chính sách bảo mật</a></li>
-                        <li><a href="#">Chính sách đổi trả</a></li>
-                        <li><a href="#">Chính sách giao hàng</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Hỗ trợ khách hàng</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Trung tâm trợ giúp</a></li>
-                        <li><a href="#">Liên hệ hỗ trợ</a></li>
-                        <li><a href="#">Hướng dẫn mua hàng</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Liên hệ</h6>
-                    <ul class="list-unstyled">
-                        <li>Email: support@shoppy.vn</li>
-                        <li>Hotline: 1900 9999</li>
-                        <li>Địa chỉ: TP.HCM</li>
-                    </ul>
-                </div>
-            </div>
-            <hr>
-            <div class="text-center small">© 2025 Shoppy. All rights reserved.</div>
-        </div>
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h6>Về Shoppy</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Tuyển dụng</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h6>Chính sách</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách giao hàng</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h6>Hỗ trợ khách hàng</h6>
+                <ul class="list-unstyled">
+                    <li><a href="#">Trung tâm trợ giúp</a></li>
+                    <li><a href="#">Liên hệ hỗ trợ</a></li>
+                    <li><a href="#">Hướng dẫn mua hàng</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h6>Liên hệ</h6>
+                <ul class="list-unstyled">
+                    <li>Email: support@shoppy.vn</li>
+                    <li>Hotline: 1900 9999</li>
+                    <li>Địa chỉ: TP.HCM</li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center small">© 2025 Shoppy. All rights reserved.</div>
+    </div>
+</div>

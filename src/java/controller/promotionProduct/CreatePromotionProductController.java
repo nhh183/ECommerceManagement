@@ -2,14 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.product;
+package controller.promotionProduct;
 
-import dao.CategoryDAO;
 import dao.ProductDAO;
 import dao.PromotionDAO;
-import dto.CategoryDTO;
-import dto.ProductDTO;
-import dto.PromotionDTO;
+import dao.PromotionProductDAO;
+import dto.PromotionProductDTO;
+import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,14 +16,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "ViewProductController", urlPatterns = {"/ViewProductController"})
-public class ViewProductController extends HttpServlet {
+@WebServlet(name = "CreatePromotionProductController", urlPatterns = {"/CreatePromotionProductController"})
+public class CreatePromotionProductController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,7 +37,33 @@ public class ViewProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        UserDTO loginUser = (UserDTO) session.getAttribute("login");
+        if (loginUser == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
+        try {
+            int promoID = Integer.parseInt(request.getParameter("promoID"));
+            int productID = Integer.parseInt(request.getParameter("productID"));
+
+            PromotionProductDTO dto = new PromotionProductDTO(promoID, productID);
+            PromotionProductDAO dao = new PromotionProductDAO();
+            boolean success = dao.createPromotionProduct(dto);
+
+            if (success) {
+                session.setAttribute("MSG", "Thêm sản phẩm vào khuyến mãi thành công!");
+            } else {
+                session.setAttribute("ERROR", "Thêm thất bại!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("ERROR", "Lỗi khi thêm!");
+        }
+
+        response.sendRedirect("MainController?action=searchPromotionProduct");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -53,33 +78,23 @@ public class ViewProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        UserDTO loginUser = (UserDTO) session.getAttribute("login");
+        if (loginUser == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
         try {
-            String productIDRaw = request.getParameter("id");
-            if (productIDRaw != null && !productIDRaw.isEmpty()) {
-                int productID = Integer.parseInt(productIDRaw);
-                ProductDAO proDAO = new ProductDAO();
-                CategoryDAO catDAO = new CategoryDAO();
-                ProductDTO product = proDAO.getProductByID(productID);
-                List<CategoryDTO> categoryList = catDAO.getCategoryList();
+            ProductDAO productDAO = new ProductDAO();
+            PromotionDAO promotionDAO = new PromotionDAO();
 
-                PromotionDAO promoDAO = new PromotionDAO();
-                PromotionDTO promo = promoDAO.getPromotionByProductID(productID);
-                request.setAttribute("promotion", promo);
-                
-                if (product != null) {
-                    request.setAttribute("categoryList", categoryList);
-                    request.setAttribute("product", product);
-                    request.getRequestDispatcher("viewProduct.jsp").forward(request, response);
-                } else {
-                    request.setAttribute("ERROR", "Gặp lỗi sản phẩm!");
-                    request.getRequestDispatcher("HomePageController").forward(request, response);
-                }
-            } else {
-                response.sendRedirect("HomePageController");
-            }
+            request.setAttribute("productList", productDAO.getProductList()); // lấy danh sách sản phẩm
+            request.setAttribute("promoList", promotionDAO.getAllPromotions()); // lấy danh sách khuyến mãi
+
+            request.getRequestDispatcher("createPromotionProduct.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("HomePageController");
+            response.sendRedirect("SearchPromotionProductController");
         }
 
     }

@@ -23,10 +23,16 @@
     <head>
         <meta charset="UTF-8">
         <title>Thông báo của bạn</title>
+
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/header.css">
         <link rel="stylesheet" href="css/footer.css">
+        <link rel="stylesheet" href="css/delivery.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
+            .filter-form select {
+                min-width: 200px;
+            }
             .btn-orange {
                 background-color: #ff5d00;
                 color: white;
@@ -34,9 +40,6 @@
             .btn-gray {
                 background-color: #ccc;
                 color: #333;
-            }
-            .fw-bold {
-                font-weight: bold;
             }
         </style>
     </head>
