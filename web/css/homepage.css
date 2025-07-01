@@ -142,14 +142,14 @@ body {
     transform: scale(1.05);
 }
 
-/* === FOOTER === */
+/* === FOOTER === 
 .footer {
     background-color: #FF6B00;
     color: #fff;
     padding: 20px 0;
     text-align: center;
     font-weight: bold;
-}
+}*/
 
 /* === MESSAGES === */
 p[style*="color:"] {
