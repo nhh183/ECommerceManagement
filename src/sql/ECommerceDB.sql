@@ -295,3 +295,23 @@ VALUES
 ('user001', N'CustomerCare', N'Bạn có 2 phản hồi chăm sóc khách hàng chưa đọc.', 0),
 ('user001', N'Promotion', N'Bạn đã cập nhật khuyến mãi tháng 7 thành công.', 1);
 
+
+CREATE TABLE tblBrands (
+    brandID VARCHAR(20) PRIMARY KEY, -- brandID là VARCHAR
+    brandName VARCHAR(50) NOT NULL,
+    description NVARCHAR(MAX), -- NVARCHAR(MAX) thay cho TEXT trong SQL Server
+    status VARCHAR(10) DEFAULT 'active' CHECK (status IN ('active', 'inactive'))
+);
+
+INSERT INTO tblBrands (brandID, brandName, description, status) VALUES
+('Brand001', 'Apple', N'Công ty công nghệ đa quốc gia của Mỹ, nổi tiếng với các sản phẩm điện tử tiêu dùng, phần mềm và dịch vụ trực tuyến.', 'active');
+
+INSERT INTO tblBrands (brandID, brandName, description, status) VALUES
+('Brand002', 'Lenovo', N'Tập đoàn công nghệ đa quốc gia của Trung Quốc, chuyên về thiết kế, phát triển, sản xuất và bán các sản phẩm điện tử như máy tính, điện thoại, v.v.', 'active');
+
+INSERT INTO tblBrands (brandID, brandName, description, status) VALUES
+('Brand003', 'Nike', N'Tập đoàn đa quốc gia của Mỹ chuyên thiết kế, phát triển, sản xuất và tiếp thị giày dép, quần áo, thiết bị, phụ kiện và dịch vụ.', 'active');
+
+
+
+

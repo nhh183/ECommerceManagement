@@ -97,9 +97,11 @@ public class MainController extends HttpServlet {
     public static final String UPDATE_CART_CONTROLLER = "UpdateCartController";
     public static final String VIEW_CART = "ViewCart";
     public static final String VIEW_CART_CONTROLLER = "ViewCartController";
+
     public static final String CHECK_OUT = "CheckOut";
     public static final String CHECK_OUT_CONTROLLER = "CheckOutController";     
     
+
     // Customer Support
     public static final String CUSTOMER_SUPPORT = "CustomerSupport";
     public static final String CUSTOMER_SUPPORT_CONTROLLER = "CustomerCareController";
@@ -116,6 +118,17 @@ public class MainController extends HttpServlet {
     public static final String DELETE_FAQ = "deleteFAQ";
     public static final String DELETE_FAQ_CONTROLLER = "DeleteFAQController";
 
+
+    //Brand
+    public static final String SEARCH_BRAND = "searchBrand";
+    public static final String SEARCH_BRAND_CONTROLLER = "SearchBrandController";
+    public static final String CREATE_BRAND = "createBrand";
+    public static final String CREATE_BRAND_CONTROLLER = "CreateBrand";
+    public static final String UPDATE_BRAND = "updateBrand";
+    public static final String UPDATE_BRAND_CONTROLLER = "UpdateBrandController";
+    public static final String DELETE_BRAND = "deleteBrandx ";
+    public static final String DELETE_BRAND_CONTROLLER = "DeleteBrandController";
+
     // Delivery Management
     public static final String SEARCH_DELIVERY = "searchDelivery";
     public static final String SEARCH_DELIVERY_CONTROLLER = "SearchDeliveryController";
@@ -130,6 +143,7 @@ public class MainController extends HttpServlet {
     public static final String DELETE_NOTIFICATION_CONTROLLER = "DeleteNotificationController";
     public static final String NOTIFICATION_LIST = "notificationList";
     public static final String NOTIFICATION_LIST_CONTROLLER = "NotificationListController";
+
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -261,6 +275,21 @@ public class MainController extends HttpServlet {
                 case DELETE_FAQ:
                     url = DELETE_FAQ_CONTROLLER;
                     break;
+
+                //brand
+                case SEARCH_BRAND:
+                    url = SEARCH_BRAND_CONTROLLER;
+                    break;
+                case CREATE_BRAND:
+                    url = CREATE_BRAND_CONTROLLER;
+                    break;
+                case UPDATE_BRAND:
+                    url = UPDATE_BRAND_CONTROLLER;
+                    break;
+                case DELETE_BRAND:
+                    url = DELETE_BRAND_CONTROLLER;
+                    break;
+
                 // Delivery
                 case SEARCH_DELIVERY:
                     url = SEARCH_DELIVERY_CONTROLLER;
@@ -294,6 +323,7 @@ case "listReturns":
 case "updateReturnStatus":
     url = "UpdateReturnStatusController";
     break;
+
 
                 default:
                     System.out.println("Unknown action: " + action);

@@ -6,10 +6,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Shoppyy | Trang Chủ</title>
-
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/homepage.css">
-        <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body class="container-fluid px-0">
@@ -101,9 +99,7 @@
         </div>
 
 
-
-
-
+  
         <div class="product-section">
             <div class="container">
                 <h2>Sản Phẩm</h2>
@@ -148,22 +144,12 @@
                 </div>
 
             </div>
-        </div>
-
-        <c:if test="${sessionScope.login.roleID != 'AD' && sessionScope.login.roleID != 'CS'}">
-            <div class="container">
-                <h3>Customer Support</h3>
-                <p><a href="submitFeedback.jsp">Submit Feedback</a></p>
-                <p><a href="listFeedback.jsp">View My Feedback</a></p>
-            </div>
-        </c:if>
+      </div>
 
 
-        <c:if test="${not empty requestScope.MSG}">
-            <p style="color: ${requestScope.MSG.contains('successfully') ? 'green' : 'red'}">${requestScope.MSG}</p>
-        </c:if>
+   
         <%@include file="footer.jsp" %>
-        <!-- Bootstrap 5 JavaScript via CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
     </body>
 </html>
+
