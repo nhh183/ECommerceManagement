@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="dto.UserDTO" %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
     /* === HEADER === */
 .header {
@@ -203,35 +204,22 @@
     margin-right: 15px;
     font-weight: bold;
 }
-.cart-icon {
+.cart-container {
     position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    background-color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: #E55D00;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: scale(1.1);
 }
 
-.cart-icon:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+.icon-cart:hover {
+    transform: scale(1.4);
 }
 
 .cart-count {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: #ff3333;
-    color: white;
-    border-radius: 50%;
+    top: -8px;
+    right:95px;
+    background-color: #fff;
+    color: orangered;
+    border-radius: 40%;
     width: 22px;
     height: 22px;
     font-size: 13px;
@@ -246,28 +234,88 @@
     background-color: #FD1D1D;
 }
 
-/* === LOGO === */
-.logo-link {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    text-decoration: none !important;  /* Xoá gạch chân */
-    color: white !important;           /* Giữ màu trắng */
-    font-weight: bold;
-    font-size: 28px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+.icon-cart {
+  color: #fff;
+  stroke: currentColor;
+  fill: currentColor;
+  width: 24px;
+  height: 24px;
+}
+.popover-container {
+  position: relative;
+  display: inline-block;
 }
 
-.logo-link:hover {
-    text-decoration: none !important;
-    color: white !important;
+.lang-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
 }
 
-.logo-img {
-    width: 45px;
-    height: 45px;
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
+.popover-box {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 4px;
+  padding: 8px 0;
+  display: none;
+  z-index: 999;
+  width: 150px;
 }
+
+.popover-container:hover .popover-box {
+  display: block;
+}
+
+/* Mũi tên nhọn */
+.popover-arrow {
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  transform: translate(-7px, -100%);
+  width: 0;
+  height: 0;
+  border-bottom: 10px solid rgba(0, 0, 0, 0.09);
+  border-left: 0 solid transparent;
+  border-right: 0 solid transparent;
+}
+
+.arrow-inner {
+  position: absolute;
+  bottom: -10px;
+  border-bottom: 10px solid white;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+}
+
+/* Button chọn ngôn ngữ */
+.lang-option {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  color: black;
+}
+
+.lang-option:hover {
+  background-color: #f5f5f5;
+}
+
+.lang-option.active {
+  color: #f53d2d;
+  font-weight: bold;
+}
+
 
 </style>
 <div class="header sticky-top">
@@ -308,6 +356,32 @@
                 <a href="MainController?action=searchFAQ&sourcePage=support" class="header-link">
                     <i class="fas fa-circle-question"></i> Hỗ trợ
                 </a>
+                <div class="popover-container">
+                    <div class="popover-target">
+                        <div class="lang-button">
+                            <!-- Icon địa cầu -->
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                              <path d="M8 14.667C11.682 14.667 14.667 11.682 14.667 8S11.682 1.333 8 1.333 1.333 4.318 1.333 8 4.318 14.667 8 14.667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M5.333 8c0 3.682 1.194 6.667 2.667 6.667s2.667-2.985 2.667-6.667-1.194-6.667-2.667-6.667S5.333 4.318 5.333 8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                              <path d="M1.333 8h13.334" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span>Tiếng Việt</span>
+                            <!-- Mũi tên xuống -->
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                              <path d="M6 8.146L11.146 3l.707.707-5.146 5.147a1 1 0 01-1.414 0L.146 3.707.854 3 6 8.146z"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Popover hiển thị khi hover -->
+                    <div class="popover-box">
+                      <div class="popover-arrow">
+                        <div class="arrow-inner"></div>
+                      </div>
+                      <button class="lang-option active">Tiếng Việt</button>
+                      <button class="lang-option">English</button>
+                    </div>
+              </div>
 
                 <!-- Dropdown User -->
                 <div class="user-dropdown">
@@ -324,14 +398,13 @@
         </div>
     </div>
 
-    <div class="header-bottom p-3">
+    <div class="header-bottom p-3 mt-1">
         <div class="container inner-header-bottom row">
             <!-- Logo với hình giỏ hàng -->
             <div class="col-md-3">
                 <div class="logo">
                     <a href="MainController?action=homePage" class="logo-link">
-                        <img src="images/shop.jpg" alt="Cart Logo" class="logo-img">
-                        <span class="logo-text">Shoppy</span>
+                        <img src="images/logo_white.svg" alt="Shop Logo" class="svg w-75">
                     </a>
                 </div>
 
@@ -351,13 +424,18 @@
             <!-- User Actions -->
             <div class="col-md-3 text-right">
                 <c:if test="${not empty sessionScope.login}">
-                    <a href="MainController?action=ViewCart" class="cart-icon">
-                        <i class="fa fa-shopping-cart"></i>
+                    <a href="MainController?action=ViewCart" class="d-flex justify-content-center cart-container ">
+                        <svg viewBox="0 0 26.6 25.6" width="32" height="32" fill="currentColor" stroke="currentColor" class="icon-cart">
+                            <title>Shopping Cart</title>
+                            <polyline fill="none" points="2 1.7 5.5 1.7 9.6 18.3 21.2 18.3 24.6 6.1 7 6.1" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2.5"/>
+                            <circle cx="10.7" cy="23" r="2.2" stroke="none"/>
+                            <circle cx="19.7" cy="23" r="2.2" stroke="none"/>
+                        </svg>
                         <c:if test="${not empty sessionScope.cartId}">
-                            <span class="cart-count">${sessionScope.cartSize}</span>
+                            <span class="cart-count ">${sessionScope.cartSize}</span>
                         </c:if>
                         <c:if test="${empty sessionScope.cartId}">
-                            <span class="cart-count">0</span>
+                            <span class="cart-count ">0</span>
                         </c:if>
                     </a>
 
