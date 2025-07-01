@@ -32,17 +32,28 @@ public class SearchFAQController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+
         try {
-            String sourcePage=request.getParameter("sourcePage");
+            String sourcePage = request.getParameter("sourcePage");
             String keyword = request.getParameter("keyword");
             String status = request.getParameter("status");
 
+            if (sourcePage != null && sourcePage.trim().equals("support")) {
+                status = "active"; // ép buộc status là active nếu đến từ support
+            }
+
+            if (keyword != null) {
+                keyword = keyword.trim();
+            }
+            if (status != null) {
+                status = status.trim();
+            }
+
             FAQDAO dao = new FAQDAO();
             List<FAQDTO> list = dao.searchFAQ(keyword, status);
-                        
             request.setAttribute("faqList", list);
-            
-             //lay MSG,ERROR
+
+            // Lấy MSG, ERROR
             HttpSession session = request.getSession();
             String msg = (String) session.getAttribute("MSG");
             String error = (String) session.getAttribute("ERROR");
@@ -54,20 +65,19 @@ public class SearchFAQController extends HttpServlet {
                 request.setAttribute("ERROR", error);
                 session.removeAttribute("ERROR");
             }
-            
-            if(sourcePage.equals("faqList")){
+
+            if ("faqList".equals(sourcePage)) {
                 request.getRequestDispatcher("faqList.jsp").forward(request, response);
-            }else if(sourcePage.equals("support")){
+            } else if ("support".equals(sourcePage)) {
                 request.getRequestDispatcher("support.jsp").forward(request, response);
-            }else{
+            } else {
                 request.getRequestDispatcher("faqList.jsp").forward(request, response);
             }
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("faqList.jsp");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

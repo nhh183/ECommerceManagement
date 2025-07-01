@@ -4,6 +4,8 @@
  */
 package controller;
 
+import dao.UserDAO;
+import dto.UserDTO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -11,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
@@ -53,6 +56,26 @@ public class MainController extends HttpServlet {
     public static final String PRODUCT_LIST = "productList";
     public static final String PRODUCT_LIST_CONTROLLER = "ProductListController";
 
+    //Promotion
+    public static final String SEARCH_PROMOTION = "searchPromotion";
+    public static final String SEARCH_PROMOTION_CONTROLLER = "SearchPromotionController";
+    public static final String CREATE_PROMOTION = "createPromotion";
+    public static final String CREATE_PROMOTION_CONTROLLER = "CreatePromotionController";
+    public static final String UPDATE_PROMOTION = "updatePromotion";
+    public static final String UPDATE_PROMOTION_CONTROLLER = "UpdatePromotionController";
+    public static final String DELETE_PROMOTION = "deletePromotion";
+    public static final String DELETE_PROMOTION_CONTROLLER = "DeletePromotionController";
+
+    //PromotionProduct
+    public static final String SEARCH_PROMOTION_PRODUCT = "searchPromotionProduct";
+    public static final String SEARCH_PROMOTION_PRODUCT_CONTROLLER = "SearchPromotionProductController";
+    public static final String CREATE_PROMOTION_PRODUCT = "createPromotionProduct";
+    public static final String CREATE_PROMOTION_PRODUCT_CONTROLLER = "CreatePromotionProductController";
+    public static final String UPDATE_PROMOTION_PRODUCT = "updatePromotionProduct";
+    public static final String UPDATE_PROMOTION_PRODUCT_CONTROLLER = "UpdatePromotionProductController";
+    public static final String DELETE_PROMOTION_PRODUCT = "deletePromotionProduct";
+    public static final String DELETE_PROMOTION_PRODUCT_CONTROLLER = "DeletePromotionProductController";
+
     // Category Management
     public static final String CREATE_CATEGORY = "createCategory";
     public static final String CREATE_CATEGORY_CONTROLLER = "CreateCategoryController";
@@ -75,6 +98,10 @@ public class MainController extends HttpServlet {
     public static final String VIEW_CART = "ViewCart";
     public static final String VIEW_CART_CONTROLLER = "ViewCartController";
 
+    public static final String CHECK_OUT = "CheckOut";
+    public static final String CHECK_OUT_CONTROLLER = "CheckOutController";     
+    
+
     // Customer Support
     public static final String CUSTOMER_SUPPORT = "CustomerSupport";
     public static final String CUSTOMER_SUPPORT_CONTROLLER = "CustomerCareController";
@@ -91,6 +118,7 @@ public class MainController extends HttpServlet {
     public static final String DELETE_FAQ = "deleteFAQ";
     public static final String DELETE_FAQ_CONTROLLER = "DeleteFAQController";
 
+
     //Brand
     public static final String SEARCH_BRAND = "searchBrand";
     public static final String SEARCH_BRAND_CONTROLLER = "SearchBrandController";
@@ -100,6 +128,22 @@ public class MainController extends HttpServlet {
     public static final String UPDATE_BRAND_CONTROLLER = "UpdateBrandController";
     public static final String DELETE_BRAND = "deleteBrandx ";
     public static final String DELETE_BRAND_CONTROLLER = "DeleteBrandController";
+
+    // Delivery Management
+    public static final String SEARCH_DELIVERY = "searchDelivery";
+    public static final String SEARCH_DELIVERY_CONTROLLER = "SearchDeliveryController";
+    public static final String UPDATE_DELIVERY_STATUS = "updateDeliveryStatus";
+    public static final String UPDATE_DELIVERY_STATUS_CONTROLLER = "UpdateDeliveryStatusController";
+
+    public static final String CREATE_NOTIFICATION = "createNotification";
+    public static final String CREATE_NOTIFICATION_CONTROLLER = "CreateNotificationController";
+    public static final String MARK_AS_READ = "markAsRead";
+    public static final String MARK_AS_READ_CONTROLLER = "MarkNotificationReadController";
+    public static final String DELETE_NOTIFICATION = "deleteNotification";
+    public static final String DELETE_NOTIFICATION_CONTROLLER = "DeleteNotificationController";
+    public static final String NOTIFICATION_LIST = "notificationList";
+    public static final String NOTIFICATION_LIST_CONTROLLER = "NotificationListController";
+
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -130,6 +174,7 @@ public class MainController extends HttpServlet {
                 case UPDATE_ROLEID:
                     url = UPDATE_ROLEID_CONTROLLER;
                     break;
+
                 // Product    
                 case CREATE_PRODUCT:
                     url = CREATE_PRODUCT_CONTROLLER;
@@ -149,6 +194,35 @@ public class MainController extends HttpServlet {
                 case PRODUCT_LIST:
                     url = PRODUCT_LIST_CONTROLLER;
                     break;
+
+                //Promotion
+                case CREATE_PROMOTION:
+                    url = CREATE_PROMOTION_CONTROLLER;
+                    break;
+                case UPDATE_PROMOTION:
+                    url = UPDATE_PROMOTION_CONTROLLER;
+                    break;
+                case DELETE_PROMOTION:
+                    url = DELETE_PROMOTION_CONTROLLER;
+                    break;
+                case SEARCH_PROMOTION:
+                    url = SEARCH_PROMOTION_CONTROLLER;
+                    break;
+
+                // PromotionProduct
+                case CREATE_PROMOTION_PRODUCT:
+                    url = CREATE_PROMOTION_PRODUCT_CONTROLLER;
+                    break;
+                case UPDATE_PROMOTION_PRODUCT:
+                    url = UPDATE_PROMOTION_PRODUCT_CONTROLLER;
+                    break;
+                case DELETE_PROMOTION_PRODUCT:
+                    url = DELETE_PROMOTION_PRODUCT_CONTROLLER;
+                    break;
+                case SEARCH_PROMOTION_PRODUCT:
+                    url = SEARCH_PROMOTION_PRODUCT_CONTROLLER;
+                    break;
+
                 // Category
                 case CREATE_CATEGORY:
                     url = CREATE_CATEGORY_CONTROLLER;
@@ -178,6 +252,9 @@ public class MainController extends HttpServlet {
                 case UPDATE_CART:
                     url = UPDATE_CART_CONTROLLER;
                     break;
+                case CHECK_OUT:
+                    url=CHECK_OUT_CONTROLLER;
+                    break;
                 // Customer Support
                 case CUSTOMER_SUPPORT:
                     url = CUSTOMER_SUPPORT_CONTROLLER;
@@ -198,6 +275,7 @@ public class MainController extends HttpServlet {
                 case DELETE_FAQ:
                     url = DELETE_FAQ_CONTROLLER;
                     break;
+
                 //brand
                 case SEARCH_BRAND:
                     url = SEARCH_BRAND_CONTROLLER;
@@ -211,6 +289,42 @@ public class MainController extends HttpServlet {
                 case DELETE_BRAND:
                     url = DELETE_BRAND_CONTROLLER;
                     break;
+
+                // Delivery
+                case SEARCH_DELIVERY:
+                    url = SEARCH_DELIVERY_CONTROLLER;
+                    break;
+                case UPDATE_DELIVERY_STATUS:
+                    url = UPDATE_DELIVERY_STATUS_CONTROLLER;
+
+                    break;
+
+                /* --- Notification (NEW) --- */
+                case CREATE_NOTIFICATION:
+                    url = CREATE_NOTIFICATION_CONTROLLER;
+                     break;
+
+                case MARK_AS_READ:
+                    url = MARK_AS_READ_CONTROLLER;
+                    break;
+                case DELETE_NOTIFICATION:
+                    url = DELETE_NOTIFICATION_CONTROLLER;
+                    break;
+                case NOTIFICATION_LIST:
+                    url = NOTIFICATION_LIST_CONTROLLER;
+                    break;
+                    
+                    case "createReturn":
+    url = "CreateReturnController";
+    break;
+case "listReturns":
+    url = "ReturnListController";
+    break;
+case "updateReturnStatus":
+    url = "UpdateReturnStatusController";
+    break;
+
+
                 default:
                     System.out.println("Unknown action: " + action);
                     url = "login.jsp"; // fallback

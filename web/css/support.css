@@ -24,6 +24,12 @@
     color: #E55D00;
     font-size: 24px;
     font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.header-logo:hover {
+    color: #CC4A00; /* màu hover cam đậm hơn chút */
+    text-decoration: none; /* bỏ gạch chân */
 }
 
 .logo-img {
@@ -38,12 +44,14 @@
     font-weight: 600;
     color: #E55D00;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .support-link:hover {
-    text-decoration: underline;
-    color: #D95400;
+    color: #CC4A00; /* màu hover gần với màu logo */
+    text-decoration: none; /* bỏ gạch chân */
 }
+
 
 /* === GẠCH DỌC NGĂN CÁCH === */
 .divider-line {

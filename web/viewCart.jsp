@@ -97,9 +97,7 @@
             border-top: 1px solid #ccc;
             z-index: 1000;
         }
-        .footer-line {
-            background: linear-gradient(90deg, rgba(253, 29, 29, 1) 0%, rgba(252, 176, 69, 1) 100%);
-        }
+        
         .cus-check2 { left: -2px; }
     </style>
 </head>
@@ -152,10 +150,11 @@
         <c:if test="${not empty cartItems}">
             <div class="container bg-white mt-2">
                 <c:forEach var="item" items="${cartItems}">
-                    <div class="row align-items-center py-3 border-bottom">
+                    <div class="row align-items-center py-3 border-bottom" id="product-${item.getProductID()}"
+                                    ${selectedId != null && selectedId.equals(String.valueOf(item.getProductID())) ? 'data-selected="true"' : ''}>
                         <div class="col-1 d-flex justify-content-center">
                             <label class="custom-checkbox">
-                                <input type="checkbox" class="cart-checkbox">
+                                <input type="checkbox" class="cart-checkbox" ${selectedId != null && selectedId.equals(String.valueOf(item.getProductID())) ? "checked" : ""}>
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -184,10 +183,10 @@
                         </div>
                         <div class="col-2 text-center text-danger">
                             ₫<span class="item-total" data-productid="${item.getProductID()}">
-                                <fmt:formatNumber value="${item.getPrice() * item.getQuantity()}" type="number" groupingUsed="true" />
+                               <fmt:formatNumber value="${item.getPrice() * item.getQuantity()}" type="number" groupingUsed="true" />
                             </span>
                         </div>
-                        <div class="col-2 text-center"><a href="#" class="text-danger">Xóa</a></div>
+                        <div class="col-2 text-center"><a href="#" class="text-danger btn-delete" data-productid="${item.getProductID()}">Xóa</a></div>
                     </div>
                 </c:forEach>
             </div>
@@ -202,7 +201,7 @@
                     </div>
                 </div>
                 <div>
-                    Tổng cộng (sản phẩm đã chọn): <span class="text-danger font-weight-bold" id="cart-total">₫0</span>
+                    Tổng cộng (sản phẩm đã chọn: <span id="selected-count">0</span>, số lượng: <span id="total-quantity">0</span>): <span class="text-danger font-weight-bold" id="cart-total">₫0</span>
                     <button class="btn btn-danger ml-3">Mua Hàng</button>
                 </div>
             </div>
@@ -213,47 +212,9 @@
             </div>
         </c:if>
     </div>
-    <div class="footer mt-5 pt-4 pb-4 text-muted">
-        <div class="footer-line py-1 mb-3"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h6>Về Shoppy</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Giới thiệu</a></li>
-                        <li><a href="#">Tuyển dụng</a></li>
-                        <li><a href="#">Điều khoản sử dụng</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Chính sách</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Chính sách bảo mật</a></li>
-                        <li><a href="#">Chính sách đổi trả</a></li>
-                        <li><a href="#">Chính sách giao hàng</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Hỗ trợ khách hàng</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Trung tâm trợ giúp</a></li>
-                        <li><a href="#">Liên hệ hỗ trợ</a></li>
-                        <li><a href="#">Hướng dẫn mua hàng</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Liên hệ</h6>
-                    <ul class="list-unstyled">
-                        <li>Email: support@shoppy.vn</li>
-                        <li>Hotline: 1900 9999</li>
-                        <li>Địa chỉ: TP.HCM</li>
-                    </ul>
-                </div>
-            </div>
-            <hr>
-            <div class="text-center small">© 2025 Shoppy. All rights reserved.</div>
-        </div>
-    </div>
+                <form id="checkoutForm" method="post" action="CheckOutController" style="display:none;"></form>
+
+    <%@include file="footer.jsp" %>
 </body>
 
 <script>
@@ -287,7 +248,7 @@
     // Cập nhật lại giá cho từng item
     function updateTotal(productId, price, quantity) {
         document.querySelectorAll(".item-total").forEach(el => {
-            if (el.dataset.productid == productId) {
+            if (el.dataset.productid === productId) {
                 el.textContent = formatCurrency(price * quantity);
             }
         });
@@ -297,6 +258,8 @@
     // Cập nhật tổng tiền chỉ các sản phẩm được tick
     function updateCartTotal() {
         let total = 0;
+        let count = 0;
+        let totalQuantity = 0;
         document.querySelectorAll(".quantity-input").forEach(input => {
             const row = input.closest(".row");
             const checkbox = row.querySelector(".cart-checkbox");
@@ -305,10 +268,14 @@
                 const quantity = parseInt(input.value);
                 if (!isNaN(price) && !isNaN(quantity)) {
                     total += price * quantity;
+                    count += 1;
+                    totalQuantity+=quantity;
                 }
             }
         });
         document.querySelector("#cart-total").textContent = '₫' + formatCurrency(total);
+        document.querySelector("#selected-count").textContent = count;
+        document.querySelector("#total-quantity").textContent = totalQuantity;
     }
 
     // Nút tăng số lượng
@@ -323,6 +290,8 @@
                 quantity++;
                 input.value = quantity;
                 updateTotal(productId, price, quantity);
+                updateQuantityDebounced(productId, quantity);
+                
             }
         });
     });
@@ -339,11 +308,123 @@
                 quantity--;
                 input.value = quantity;
                 updateTotal(productId, price, quantity);
+                updateQuantityDebounced(productId, quantity);
             }
         });
     });
+    document.querySelectorAll(".btn-delete").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault(); // Ngăn chuyển trang
 
-    // Gọi khi trang vừa load
-    window.onload = updateCartTotal;
+            const productId = this.dataset.productid;
+            
+            fetch("MainController", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `action=DeleteFromCart&productId=` + productId
+            })
+            .then(response => response.text())
+            .then(data => {
+                const json = JSON.parse(data); 
+                const row = document.getElementById("product-" + productId);
+                if (row) {
+                    row.remove(); // Xóa dòng sản phẩm trên giao diện
+                    updateCartTotal(); // Cập nhật lại tổng tiền
+                }
+                if (json.status === "empty") {
+                    // Reload lại trang để hiển thị "Không có sản phẩm trong giỏ hàng"
+                    location.reload();
+                }
+                        })
+            .catch(err => {
+                console.error("Lỗi khi xóa:", err);
+            });
+        });
+    });
+    function getSelectedItems() {
+    const selectedItems = [];
+    document.querySelectorAll(".cart-checkbox:checked").forEach(cb => {
+        const row = cb.closest(".row");
+        const input = row.querySelector(".quantity-input");
+        const productId = input.dataset.productid;
+        const price = parseFloat(input.dataset.price);
+        const quantity = parseInt(input.value);
+        const nameDiv = row.querySelector(".col-3 > div > div");
+        const name = nameDiv ? nameDiv.textContent.trim() : "";
+
+
+        selectedItems.push({
+            productId,
+            name,
+            quantity,
+            price
+        });
+    });
+    return selectedItems;
+}
+
+document.querySelector(".btn-danger.ml-3").addEventListener("click", function () {
+    const selectedItems = getSelectedItems();
+
+    if (selectedItems.length === 0) {
+        alert("Vui lòng chọn sản phẩm");
+        return;
+    }
+
+    const form = document.getElementById("checkoutForm");
+    form.innerHTML = ""; // Xóa nội dung cũ nếu có
+
+    selectedItems.forEach((item, index) => {
+        const inputs = `
+            <input type="hidden" name="productId" value="${item.productId}">
+            <input type="hidden" name="name" value="${item.name}">
+            <input type="hidden" name="quantity" value="${item.quantity}">
+            <input type="hidden" name="price" value="${item.price}">
+        `;
+        form.insertAdjacentHTML("beforeend", inputs);
+    });
+
+    const actionInput = `<input type="hidden" name="action" value="CheckOut">`;
+    form.insertAdjacentHTML("beforeend", actionInput);
+
+    form.submit(); // Gửi form truyền thống
+});
+
+
+      function updateQuantityAjax(productId, quantity) {
+    fetch("MainController", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `action=UpdateCart&productId=`+productId+`&quantity=`+quantity
+        })
+        .then(response => response.text())
+        .then(data => {
+            
+        })
+        .catch(err => {
+            console.error("Lỗi kết nối:", err);
+        });
+    }
+    let debounceTimeout;
+    function updateQuantityDebounced(productId, quantity) {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+            updateQuantityAjax(productId, quantity);
+        }, 300); // chỉ gửi sau 300ms kể từ lần nhấn cuối
+    }
+    window.onload = function () {
+        updateCartTotal();
+
+        const target = document.querySelector('[data-selected="true"]');
+        if (target) {
+            setTimeout(() => {
+                target.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 100);
+        }
+    };
 </script>
 </html>

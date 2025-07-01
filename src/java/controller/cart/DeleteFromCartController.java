@@ -5,6 +5,7 @@
 
 package controller.cart;
 
+import dao.CartDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -29,18 +31,25 @@ public class DeleteFromCartController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DeleteFromCartController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DeleteFromCartController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        HttpSession session = request.getSession();
+        Integer cartId = (Integer) session.getAttribute("cartId");
+
+        if (cartId != null) {
+            CartDetailDAO cartDetailDAO = new CartDetailDAO();
+            cartDetailDAO.removeProductFromCart(cartId, productId);
+
+            // Cập nhật lại số lượng sản phẩm trong cart
+            int newSize = cartDetailDAO.getCartSize(cartId);
+            if (newSize == 0) {
+                session.removeAttribute("cartId"); 
+                out.write("{\"status\":\"empty\"}");
+            } else {
+                out.write("{\"status\":\"ok\"}");
+            }
+            session.setAttribute("cartSize", newSize);
         }
     } 
 

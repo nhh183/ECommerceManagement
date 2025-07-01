@@ -11,127 +11,15 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body class="container-fluid px-0">
-        <div class="header sticky-top">
-            <div class="header-top">
-                <div class="container d-flex justify-content-between align-items-center">
-                    <div class="header-top-left">
-                        <ul class="header-nav-list">
-                            <c:if test="${sessionScope.login.roleID == 'CS'}">
-                                <li><a class="header-link" href="MainController?action=activateSeller">
-                                        <i class="fas fa-user-check"></i> Kích hoạt Seller
-                                    </a></li>
-                                </c:if>
-                                <c:if test="${sessionScope.login.roleID == 'SL'}">
-                                <li><a class="header-link" href="MainController?action=productList">
-                                        <i class="fas fa-box-open"></i> Sản phẩm của tôi
-                                    </a></li>
-                                <li><a class="header-link" href="MainController?action=myOrders">
-                                        <i class="fas fa-receipt"></i> Đơn hàng
-                                    </a></li>
-                                </c:if>
-                                <c:if test="${sessionScope.login.roleID == 'AD'}">
-                                <li><a href="MainController?action=productList" class="header-link">
-                                        <i class="fas fa-chart-line"></i> Trang Quản Trị
-                                    </a></li>
-                                </c:if>
-                        </ul>
-                    </div>
-                    <div class="header-top-right">
-                        <a href="tel:18002097" class="header-link">
-                            <i class="fas fa-phone"></i> 1800 2097
-                        </a>
-                        <a href="notification.jsp" class="header-link">
-                            <i class="fas fa-bell"></i> Thông báo
-                        </a>
-                        <a href="MainController?action=searchFAQ&sourcePage=support" class="header-link">
-                            <i class="fas fa-circle-question"></i> Hỗ trợ
-                        </a>
-                        <div class="user-dropdown">
-                            <div class="user-toggle">
-                                <i class="fas fa-user"></i> ${sessionScope.login.fullName}
-                                <i class="fas fa-caret-down"></i>
-                            </div>
-                            <div class="user-menu">
-                                <a href="MainController?action=myOrders"><i class="fas fa-receipt"></i> Đơn mua</a>
-                                <a href="MainController?action=logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="header-bottom p-3">
-                <div class="container inner-header-bottom row align-items-center">
-                    <div class="col-md-2">
-                        <div class="logo">
-                            <a href="MainController?action=homePage" class="logo-link">
-                                <img src="images/shop.jpg" alt="Cart Logo" class="logo-img">
-                                <span>Shoppyy</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <form action="MainController" method="GET" class="input-group search-box">
-                            <input type="text" name="name" class="form-control" placeholder="Tìm sản phẩm...">
-                            <input type="hidden" name="action" value="searchProduct">
-                            <button class="btn search-btn" type="submit">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </form>
-                    </div>
-                    <div class="col-md-3 text-right">
-                        <c:if test="${not empty sessionScope.login}">
-                            <a href="MainController?action=ViewCart" class="cart-icon">
-                                <i class="fa fa-shopping-cart"></i>
-                                <c:if test="${not empty sessionScope.cartId}">
-                                    <span class="cart-count">${sessionScope.cartSize}</span>
-                                </c:if>
-                                <c:if test="${empty sessionScope.cartId}">
-                                    <span class="cart-count">0</span>
-                                </c:if>
-                            </a>
-                        </c:if>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="nav-wrapper">
-            <div class="container">
-                <ul class="nav-menu">
-                    <li><a href="MainController?action=homePage">HOME</a></li>
-                        <c:forEach var="cat" items="${categoryList}">
-                        <li><a href="MainController?action=searchProduct&categoryID=${cat.categoryID}&sourcePage=productPage">${cat.categoryName}</a></li>
-                        </c:forEach>
-                        <c:if test="${sessionScope.login.roleID == 'AD' || sessionScope.login.roleID == 'CS' || sessionScope.login.roleID == 'SL'}">
-                        <li class="divider">|</li>
-                        </c:if>
-                        <c:if test="${sessionScope.login.roleID == 'AD'}">
-                        <li><a class="admin-link" href="MainController?action=searchUser">Quản lý KH</a></li>
-                        <li><a class="admin-link" href="MainController?action=searchCategory">Danh mục</a></li>
-                        <li><a class="admin-link" href="MainController?action=productList">Sản phẩm</a></li>
-                        <li><a class="admin-link" href="MainController?action=searchBrand">Thương hiệu</a></li>
-                        <li><a class="admin-link" href="feedbackAdmin.jsp">Phản hồi</a></li>
-                        </c:if>
-                        <c:if test="${sessionScope.login.roleID == 'CS'}">
-                        <li><a class="admin-link" href="activateSeller.jsp">Kích hoạt Seller</a></li>
-                        </c:if>
-                        <c:if test="${sessionScope.login.roleID == 'SL'}">
-                        <li><a class="admin-link" href="MainController?action=productList">Sản phẩm của tôi</a></li>
-                        <li><a class="admin-link" href="MainController?action=myOrders">Đơn hàng</a></li>
-                        </c:if>
-                        <c:if test="${not empty sessionScope.login}">
-                        <li class="logout-item">
-                            <a class="logout-link" href="MainController?action=logout">
-                                <i class="fa fa-sign-out-alt"></i> Đăng xuất
-                            </a>
-                        </li>
-                    </c:if>
-                </ul>
-            </div>
-        </div>
+        <%@include file="header.jsp" %>
 
+
+        <!-- Phần còn lại của trang không thay đổi -->
+        <!-- ... (giữ nguyên phần hero-section, featured-section, product-section, v.v.) ... -->
         <div class="hero-section">
             <div class="container d-flex justify-content-between">
+                <!-- Carousel bên trái -->
                 <div id="carouselExampleIndicators" class="carousel slide w-75" data-bs-ride="carousel">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -140,7 +28,7 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="images/banner1.jpg" class="d-block w-100" alt="Slide 1">
+                            <img src="images/laptop.jpg" class="d-block w-100" alt="Slide 1">
                         </div>
                         <div class="carousel-item">
                             <img src="images/iphone.jpg" class="d-block w-100" alt="Slide 2">
@@ -158,6 +46,9 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
+
+
+                <!-- 2 ảnh bên phải -->
                 <div class="right-banner d-flex flex-column justify-content-between ms-3 w-25">
                     <img src="images/dakNhanTam.jpg" class="mb-3 banner-img" alt="Banner 1">
                     <img src="images/c3.jpg" class="banner-img" alt="Banner 2">
@@ -165,29 +56,7 @@
             </div>
         </div>
 
-        <div class="featured-section">
-            <div class="container">
-                <h2>Flash Sale <span id="timer" class="timer">00:05:38</span></h2>
-                <div class="product-grid">
-                    <c:if test="${not empty promotedProducts}">
-                        <c:forEach var="product" items="${promotedProducts}" end="3">
-                            <div class="product-card">
-                                <img src="${product.imgUrl}" alt="${product.name}">
-                                <h3>${product.name}</h3>
-                                <p><s>$${product.price * 1.2}</s> <span class="discount">$${product.price}</span></p>
-                                <button class="buy-now">Mua ngay</button>
-                                <form action="MainController" method="POST" style="display:none;">
-                                    <input type="hidden" name="action" value="addToCart">
-                                    <input type="hidden" name="productID" value="${product.productID}">
-                                    <button type="submit">ADD TO CART</button>
-                                </form>
-                            </div>
-                        </c:forEach>
-                    </c:if>
-                </div>
-            </div>
-        </div>
-
+        <!-- Danh mục -->
         <div class="category-section">
             <div class="category-title">DANH MỤC</div>
             <div class="category-grid">
@@ -200,106 +69,87 @@
             </div>
         </div>
 
-        <div class="product-section">
+
+        <div class="featured-section">
             <div class="container">
-                <h2>BEST SELLER</h2>
+                <h2>Flash Sale</h2>
                 <div class="product-grid">
-                    <c:forEach var="product" items="${bestSellerProducts}" end="3">
-                        <div class="product-card">
-                            <img src="${product.imgUrl}" alt="${product.name}">
-                            <h3>${product.name}</h3>
-                            <p>$${product.price}</p>
-                            <button class="buy-now">Mua ngay</button>
-                            <form action="MainController" method="POST" style="display:none;">
-                                <input type="hidden" name="action" value="addToCart">
-                                <input type="hidden" name="productID" value="${product.productID}">
-                                <button type="submit">ADD TO CART</button>
-                            </form>
-                        </div>
-                    </c:forEach>
+                    <c:if test="${not empty promotedProducts}">
+                        <c:forEach var="product" items="${promotedProducts}">
+                            <a href="MainController?action=viewProduct&id=${product.productID}" style="text-decoration: none;">
+                                <div class="product-card">
+                                    <img src="${product.imgUrl}" alt="${product.name}">
+                                    <h3>${product.name}</h3>
+
+                                    <c:if test="${product.promotion != null}">
+                                        <p>
+                                            <s><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true"/> ₫</s>
+                                            <strong class="text-danger">
+                                                <fmt:formatNumber value="${product.price * (1 - product.promotion.discountPercent / 100)}" type="number" groupingUsed="true"/> ₫
+                                            </strong>
+                                        </p>
+                                        <div class="discount-badge">-${product.promotion.discountPercent}%</div>
+                                    </c:if>
+                                </div>
+                            </a>
+                        </c:forEach>
+                    </c:if>
                 </div>
             </div>
         </div>
 
+
+  
         <div class="product-section">
             <div class="container">
-                <h2>NEW ARRIVALS</h2>
+                <h2>Sản Phẩm</h2>
                 <div class="product-grid">
-                    <c:forEach var="product" items="${newArrivals}">
-                        <div class="product-card">
-                            <a href="MainController?action=viewProduct&id=${product.productID}">
+                    <c:forEach var="product" items="${productList}">
+                        <a href="MainController?action=viewProduct&id=${product.productID}">
+                            <div class="product-card position-relative">
+
+                                <!-- Badge Giảm giá -->
+                                <c:if test="${product.promotion != null}">
+                                    <div class="discount-badge">-${product.promotion.discountPercent}%</div>
+                                </c:if>
+
+                                <!-- Ảnh sản phẩm -->
                                 <img src="${product.imgUrl}" alt="${product.name}">
-                            </a>
-                            <a href="MainController?action=viewProduct&id=${product.productID}">
+
+                                <!-- Tên sản phẩm -->
                                 <h3>${product.name}</h3>
-                            </a>
-                            <p><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</p>
-                            <button class="buy-now">Mua ngay</button>
-                        </div>
+
+                                <!-- Hiển thị giá -->
+                                <c:choose>
+                                    <c:when test="${product.promotion != null}">
+                                        <p>
+                                            <s><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</s><br>
+                                            <strong class="text-danger fs-5">
+                                                <fmt:formatNumber value="${product.price * (1 - product.promotion.discountPercent / 100)}" type="number" groupingUsed="true" /> ₫
+                                            </strong>
+                                        </p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p>
+                                            <strong class="text-dark">
+                                                <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫
+                                            </strong>
+                                        </p>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </div>
+                        </a>
                     </c:forEach>
                 </div>
+
             </div>
-        </div>
+      </div>
 
-        <c:if test="${sessionScope.login.roleID != 'AD' && sessionScope.login.roleID != 'CS'}">
-            <div class="container">
-                <h3>Customer Support</h3>
-                <p><a href="submitFeedback.jsp">Submit Feedback</a></p>
-                <p><a href="listFeedback.jsp">View My Feedback</a></p>
-            </div>
-        </c:if>
 
-        <div class="feature-box">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 feature">
-                        <h3>CAM KẾT CHÍNH HÀNG</h3>
-                        <p>100% Authentic<br>Cam kết sản phẩm chính hãng từ Châu Âu, Châu Mỹ...</p>
-                    </div>
-                    <div class="col-md-4 feature">
-                        <h3>GIAO HÀNG HỎA TỐC</h3>
-                        <p>Express delivery<br>SHIP hỏa tốc 1h nhận hàng trong nội thành HCM</p>
-                    </div>
-                    <div class="col-md-4 feature">
-                        <h3>HỖ TRỢ 24/24</h3>
-                        <p>Supporting 24/24<br>Gọi ngay 0909300746</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="container">
-                <p>Ecommerce WordPress Theme</p>
-            </div>
-        </div>
-
-        <c:if test="${not empty requestScope.MSG}">
-            <p style="color: ${requestScope.MSG.contains('successfully') ? 'green' : 'red'}">${requestScope.MSG}</p>
-        </c:if>
-
-        <!-- JavaScript cho timer -->
-        <script>
-            function startTimer(duration, display) {
-                let timer = duration, minutes, seconds;
-                setInterval(function () {
-                    minutes = parseInt(timer / 60, 10);
-                    seconds = parseInt(timer % 60, 10);
-                    minutes = minutes < 10 ? "0" + minutes : minutes;
-                    seconds = seconds < 10 ? "0" + seconds : seconds;
-                    display.textContent = minutes + ":" + seconds;
-                    if (--timer < 0) {
-                        timer = duration;
-                    }
-                }, 1000);
-            }
-            window.onload = function () {
-                let fiveMinutes = 60 * 5,
-                        display = document.querySelector('#timer');
-                startTimer(fiveMinutes, display);
-            };
-        </script>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
+        <%@include file="footer.jsp" %>
+        
     </body>
 </html>
+

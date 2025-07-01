@@ -6,8 +6,10 @@ package controller.product;
 
 import dao.CategoryDAO;
 import dao.ProductDAO;
+import dao.PromotionDAO;
 import dto.CategoryDTO;
 import dto.ProductDTO;
+import dto.PromotionDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -56,9 +58,14 @@ public class ViewProductController extends HttpServlet {
             if (productIDRaw != null && !productIDRaw.isEmpty()) {
                 int productID = Integer.parseInt(productIDRaw);
                 ProductDAO proDAO = new ProductDAO();
-                CategoryDAO catDAO=new CategoryDAO();
+                CategoryDAO catDAO = new CategoryDAO();
                 ProductDTO product = proDAO.getProductByID(productID);
-                List<CategoryDTO> categoryList=catDAO.getCategoryList();
+                List<CategoryDTO> categoryList = catDAO.getCategoryList();
+
+                PromotionDAO promoDAO = new PromotionDAO();
+                PromotionDTO promo = promoDAO.getPromotionByProductID(productID);
+                request.setAttribute("promotion", promo);
+                
                 if (product != null) {
                     request.setAttribute("categoryList", categoryList);
                     request.setAttribute("product", product);
@@ -67,7 +74,7 @@ public class ViewProductController extends HttpServlet {
                     request.setAttribute("ERROR", "Gặp lỗi sản phẩm!");
                     request.getRequestDispatcher("HomePageController").forward(request, response);
                 }
-            }else{
+            } else {
                 response.sendRedirect("HomePageController");
             }
         } catch (Exception e) {

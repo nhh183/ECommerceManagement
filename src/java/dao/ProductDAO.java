@@ -5,6 +5,7 @@
 package dao;
 
 import dto.ProductDTO;
+import dto.PromotionDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -72,7 +73,7 @@ public class ProductDAO {
     // GET tất cả sản phẩm (admin)
     public List<ProductDTO> getProductList() {
         List<ProductDTO> list = new ArrayList<>();
-        String sql = "SELECT * FROM tblProducts";
+        String sql = "SELECT * FROM tblProducts ORDER BY productID DESC";
         try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 ProductDTO p = new ProductDTO(
@@ -117,7 +118,8 @@ public class ProductDAO {
         if (!isAdmin && SellerID != null && !SellerID.isEmpty()) {
             sql.append(" AND sellerID = ?");
         }
-
+        
+        sql.append(" ORDER BY productID DESC");
         try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql.toString())) {
 
             int idx = 1;
@@ -341,5 +343,43 @@ public class ProductDAO {
 
         return count;
     }
+    
+    public List<ProductDTO> getAllProductsIncludePromotion() throws SQLException {
+    List<ProductDTO> list = new ArrayList<>();
+    String sql = "SELECT p.*, promo.promoID, promo.name AS promoName, promo.discountPercent, promo.startDate, promo.endDate, promo.status " +
+                 "FROM tblProducts p " +
+                 "LEFT JOIN tblPromotion_Product pp ON p.productID = pp.productID " +
+                 "LEFT JOIN tblPromotions promo ON promo.promoID = pp.promoID " +
+                 "AND promo.status = 'Active' " +
+                 "AND CAST(GETDATE() AS DATE) BETWEEN promo.startDate AND promo.endDate";
+
+    try (Connection conn = DBUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                ProductDTO product = new ProductDTO();
+                product.setProductID(rs.getInt("productID"));
+                product.setName(rs.getString("name"));
+                product.setPrice(rs.getDouble("price"));
+                product.setImgUrl(rs.getString("imgUrl"));
+
+                int promoID = rs.getInt("promoID");
+                if (!rs.wasNull()) {
+                    PromotionDTO promo = new PromotionDTO();
+                    promo.setPromoID(promoID);
+                    promo.setName(rs.getString("promoName"));
+                    promo.setDiscountPercent(rs.getDouble("discountPercent"));
+                    promo.setStartDate(rs.getDate("startDate"));
+                    promo.setEndDate(rs.getDate("endDate"));
+                    promo.setStatus(rs.getString("status"));
+                    product.setPromotion(promo);
+                }
+
+                list.add(product);
+            }
+        }
+    }
+    return list;
+}
+
 
 }

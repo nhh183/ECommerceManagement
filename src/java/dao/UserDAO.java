@@ -192,6 +192,7 @@ public class UserDAO {
         }
     }
 
+
     public UserDTO checkUserIDAndPhone(String userID, String phone) throws Exception {
         String sql = "SELECT fullName, roleID  FROM tblUsers WHERE userID = ? AND phone = ?";
         try ( Connection conn = DBUtil.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -213,5 +214,21 @@ public class UserDAO {
             return ps.executeUpdate() > 0;
         }
     }
+
+    public boolean checkUserExists(String userID) {
+    boolean exists = false;
+    String sql = "SELECT userID FROM tblUsers WHERE userID = ?";
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, userID);
+        try (ResultSet rs = ps.executeQuery()) {
+            exists = rs.next(); // nếu có dòng => tồn tại
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return exists;
+}
+
 
 }

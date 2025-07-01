@@ -6,8 +6,10 @@ package controller;
 
 import dao.CategoryDAO;
 import dao.ProductDAO;
+import dao.PromotionDAO;
 import dto.CategoryDTO;
 import dto.ProductDTO;
+import dto.PromotionDTO;
 import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,24 +59,26 @@ public class HomePageController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-         ProductDAO productDAO = new ProductDAO();
-        CategoryDAO categoryDAO = new CategoryDAO();
+        try {
+            ProductDAO productDAO = new ProductDAO();
+            CategoryDAO categoryDAO = new CategoryDAO();
 
-        // Lấy danh sách sản phẩm và danh mục
-        List<ProductDTO> productList = productDAO.getProductList();
-        List<CategoryDTO> categoryList = categoryDAO.getCategoryList();
+            // Lấy danh sách sản phẩm và danh mục
+            List<ProductDTO> productList = productDAO.getAllProductsIncludePromotion();
+            List<CategoryDTO> categoryList = categoryDAO.getCategoryList();
 
-        // Giả sử newArrivals là 4 sản phẩm mới nhất
-        List<ProductDTO> newArrivals = productList.stream()
-                .sorted((p1, p2) -> p2.getProductID() - p1.getProductID())
-                .limit(4)
-                .collect(Collectors.toList());
-
-        // Đặt các attribute vào request
-        request.setAttribute("newArrivals", newArrivals);
-        request.setAttribute("categoryList", categoryList);
-      
-        
+// Lọc ra các sản phẩm đang có khuyến mãi (promotion khác null)
+            List<ProductDTO> flashSaleProducts = productList.stream()
+                    .filter(p -> p.getPromotion() != null)
+                    .collect(Collectors.toList());
+            
+            request.setAttribute("promotedProducts", flashSaleProducts);
+            request.setAttribute("productList", productList);
+            request.setAttribute("categoryList", categoryList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("login.jsp");
+        }
 
         // Forward đến trang JSP
         request.getRequestDispatcher("homePage.jsp").forward(request, response);
@@ -91,7 +95,7 @@ public class HomePageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
