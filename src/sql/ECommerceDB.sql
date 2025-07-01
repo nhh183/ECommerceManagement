@@ -240,6 +240,20 @@ CREATE TABLE tblReturns (
     FOREIGN KEY (invoiceID) REFERENCES tblInvoices(invoiceID)
 );
 
+ALTER TABLE tblReturns
+ADD returnDate DATE;
+
+INSERT INTO tblReturns (invoiceID, reason, status, returnDate)
+VALUES 
+(1, N'Hàng bị lỗi', 'pending', '2025-06-25'),
+(2, N'Không đúng mẫu đặt', 'approved', '2025-06-26'),
+(1, N'Muốn đổi màu sản phẩm', 'rejected', '2025-06-27');
+UPDATE tblReturns
+SET status = 'pending'
+UPDATE tblReturns
+SET  returnDate = '2025-06-16'
+where  returnDate = '2025-06-24'
+
 -- 9. Chăm sóc khách hàng
 CREATE TABLE tblCustomerCares (
     ticketID INT IDENTITY PRIMARY KEY,

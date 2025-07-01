@@ -93,7 +93,7 @@
                                         <div class="d-flex gap-1 justify-content-center">
                                             <c:if test="${!n.read}">
                                                 <form action="MainController" method="post">
-                                                    <input type="hidden" name="actionF" value="markAsRead"/>
+                                                    <input type="hidden" name="action" value="markAsRead"/>
                                                     <input type="hidden" name="notificationID" value="${n.notificationID}"/>
                                                     <button class="btn btn-sm" style="background-color: #c64600; color: white;">Đánh dấu</button>
                                                 </form>
