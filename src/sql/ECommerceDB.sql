@@ -85,7 +85,7 @@ VALUES
 (N'Bút bi Thiên Long', 9, 5000, 200, 'images/butthienlong.jpg', 'user003', 'active', N'Bút bi Thiên Long nét mảnh, mực ra đều, dùng trong học tập và văn phòng.'),
 (N'Nồi chiên không dầu Lock&Lock', 10, 2500000, 10, 'images/noichienlock.jpg', 'user003', 'active', N'Nồi chiên không dầu Lock&Lock, dung tích lớn, giúp món ăn giòn ngon mà không cần dầu.');
 
-
+DROP TABLE tblPromotions;
 -- 4. Chương trình khuyến mãi
 CREATE TABLE tblPromotions (
     promoID INT IDENTITY PRIMARY KEY,

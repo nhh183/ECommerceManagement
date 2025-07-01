@@ -212,6 +212,8 @@
             </div>
         </c:if>
     </div>
+                <form id="checkoutForm" method="post" action="CheckOutController" style="display:none;"></form>
+
     <%@include file="footer.jsp" %>
 </body>
 
@@ -341,8 +343,57 @@
             });
         });
     });
-  
-    function updateQuantityAjax(productId, quantity) {
+    function getSelectedItems() {
+    const selectedItems = [];
+    document.querySelectorAll(".cart-checkbox:checked").forEach(cb => {
+        const row = cb.closest(".row");
+        const input = row.querySelector(".quantity-input");
+        const productId = input.dataset.productid;
+        const price = parseFloat(input.dataset.price);
+        const quantity = parseInt(input.value);
+        const nameDiv = row.querySelector(".col-3 > div > div");
+        const name = nameDiv ? nameDiv.textContent.trim() : "";
+
+
+        selectedItems.push({
+            productId,
+            name,
+            quantity,
+            price
+        });
+    });
+    return selectedItems;
+}
+
+document.querySelector(".btn-danger.ml-3").addEventListener("click", function () {
+    const selectedItems = getSelectedItems();
+
+    if (selectedItems.length === 0) {
+        alert("Vui lòng chọn sản phẩm");
+        return;
+    }
+
+    const form = document.getElementById("checkoutForm");
+    form.innerHTML = ""; // Xóa nội dung cũ nếu có
+
+    selectedItems.forEach((item, index) => {
+        const inputs = `
+            <input type="hidden" name="productId" value="${item.productId}">
+            <input type="hidden" name="name" value="${item.name}">
+            <input type="hidden" name="quantity" value="${item.quantity}">
+            <input type="hidden" name="price" value="${item.price}">
+        `;
+        form.insertAdjacentHTML("beforeend", inputs);
+    });
+
+    const actionInput = `<input type="hidden" name="action" value="CheckOut">`;
+    form.insertAdjacentHTML("beforeend", actionInput);
+
+    form.submit(); // Gửi form truyền thống
+});
+
+
+      function updateQuantityAjax(productId, quantity) {
     fetch("MainController", {
         method: "POST",
         headers: {

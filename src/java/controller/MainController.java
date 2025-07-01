@@ -97,7 +97,9 @@ public class MainController extends HttpServlet {
     public static final String UPDATE_CART_CONTROLLER = "UpdateCartController";
     public static final String VIEW_CART = "ViewCart";
     public static final String VIEW_CART_CONTROLLER = "ViewCartController";
-
+    public static final String CHECK_OUT = "CheckOut";
+    public static final String CHECK_OUT_CONTROLLER = "CheckOutController";     
+    
     // Customer Support
     public static final String CUSTOMER_SUPPORT = "CustomerSupport";
     public static final String CUSTOMER_SUPPORT_CONTROLLER = "CustomerCareController";
@@ -235,6 +237,9 @@ public class MainController extends HttpServlet {
                     break;
                 case UPDATE_CART:
                     url = UPDATE_CART_CONTROLLER;
+                    break;
+                case CHECK_OUT:
+                    url=CHECK_OUT_CONTROLLER;
                     break;
                 // Customer Support
                 case CUSTOMER_SUPPORT:
