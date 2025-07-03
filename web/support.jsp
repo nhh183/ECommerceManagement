@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html" language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Trung Tâm Trợ Giúp | Shoppy</title>
+        <title>Shoppy | Trung Tâm Trợ Giúp</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,13 +19,12 @@
                 <div class="header-top">
                     <div class="container d-flex justify-content-between align-items-center">
                         <div class="header-brand d-flex align-items-center gap-3">
-                            <a href="MainController?action=homePage" class="header-logo">
-                                <img src="images/shop.jpg" alt="Cart Logo" class="logo-img">
-                                <span class="logo-text">Shoppy</span>
+                            <a href="MainController?action=homePage" style="margin: -40px;">
+                                <img src="images/logo_orange.svg" alt="Shop Logo" class="svg w-75">
                             </a>
                             <span class="divider-line">|</span>
                             <a href="support.jsp" class="support-link">Trung Tâm Trợ Giúp Shoppy</a>
-                        </div>
+                        </div>w
                     </div>
                 </div>
             </div>
@@ -91,9 +90,7 @@
         </div>
 
         <!-- === FOOTER === -->
-        <footer class="footer mt-5 py-3 bg-light text-center">
-            <p class="mb-0 text-muted">© 2025 Shoppy - Trung Tâm Trợ Giúp</p>
-        </footer>
+        <%@include file="footer.jsp" %>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>

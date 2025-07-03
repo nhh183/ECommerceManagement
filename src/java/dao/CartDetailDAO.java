@@ -9,6 +9,7 @@ import java.util.*;
 import utils.DBUtil;
 import dto.CartDetail;
 import dto.CartItem;
+import dto.PromotionDTO;
 /**
  *
  * @author NHH
@@ -60,24 +61,60 @@ public class CartDetailDAO {
                         "FROM tblCartDetails cd\n" +
                         "INNER JOIN tblProducts p ON cd.productID=p.productID\n" +
                         "WHERE cartID = ?";
+        int productID,quantity;
+        String productName,imgUrl;
+        double price,salePrice;
+        PromotionDTO promo;
+        PromotionDAO proDao = new PromotionDAO();
         try (Connection con = DBUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, cartId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new CartItem(
-                    rs.getInt("productID"),
-                    rs.getString("name"),
-                    rs.getInt("quantity"),
-                    rs.getDouble("price"),
-                    rs.getString("imgUrl")
-                        
-                ));
+                productID = rs.getInt("productID");
+                productName = rs.getString("name");
+                quantity = rs.getInt("quantity");
+                price = rs.getDouble("price");
+                promo = proDao.getPromotionByProductID(productID);
+                salePrice = price * (1 - (promo != null ? promo.getDiscountPercent()/100 : 0));
+                imgUrl = rs.getString("imgUrl");
+                list.add(new CartItem(productID, productName, quantity, price, salePrice, imgUrl));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
+    }
+    
+    public CartItem getCartItem(int cartId, int productId) {
+        String sql = "SELECT p.productID ,p.name, cd.quantity, p.price, p.imgUrl\n" +
+                        "FROM tblCartDetails cd\n" +
+                        "INNER JOIN tblProducts p ON cd.productID=p.productID\n" +
+                        "WHERE cd.cartID = ? AND p.productID = ?";
+        int productID,quantity;
+        String productName,imgUrl;
+        double price,salePrice;
+        PromotionDTO promo;
+        PromotionDAO proDao = new PromotionDAO();
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, cartId);
+            ps.setInt(2, productId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                productID = rs.getInt("productID");
+                productName = rs.getString("name");
+                quantity = rs.getInt("quantity");
+                price = rs.getDouble("price");
+                promo = proDao.getPromotionByProductID(productID);
+                salePrice = price * (1 - (promo != null ? promo.getDiscountPercent()/100 : 0));
+                imgUrl = rs.getString("imgUrl");
+                return new CartItem(productID, productName, quantity, price, salePrice, imgUrl);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void clear(int cartId) {

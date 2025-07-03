@@ -101,6 +101,9 @@ public class MainController extends HttpServlet {
     public static final String CHECK_OUT = "CheckOut";
     public static final String CHECK_OUT_CONTROLLER = "CheckOutController";     
     
+    //Invoice
+    public static final String CREATE_INVOICE = "CreateInvoice";
+    public static final String CREATE_INVOICE_CONTROLLER = "CreateInvoiceController";
 
     // Customer Support
     public static final String CUSTOMER_SUPPORT = "CustomerSupport";
@@ -254,6 +257,9 @@ public class MainController extends HttpServlet {
                     break;
                 case CHECK_OUT:
                     url=CHECK_OUT_CONTROLLER;
+                    break;
+                case CREATE_INVOICE:
+                    url=CREATE_INVOICE_CONTROLLER;
                     break;
                 // Customer Support
                 case CUSTOMER_SUPPORT:

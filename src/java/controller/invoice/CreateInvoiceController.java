@@ -3,11 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.cart;
+package controller.invoice;
 
 import dao.CartDetailDAO;
-import dto.CartItem;
-import dto.ProductDTO;
+import dao.InvoiceDAO;
+import dao.InvoiceDetailDAO;
+import dto.InvoiceDTO;
+import dto.InvoiceDetailDTO;
+import dto.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,15 +19,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
 
 /**
  *
  * @author NHH
  */
-@WebServlet(name="CheckOutController", urlPatterns={"/CheckOutController"})
-public class CheckOutController extends HttpServlet {
+@WebServlet(name="CreateInvoiceController", urlPatterns={"/CreateInvoiceController"})
+public class CreateInvoiceController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,23 +37,55 @@ public class CheckOutController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        // Lấy user từ session
         HttpSession session = request.getSession();
-        if(session.getAttribute("cartId")==null){
+        UserDTO loginUser = (UserDTO) session.getAttribute("login");
+        if (loginUser == null) {
             response.sendRedirect("login.jsp");
-        }else{
-            String[] productIDs = request.getParameterValues("productID");
-            int cartId = (Integer) session.getAttribute("cartId");
-            CartDetailDAO cdDao = new CartDetailDAO();
-            List<CartItem> list = new ArrayList<>();
-            if (productIDs != null) {
-                for(String product: productIDs){
-                    list.add(cdDao.getCartItem(cartId,Integer.parseInt(product)));
-                }
-            }
-            request.setAttribute("checkoutItems", list);
-            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+            return;
         }
-        
+
+        String[] productIds = request.getParameterValues("productId");
+        String[] quantities = request.getParameterValues("quantity");
+        String[] prices = request.getParameterValues("price");
+        String totalStr = request.getParameter("totalAmount");
+
+        double totalAmount = Double.parseDouble(totalStr);
+        String userID = loginUser.getUserID();
+
+        try {
+            // B1: Tạo invoice
+            InvoiceDTO invoice = new InvoiceDTO(userID,totalAmount,"pending");
+
+            InvoiceDAO invoiceDAO = new InvoiceDAO();
+            int invoiceID = invoiceDAO.insertInvoice(invoice);
+            
+            CartDetailDAO cartDetailDAO = new CartDetailDAO();
+            int cartId = (Integer) session.getAttribute("cartId");
+
+            // B2: Tạo danh sách chi tiết
+            InvoiceDetailDAO detailDAO = new InvoiceDetailDAO();
+            for (int i = 0; i < productIds.length; i++) {
+                int productID = Integer.parseInt(productIds[i]);
+                int quantity = Integer.parseInt(quantities[i]);
+                double price = Double.parseDouble(prices[i]);
+
+                InvoiceDetailDTO detail = new InvoiceDetailDTO(invoiceID, productID, quantity, price);
+                detailDAO.insertInvoiceDetail(detail);
+                
+                cartDetailDAO.removeProductFromCart(cartId, productID);
+            }
+
+            
+            response.sendRedirect("MainController?action=ViewCart");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

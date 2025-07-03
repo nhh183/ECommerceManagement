@@ -1,6 +1,7 @@
 package dto;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class InvoiceDTO {
     private int invoiceID;
@@ -17,6 +18,12 @@ public class InvoiceDTO {
         this.totalAmount = totalAmount;
         this.status = status;
         this.createdDate = createdDate;
+    }
+    public InvoiceDTO(String userID, double totalAmount, String status) {
+        this.userID = userID;
+        this.totalAmount = totalAmount;
+        this.status = status;
+        this.createdDate = Date.valueOf(LocalDate.now());
     }
 
     // Getters and Setters
