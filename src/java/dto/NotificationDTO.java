@@ -66,6 +66,10 @@ public class NotificationDTO {
     public boolean isRead() {
         return isRead;
     }
+    public boolean getIsRead() {      // ✅ thêm getter đúng chuẩn
+    return isRead;
+}
+
 
     public void setIsRead(boolean isRead) {
         this.isRead = isRead;

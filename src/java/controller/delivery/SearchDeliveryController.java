@@ -27,23 +27,29 @@ public class SearchDeliveryController extends HttpServlet {
 
     @Override protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
+        
         String invoiceID = req.getParameter("invoiceID"); 
         String status    = req.getParameter("status");    
+        
+        try {
+            DeliveryDAO dao = new DeliveryDAO();
+            dao.syncWithInvoices();
+            List<DeliveryDTO> list = dao.getAllDeliveries(invoiceID, status);
 
-        List<DeliveryDTO> list =
-                new DeliveryDAO().getAllDeliveries(invoiceID, status);
-
-        req.setAttribute("listDeliveries", list);
-        req.setAttribute("invoiceID", invoiceID);
-        req.setAttribute("status", status);
+            req.setAttribute("listDeliveries", list);
+            req.setAttribute("invoiceID", invoiceID);
+            req.setAttribute("status", status);
+        } catch (Exception e) {
+            e.printStackTrace();
+            req.setAttribute("errorMessage", "Lỗi khi tải danh sách giao hàng.");
+        }
 
         req.getRequestDispatcher(VIEW).forward(req, resp);
     }
 
-    @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         doGet(req, resp);           
     }
-    
 }

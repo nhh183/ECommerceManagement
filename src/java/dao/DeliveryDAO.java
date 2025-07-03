@@ -18,12 +18,13 @@ import utils.DBUtil;
  * @author loan1
  */
 public class DeliveryDAO {
+
     public List<DeliveryDTO> getAllDeliveries(String invoiceID, String status) {
         List<DeliveryDTO> list = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder(
-            "SELECT deliveryID, invoiceID, address, deliveryDate, status "
-          + "FROM tblDeliveries WHERE 1 = 1 ");
+                "SELECT deliveryID, invoiceID, address, deliveryDate, status "
+                + "FROM tblDeliveries WHERE 1 = 1 ");
 
         if (invoiceID != null && !invoiceID.trim().isEmpty()) {
             sql.append(" AND CAST(invoiceID AS CHAR) LIKE ? ");
@@ -32,8 +33,7 @@ public class DeliveryDAO {
             sql.append(" AND LOWER(status) = ? ");
         }
 
-        try (Connection con = DBUtil.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql.toString())) {
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql.toString())) {
 
             int idx = 1;
             if (invoiceID != null && !invoiceID.trim().isEmpty()) {
@@ -61,24 +61,42 @@ public class DeliveryDAO {
 
     public String getCurrentStatus(int deliveryID) {
         String sql = "SELECT status FROM tblDeliveries WHERE deliveryID = ?";
-        try (Connection con = DBUtil.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, deliveryID);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getString(1);
-        } catch (SQLException e) { e.printStackTrace(); }
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     public boolean updateDeliveryStatus(int deliveryID, String newStatus) {
         String sql = "UPDATE tblDeliveries SET status = ? WHERE deliveryID = ?";
-        try (Connection con = DBUtil.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        try ( Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, newStatus);
             ps.setInt(2, deliveryID);
             return ps.executeUpdate() > 0;
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
+    }
+
+    public void syncWithInvoices() throws SQLException {
+        String sql
+                = "INSERT INTO tblDeliveries (invoiceID, address, deliveryDate, status) "
+                + "SELECT i.invoiceID, i.shippingAddress, GETDATE(), 'pending' "
+                + "FROM tblInvoices i "
+                + "LEFT JOIN tblDeliveries d ON d.invoiceID = i.invoiceID "
+                + "WHERE d.invoiceID IS NULL AND i.shippingAddress IS NOT NULL";
+        try (
+                 Connection con = DBUtil.getConnection();  
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.executeUpdate();
+        }
     }
 
 }

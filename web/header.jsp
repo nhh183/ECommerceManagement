@@ -7,6 +7,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="dto.UserDTO" %>
+<%@ page import="dao.NotificationDAO" %>
+<%@ page import="dto.NotificationDTO" %>
+<%@ page import="java.util.List" %>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
     /* === HEADER === */
@@ -315,9 +319,28 @@
   color: #f53d2d;
   font-weight: bold;
 }
-
+.notification-container{position:relative;display:inline-block;margin-right:15px;color:white;}
+.notification-toggle{display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer;}
+.notification-toggle:hover{opacity:.9;}
+.notification-dropdown{display:none;position:absolute;top:140%;right:0;min-width:260px;max-height:400px;overflow-y:auto;background:#fff;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.18);z-index:999;color:#333;}
+.notification-container:hover .notification-dropdown{display:block;}
+.notification-item{padding:10px 12px;border-bottom:1px solid #f0f0f0;font-size:13px;line-height:1.4;text-decoration:none;display:block;color:#333;}
+.notification-item:last-child{border-bottom:none;}
+.notification-item.unread{background:#fff4ef;font-weight:600;}
+.notification-empty{padding:20px;text-align:center;font-size:14px;color:#777;}
 
 </style>
+
+<%
+if (session.getAttribute("login") != null && request.getAttribute("notificationList") == null) {
+    UserDTO loginUserTemp = (UserDTO) session.getAttribute("login");
+    NotificationDAO dao = new NotificationDAO();
+    List<NotificationDTO> list = dao.getNotificationsByUser(loginUserTemp.getUserID());
+    request.setAttribute("notificationList", list);
+}
+%>
+
+    %>
 <div class="header sticky-top">
     <div class="header-top">
         <div class="container d-flex justify-content-between align-items-center">
@@ -350,9 +373,28 @@
 
 
             <div class="header-top-right">
-                <a href="NotificationListController" class="header-link">
-                    <i class="fas fa-bell"></i> Thông báo
-                </a>
+                <div class="notification-container" onclick="location.href='MainController?action=notificationList'">
+    <div class="notification-toggle">
+        <i class="fas fa-bell"></i> Thông báo
+    </div>
+    <div class="notification-dropdown">
+        <c:choose>
+            <c:when test="${empty notificationList}">
+                <div class="notification-item">Không có thông báo nào.</div>
+            </c:when>
+            <c:otherwise>
+                <c:forEach items="${notificationList}" var="n">
+                    <div class="notification-item ${n.read ? '' : 'unread'}">
+                        <b>${n.eventType}</b><br/>
+                        ${n.message}<br/>
+                        <small><fmt:formatDate value="${n.createdAt}" pattern="dd/MM/yyyy HH:mm"/></small>
+                    </div>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
+
                 <a href="MainController?action=searchFAQ&sourcePage=support" class="header-link">
                     <i class="fas fa-circle-question"></i> Hỗ trợ
                 </a>
