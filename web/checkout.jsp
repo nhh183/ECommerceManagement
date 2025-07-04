@@ -6,7 +6,7 @@
 
 
 <%
-    List<CartItem> checkoutItems = (List<CartItem>) request.getAttribute("checkoutItems");
+    List<CartItem> checkoutItems = (List<CartItem>) session.getAttribute("checkoutItems");
     double total = 0;
     for (CartItem item : checkoutItems) {
         total += item.getSalePrice()*item.getQuantity();
@@ -278,6 +278,9 @@
 .table th, .table td {
     border: none !important;
 }
+.sec-end > div{
+    flex: 1;
+}
     </style>
 </head>
 <body>
@@ -403,21 +406,41 @@
             </tbody>
         </table> 
         </div>
-        <div class="container bg-white">
-            <div class="text-right font-weight-bold">
-            Tổng cộng: ₫<fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
-        </div>
-        <form action="MainController" method="post">
-            <input type="hidden" name="totalAmount" value="${totalAmount}" />
-            <c:forEach var="item" items="${checkoutItems}">
-                <input type="hidden" name="productId" value="${item.productID}" />
-                <input type="hidden" name="quantity" value="${item.quantity}" />
-                <input type="hidden" name="price" value="${item.salePrice}" />
-            </c:forEach>
-            <div class="text-right mt-3">
-                <button type="submit" name="action" value="CreateInvoice" class="btn btn-danger">Đặt hàng</button>
+        <div class="sec-end container bg-white d-flex">
+            <div class="text-left">
+                <form action="CheckOutController" method="post" class="mb-3 d-flex align-items-center ">
+                    <input type="text" name="couponCode" placeholder="Nhập mã giảm giá" class="form-control w-50 me-2" />
+                    <button type="submit" class="btn btn-outline-primary">Áp dụng</button>
+                </form>
+
+                <c:if test="${not empty invalidCoupon}">
+                    <div class="text-danger text-end mb-2">${invalidCoupon}</div>
+                </c:if>
+
+                <c:if test="${not empty coupon}">
+                    <div class="text-success text-end mb-2">Mã <strong>${coupon.code}</strong> đã được áp dụng! Giảm ${coupon.discountPercent}%</div>
+                </c:if>
             </div>
-        </form>
+            <div class="gap-1 text-right">
+                <div class="font-weight-bold">
+                    Tổng cộng: ₫<fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
+                </div>
+
+                <form action="MainController" method="post">
+                    <input type="hidden" name="totalAmount" value="${totalAmount}" />
+                    <c:forEach var="item" items="${checkoutItems}">
+                        <input type="hidden" name="productId" value="${item.productID}" />
+                        <input type="hidden" name="quantity" value="${item.quantity}" />
+                        <input type="hidden" name="price" value="${item.salePrice}" />
+                    </c:forEach>
+
+                    <div class="text-right mt-3">
+                        <button type="submit" name="action" value="CreateInvoice" class="btn btn-danger">Đặt hàng</button>
+                    </div>
+                </form>
+            </div>
+            
+            
         </div>
                       
     </div>

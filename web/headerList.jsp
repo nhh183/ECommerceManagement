@@ -125,6 +125,7 @@
                 <a href="MainController?action=searchPromotion" class="${page == 'promotions' ? 'active' : ''}">Khuyến mãi</a>
                 <a href="MainController?action=searchPromotionProduct" class="${page == 'promotionProduct' ? 'active' : ''}">Sản phẩm-Khuyến mãi</a>
                 <a href="MainController?action=searchUser" class="${page == 'users' ? 'active' : ''}">Khách hàng</a>
+
                 <a href="MainController?action=searchFAQ"${page == 'faqs' ? 'active' : ''}">FAQ</a>
 
             </c:if>
@@ -149,6 +150,10 @@
 
             <c:if test="${loginUser.roleID == 'CS'}">
                 <a href="MainController?action=searchDelivery">Xem giao hàng</a>
+
+                <a href="MainController?action=searchFAQ" class="${page == 'faqs' ? 'active' : ''}">FAQ</a>
+                <a href="MainController?action=searchCoupon" class="${page == 'coupons' ? 'active' : ''}">Giảm giá</a>
+
             </c:if>
         </div>
         <div class="header-right">

@@ -3,13 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.cart;
+package controller.coupon;
 
-import dao.CartDetailDAO;
 import dao.CouponDAO;
-import dto.CartItem;
 import dto.CouponDTO;
-import dto.ProductDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,15 +15,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
  * @author NHH
  */
-@WebServlet(name="CheckOutController", urlPatterns={"/CheckOutController"})
-public class CheckOutController extends HttpServlet {
+@WebServlet(name="CreateCouponController", urlPatterns={"/CreateCouponController"})
+public class CreateCouponController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,22 +36,36 @@ public class CheckOutController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if(session.getAttribute("cartId")==null){
-            response.sendRedirect("login.jsp");
-        }else{
-            String[] productIDs = request.getParameterValues("productID");
-            int cartId = (Integer) session.getAttribute("cartId");
-            CartDetailDAO cdDao = new CartDetailDAO();
-            List<CartItem> list = new ArrayList<>();
-            if (productIDs != null) {
-                for(String product: productIDs){
-                    list.add(cdDao.getCartItem(cartId,Integer.parseInt(product)));
-                }
+        try {
+            String code = request.getParameter("code").trim();
+            String discountStr = request.getParameter("discount");
+            String startDateStr = request.getParameter("startDate");
+            String endDateStr = request.getParameter("endDate");
+            String quantityStr = request.getParameter("quantity");
+            String status = request.getParameter("status");
+
+            float discount = Float.parseFloat(discountStr);
+            int quantity = Integer.parseInt(quantityStr);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = new Date(sdf.parse(startDateStr).getTime());
+            Date endDate = new Date(sdf.parse(endDateStr).getTime());
+
+            CouponDTO dto = new CouponDTO(code, discount, startDate, endDate, quantity, status);
+            CouponDAO dao = new CouponDAO();
+            boolean success = dao.createCoupon(dto);
+
+            if (success) {
+                session.setAttribute("MSG", "Tạo mã giảm giá thành công.");
+            } else {
+                session.setAttribute("ERROR", "Không thể tạo mã giảm giá.");
             }
-            session.setAttribute("checkoutItems", list);
-            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+        } catch (NumberFormatException | ParseException e) {
+            e.printStackTrace();
+            session.setAttribute("ERROR", "Dữ liệu không hợp lệ hoặc thiếu thông tin.");
         }
-        
+
+        response.sendRedirect("MainController?action=searchCoupon");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

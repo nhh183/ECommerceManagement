@@ -230,6 +230,7 @@ VALUES
 ('Brand003', 'Nike', N'Tập đoàn thời trang thể thao Mỹ', 'active');
 
 
+
 ALTER TABLE tblInvoices
 ADD shippingAddress NVARCHAR(255);
 UPDATE tblInvoices
@@ -239,4 +240,14 @@ WHERE invoiceID = 3;
 UPDATE tblInvoices
 SET shippingAddress = N'456 Lê Lợi, Q1, TP.HCM'
 WHERE invoiceID = 2;
+
+CREATE TABLE tblCoupons (
+    code VARCHAR(50) PRIMARY KEY,
+    discountPercent FLOAT NOT NULL CHECK (discountPercent >= 0 AND discountPercent <= 100),
+    startDate DATE NOT NULL,
+    endDate DATE NOT NULL,
+    quantity INT NOT NULL CHECK (quantity >= 0),
+    status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'inactive', 'expired', 'out_of_stock'))
+);
+
 

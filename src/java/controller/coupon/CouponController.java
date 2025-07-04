@@ -3,13 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.cart;
+package controller.coupon;
 
-import dao.CartDetailDAO;
 import dao.CouponDAO;
 import dto.CartItem;
 import dto.CouponDTO;
-import dto.ProductDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,15 +16,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author NHH
  */
-@WebServlet(name="CheckOutController", urlPatterns={"/CheckOutController"})
-public class CheckOutController extends HttpServlet {
+@WebServlet(name="CouponController", urlPatterns={"/CouponController"})
+public class CouponController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,22 +35,37 @@ public class CheckOutController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if(session.getAttribute("cartId")==null){
-            response.sendRedirect("login.jsp");
-        }else{
-            String[] productIDs = request.getParameterValues("productID");
-            int cartId = (Integer) session.getAttribute("cartId");
-            CartDetailDAO cdDao = new CartDetailDAO();
-            List<CartItem> list = new ArrayList<>();
-            if (productIDs != null) {
-                for(String product: productIDs){
-                    list.add(cdDao.getCartItem(cartId,Integer.parseInt(product)));
+        List<CartItem> list = (List<CartItem>) session.getAttribute("checkoutItems");
+        // Xử lý mã giảm giá
+            String couponCode = request.getParameter("couponCode");
+            double discountPercent = 0;
+            CouponDTO coupon = null;
+
+            if (couponCode != null && !couponCode.trim().isEmpty()) {
+                CouponDAO couponDAO = new CouponDAO();
+                coupon = couponDAO.getValidCoupon(couponCode.trim());
+
+                if (coupon != null) {
+                    discountPercent = coupon.getDiscountPercent();
+                    request.setAttribute("coupon", coupon);  // Gửi CouponDTO sang JSP
+                } else {
+                    request.setAttribute("invalidCoupon", "Mã giảm giá không hợp lệ hoặc đã hết hạn.");
                 }
             }
-            session.setAttribute("checkoutItems", list);
+
+            // Tính tổng giá và giá sau giảm
+            double total = 0;
+            for (CartItem item : list) {
+                total += item.getSalePrice() * item.getQuantity();
+            }
+
+            double discountedTotal = total * (1 - discountPercent / 100.0);
+
+            // Gửi dữ liệu sang checkout.jsp
+            request.setAttribute("discountedTotal", discountedTotal);
+            request.setAttribute("total", total); //giá chưa giảm
             request.getRequestDispatcher("checkout.jsp").forward(request, response);
-        }
-        
+
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -1,9 +1,11 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setBundle basename="messages"/>
+
 <style>
     .footer-line {
-            background: linear-gradient(90deg, rgba(253, 29, 29, 1) 0%, rgba(252, 176, 69, 1) 100%);
-        }
+        background: linear-gradient(90deg, rgba(253, 29, 29, 1) 0%, rgba(252, 176, 69, 1) 100%);
+    }
     .feature-box {
         display: flex;
         justify-content: space-between;
@@ -23,17 +25,16 @@
         line-height: 1.4;
     }
     .footer a {
-        color: #E55D00; /* màu cam nhẹ */
+        color: #E55D00;
         text-decoration: none;
         transition: color 0.3s ease, text-decoration 0.3s ease;
         font-weight: 500;
     }
 
     .footer a:hover {
-        color: #CC4400; /* cam đậm hơn khi hover */
+        color: #CC4400;
         text-decoration: underline;
     }
-
 </style>
 
 <div class="footer mt-5 pt-4 pb-4 text-muted">
@@ -42,56 +43,57 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 feature">
-                    <h3>CAM KẾT CHÍNH HÀNG</h3>
-                    <p>100% Authentic<br>Cam kết sản phẩm chính hãng từ Châu Âu, Châu Mỹ...</p>
+                    <h3><fmt:message key="footer.commit.title"/></h3>
+                    <p><fmt:message key="footer.commit.desc"/></p>
                 </div>
                 <div class="col-md-4 feature">
-                    <h3>GIAO HÀNG HỎA TỐC</h3>
-                    <p>Express delivery<br>SHIP hỏa tốc 1h nhận hàng trong nội thành HCM</p>
+                    <h3><fmt:message key="footer.delivery.title"/></h3>
+                    <p><fmt:message key="footer.delivery.desc"/></p>
                 </div>
                 <div class="col-md-4 feature">
-                    <h3>HỖ TRỢ 24/24</h3>
-                    <p>Supporting 24/24<br>Gọi ngay 0909300746</p>
+                    <h3><fmt:message key="footer.support.title"/></h3>
+                    <p><fmt:message key="footer.support.desc"/></p>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <h6>Về Shoppy</h6>
+                <h6><fmt:message key="footer.about.title"/></h6>
                 <ul class="list-unstyled">
-                    <li><a href="#">Giới thiệu</a></li>
-                    <li><a href="#">Tuyển dụng</a></li>
-                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#"><fmt:message key="footer.about.intro"/></a></li>
+                    <li><a href="#"><fmt:message key="footer.about.jobs"/></a></li>
+                    <li><a href="#"><fmt:message key="footer.about.terms"/></a></li>
                 </ul>
             </div>
             <div class="col-md-3">
-                <h6>Chính sách</h6>
+                <h6><fmt:message key="footer.policy.title"/></h6>
                 <ul class="list-unstyled">
-                    <li><a href="#">Chính sách bảo mật</a></li>
-                    <li><a href="#">Chính sách đổi trả</a></li>
-                    <li><a href="#">Chính sách giao hàng</a></li>
+                    <li><a href="#"><fmt:message key="footer.policy.privacy"/></a></li>
+                    <li><a href="#"><fmt:message key="footer.policy.return"/></a></li>
+                    <li><a href="#"><fmt:message key="footer.policy.shipping"/></a></li>
                 </ul>
             </div>
             <div class="col-md-3">
-                <h6>Hỗ trợ khách hàng</h6>
+                <h6><fmt:message key="footer.support.title2"/></h6>
                 <ul class="list-unstyled">
-                    <li><a href="#">Trung tâm trợ giúp</a></li>
-                    <li><a href="#">Liên hệ hỗ trợ</a></li>
-                    <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#"><fmt:message key="footer.support.center"/></a></li>
+                    <li><a href="#"><fmt:message key="footer.support.contact"/></a></li>
+                    <li><a href="#"><fmt:message key="footer.support.guide"/></a></li>
                 </ul>
             </div>
             <div class="col-md-3">
-                <h6>Liên hệ</h6>
+                <h6><fmt:message key="footer.contact.title"/></h6>
                 <ul class="list-unstyled">
-                    <li>Email: support@shoppy.vn</li>
-                    <li>Hotline: 1900 9999</li>
-                    <li>Địa chỉ: TP.HCM</li>
+                    <li><fmt:message key="footer.contact.email"/></li>
+                    <li><fmt:message key="footer.contact.hotline"/></li>
+                    <li><fmt:message key="footer.contact.address"/></li>
                 </ul>
             </div>
         </div>
         <hr>
-        <div class="text-center small">© 2025 Shoppy. All rights reserved.</div>
+        <div class="text-center small"><fmt:message key="footer.copyright"/></div>
     </div>
 </div>
