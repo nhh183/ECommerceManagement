@@ -39,11 +39,10 @@
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
+
                     </button>
                 </div>
 
@@ -82,12 +81,14 @@
                                     <h3>${product.name}</h3>
 
                                     <c:if test="${product.promotion != null}">
-                                        <p>
-                                            <s><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true"/> ₫</s>
-                                            <strong class="text-danger">
+                                        <div class="product-price">
+                                            <span class="price-original">
+                                                <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true"/> ₫
+                                            </span>
+                                            <span class="price-sale">
                                                 <fmt:formatNumber value="${product.price * (1 - product.promotion.discountPercent / 100)}" type="number" groupingUsed="true"/> ₫
-                                            </strong>
-                                        </p>
+                                            </span>
+                                        </div>
                                         <div class="discount-badge">-${product.promotion.discountPercent}%</div>
                                     </c:if>
                                 </div>
@@ -98,8 +99,6 @@
             </div>
         </div>
 
-
-  
         <div class="product-section">
             <div class="container">
                 <h2>Sản Phẩm</h2>
@@ -107,49 +106,41 @@
                     <c:forEach var="product" items="${productList}">
                         <a href="MainController?action=viewProduct&id=${product.productID}">
                             <div class="product-card position-relative">
-
-                                <!-- Badge Giảm giá -->
                                 <c:if test="${product.promotion != null}">
                                     <div class="discount-badge">-${product.promotion.discountPercent}%</div>
                                 </c:if>
 
-                                <!-- Ảnh sản phẩm -->
                                 <img src="${product.imgUrl}" alt="${product.name}">
-
-                                <!-- Tên sản phẩm -->
                                 <h3>${product.name}</h3>
 
-                                <!-- Hiển thị giá -->
-                                <c:choose>
-                                    <c:when test="${product.promotion != null}">
-                                        <p>
-                                            <s><fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫</s><br>
-                                            <strong class="text-danger fs-5">
-                                                <fmt:formatNumber value="${product.price * (1 - product.promotion.discountPercent / 100)}" type="number" groupingUsed="true" /> ₫
-                                            </strong>
-                                        </p>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <p>
-                                            <strong class="text-dark">
-                                                <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true" /> ₫
-                                            </strong>
-                                        </p>
-                                    </c:otherwise>
-                                </c:choose>
-
+                                <div class="product-price">
+                                    <c:choose>
+                                        <c:when test="${product.promotion != null}">
+                                            <span class="price-original">
+                                                <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true"/> ₫
+                                            </span>
+                                            <span class="price-sale">
+                                                <fmt:formatNumber value="${product.price * (1 - product.promotion.discountPercent / 100)}" type="number" groupingUsed="true"/> ₫
+                                            </span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="price-sale">
+                                                <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true"/> ₫
+                                            </span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                             </div>
                         </a>
                     </c:forEach>
                 </div>
-
             </div>
-      </div>
+        </div>
 
 
-   
         <%@include file="footer.jsp" %>
-        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     </body>
 </html>
 

@@ -48,7 +48,7 @@
                     <button type="submit" name="action" value="searchFAQ">Tìm kiếm</button>
                 </form>
 
-                <!-- Nút tạo FAQ -->              
+                <!-- create FAQ -->              
                 <a href="createFAQ.jsp">
                     <button class="create-button" type="button">+ Thêm FAQ mới</button>
                 </a>
