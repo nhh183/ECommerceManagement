@@ -7,6 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'vi'}"/>
+<fmt:setBundle basename="messages"/>
 <%@ page import="dto.UserDTO" %>
 
 <%
@@ -23,7 +25,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Xem chi tiết sản Phẩm</title>
+        <title><fmt:message key="product.view.title"/></title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/viewProduct.css">
         <!-- Font Awesome for icons -->
@@ -74,14 +76,14 @@
                     </div>
 
 
-                    <div class="product-quantity">Số lượng còn: <strong>${product.quantity}</strong></div>
+                    <div class="product-quantity"><fmt:message key="product.remaining"/>: <strong>${product.quantity}</strong></div>
 
 
 
                     <form action="MainController"  method="POST">
                         <input type="hidden" name="selectedProductId" value="${product.productID}">
                         <div class="quantity-select">
-                            <label for="quantity">Chọn số lượng:</label>
+                            <label for="quantity"><fmt:message key="product.selectQuantity"/>:</label>
                             <div class="quantity-box">
                                 <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
                                 <input type="number" id="quantity0" name="quantity" value="1" min="1" max="${product.quantity}">
@@ -89,9 +91,9 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <button type="submit" name="action" value="BuyNow" class="buy-button">Mua ngay</button>
+                            <button type="submit" name="action" value="BuyNow" class="buy-button"><fmt:message key="product.buyNow"/></button>
                             <button type="button" onclick="addToCart(${product.productID})" class="add-to-cart-button">
-                                <i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng
+                                <i class="fa-solid fa-cart-plus"></i> <fmt:message key="product.addToCart"/>
                             </button>
                         </div>
 
@@ -104,13 +106,13 @@
 
         <!-- Mô tả -->
         <div class="description-section">
-            <h3>Mô tả sản phẩm</h3>
+            <h3><fmt:message key="product.description.title"/></h3>
             <p>${product.description}</p>
         </div>
 
         <!-- Bình luận -->
         <div class="comment-section">
-            <h3>Bình luận</h3>
+            <h3><fmt:message key="product.comments.title"/></h3>
             <div class="comment">
                 <strong>Minh Nhật:</strong> Sản phẩm đẹp, giao hàng nhanh.
             </div>

@@ -312,6 +312,12 @@ INSERT INTO tblBrands (brandID, brandName, description, status) VALUES
 INSERT INTO tblBrands (brandID, brandName, description, status) VALUES
 ('Brand003', 'Nike', N'Tập đoàn đa quốc gia của Mỹ chuyên thiết kế, phát triển, sản xuất và tiếp thị giày dép, quần áo, thiết bị, phụ kiện và dịch vụ.', 'active');
 
-
-
+CREATE TABLE tblCoupons (
+    code VARCHAR(50) PRIMARY KEY,
+    discountPercent FLOAT NOT NULL CHECK (discountPercent >= 0 AND discountPercent <= 100),
+    startDate DATE NOT NULL,
+    endDate DATE NOT NULL,
+    quantity INT NOT NULL CHECK (quantity >= 0),
+    status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'inactive', 'expired', 'out_of_stock'))
+);
 

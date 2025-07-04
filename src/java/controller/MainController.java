@@ -66,6 +66,20 @@ public class MainController extends HttpServlet {
     public static final String DELETE_PROMOTION = "deletePromotion";
     public static final String DELETE_PROMOTION_CONTROLLER = "DeletePromotionController";
 
+    // Coupon
+    public static final String SEARCH_COUPON = "searchCoupon";
+    public static final String SEARCH_COUPON_CONTROLLER = "SearchCouponController";
+
+    public static final String CREATE_COUPON = "createCoupon";
+    public static final String CREATE_COUPON_CONTROLLER = "CreateCouponController";
+
+    public static final String UPDATE_COUPON = "updateCoupon";
+    public static final String UPDATE_COUPON_CONTROLLER = "UpdateCouponController";
+
+    public static final String DELETE_COUPON = "deleteCoupon";
+    public static final String DELETE_COUPON_CONTROLLER = "DeleteCouponController";
+
+    
     //PromotionProduct
     public static final String SEARCH_PROMOTION_PRODUCT = "searchPromotionProduct";
     public static final String SEARCH_PROMOTION_PRODUCT_CONTROLLER = "SearchPromotionProductController";
@@ -147,6 +161,8 @@ public class MainController extends HttpServlet {
     public static final String NOTIFICATION_LIST = "notificationList";
     public static final String NOTIFICATION_LIST_CONTROLLER = "NotificationListController";
 
+    public static final String CHANGE_LANGUAGE = "ChangeLanguage";
+    public static final String LANGUAGE_CONTROLLER = "LanguageController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -161,6 +177,9 @@ public class MainController extends HttpServlet {
                     break;
                 case HOME_PAGE:
                     url = HOME_PAGE_CONTROLLER;
+                    break;
+                case CHANGE_LANGUAGE:
+                    url= LANGUAGE_CONTROLLER;
                     break;
                 case CREATE_USER:
                     url = CREATE_USER_CONTROLLER;
@@ -211,7 +230,18 @@ public class MainController extends HttpServlet {
                 case SEARCH_PROMOTION:
                     url = SEARCH_PROMOTION_CONTROLLER;
                     break;
-
+                case SEARCH_COUPON:
+                        url = SEARCH_COUPON_CONTROLLER;
+                        break;
+                    case CREATE_COUPON:
+                        url = CREATE_COUPON_CONTROLLER;
+                        break;
+                    case UPDATE_COUPON:
+                        url = UPDATE_COUPON_CONTROLLER;
+                        break;
+                    case DELETE_COUPON:
+                        url = DELETE_COUPON_CONTROLLER;
+                        break;
                 // PromotionProduct
                 case CREATE_PROMOTION_PRODUCT:
                     url = CREATE_PROMOTION_PRODUCT_CONTROLLER;
