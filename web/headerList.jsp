@@ -127,6 +127,7 @@
                 <a href="MainController?action=searchUser" class="${page == 'users' ? 'active' : ''}">Khách hàng</a>
 
                 <a href="MainController?action=searchFAQ"${page == 'faqs' ? 'active' : ''}">FAQ</a>
+                <a href="MainController?action=searchCoupon" class="${page == 'coupons' ? 'active' : ''}">Giảm giá</a>
 
             </c:if>
             <c:if test="${loginUser.roleID == 'AD'}">
@@ -152,7 +153,7 @@
                 <a href="MainController?action=searchDelivery">Xem giao hàng</a>
 
                 <a href="MainController?action=searchFAQ" class="${page == 'faqs' ? 'active' : ''}">FAQ</a>
-                <a href="MainController?action=searchCoupon" class="${page == 'coupons' ? 'active' : ''}">Giảm giá</a>
+                
 
             </c:if>
         </div>

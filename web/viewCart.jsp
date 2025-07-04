@@ -306,6 +306,15 @@
   color: #f53d2d;
   font-weight: bold;
 }
+.notification-container{position:relative;display:inline-block;margin-right:15px;color:white;}
+.notification-toggle{display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer;}
+.notification-toggle:hover{opacity:.9;}
+.notification-dropdown{display:none;position:absolute;top:140%;right:0;min-width:260px;max-height:400px;overflow-y:auto;background:#fff;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.18);z-index:999;color:#333;}
+.notification-container:hover .notification-dropdown{display:block;}
+.notification-item{padding:10px 12px;border-bottom:1px solid #f0f0f0;font-size:13px;line-height:1.4;text-decoration:none;display:block;color:#333;}
+.notification-item:last-child{border-bottom:none;}
+.notification-item.unread{background:#fff4ef;font-weight:600;}
+.notification-empty{padding:20px;text-align:center;font-size:14px;color:#777;}
     </style>
 </head>
 <body onload="updateCartTotal()"> 
@@ -341,9 +350,27 @@
 
 
                 <div class="header-top-right">
-                    <a href="NotificationListController" class="header-link">
-                        <i class="fas fa-bell"></i> <fmt:message key="header.notification"/>
-                    </a>
+                                   <div class="notification-container" onclick="location.href='MainController?action=notificationList'">
+    <div class="notification-toggle">
+        <i class="fas fa-bell"></i>  <fmt:message key="header.notification"/>
+    </div>
+    <div class="notification-dropdown">
+        <c:choose>
+            <c:when test="${empty notificationList}">
+                <div class="notification-item"><fmt:message key="noti.nonoti"/></div>
+            </c:when>
+            <c:otherwise>
+                <c:forEach items="${notificationList}" var="n">
+                    <div class="notification-item ${n.read ? '' : 'unread'}">
+                        <b>${n.eventType}</b><br/>
+                        ${n.message}<br/>
+                        <small><fmt:formatDate value="${n.createdAt}" pattern="dd/MM/yyyy HH:mm"/></small>
+                    </div>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
                     <a href="MainController?action=searchFAQ&sourcePage=support" class="header-link">
                         <i class="fas fa-circle-question"></i> <fmt:message key="header.support"/>
                     </a>
@@ -386,7 +413,7 @@
                             <i class="fas fa-caret-down"></i>
                         </div>
                         <div class="user-menu">
-                            <a href="MainController?action=myOrders"><i class="fas fa-receipt"></i> <fmt:message key="header.purchaseOrders"/></a>
+                            <a href="MainController?action=searchDelivery"><i class="fas fa-receipt"></i><fmt:message key="header.purchaseOrders"/></a>
                             <a href="MainController?action=logout"><i class="fas fa-sign-out-alt"></i> <fmt:message key="header.logout"/></a>
                         </div>
                     </div>

@@ -343,7 +343,6 @@ if (session.getAttribute("login") != null && request.getAttribute("notificationL
 }
 %>
 
-    %>
 <div class="header sticky-top">
     <div class="header-top">
         <div class="container d-flex justify-content-between align-items-center">
@@ -377,12 +376,12 @@ if (session.getAttribute("login") != null && request.getAttribute("notificationL
             <div class="header-top-right">
                 <div class="notification-container" onclick="location.href='MainController?action=notificationList'">
     <div class="notification-toggle">
-        <i class="fas fa-bell"></i> Thông báo
+        <i class="fas fa-bell"></i>  <fmt:message key="header.notification"/>
     </div>
     <div class="notification-dropdown">
         <c:choose>
             <c:when test="${empty notificationList}">
-                <div class="notification-item">Không có thông báo nào.</div>
+                <div class="notification-item"><fmt:message key="noti.nonoti"/></div>
             </c:when>
             <c:otherwise>
                 <c:forEach items="${notificationList}" var="n">
@@ -397,10 +396,6 @@ if (session.getAttribute("login") != null && request.getAttribute("notificationL
     </div>
 </div>
 
-
-                <a href="NotificationListController" class="header-link">
-                    <i class="fas fa-bell"></i> <fmt:message key="header.notification"/>
-                </a>
 
                 <a href="MainController?action=searchFAQ&sourcePage=support" class="header-link">
                     <i class="fas fa-circle-question"></i> <fmt:message key="header.support"/>
@@ -445,7 +440,7 @@ if (session.getAttribute("login") != null && request.getAttribute("notificationL
                         <i class="fas fa-caret-down"></i>
                     </div>
                     <div class="user-menu">
-                        <a href="MainController?action=myOrders"><i class="fas fa-receipt"></i>	<fmt:message key="header.purchaseOrders"/></a>
+                        <a href="MainController?action=searchDelivery"><i class="fas fa-receipt"></i>	<fmt:message key="header.purchaseOrders"/></a>
                         <a href="MainController?action=logout"><i class="fas fa-sign-out-alt"></i> <fmt:message key="header.logout"/></a>
                     </div>
                 </div>

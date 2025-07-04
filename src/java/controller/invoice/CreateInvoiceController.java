@@ -78,8 +78,8 @@ public class CreateInvoiceController extends HttpServlet {
                 
                 cartDetailDAO.removeProductFromCart(cartId, productID);
             }
-
             
+            session.setAttribute("cartSize",cartDetailDAO.getCartSize(cartId));
             response.sendRedirect("MainController?action=ViewCart");
 
         } catch (Exception e) {
