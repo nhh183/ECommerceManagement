@@ -20,6 +20,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import dao.CouponDAO;
+import dto.CouponDTO;
 
 /**
  *
@@ -78,7 +80,14 @@ public class CreateInvoiceController extends HttpServlet {
                 
                 cartDetailDAO.removeProductFromCart(cartId, productID);
             }
-            
+            CouponDTO appliedCoupon = (CouponDTO) session.getAttribute("coupon");
+            if (appliedCoupon != null) {
+                CouponDAO couponDAO = new CouponDAO();
+                couponDAO.reduceQuantity(appliedCoupon.getCode());
+
+                session.removeAttribute("coupon");
+                session.removeAttribute("discountedTotal");
+            }
             session.setAttribute("cartSize",cartDetailDAO.getCartSize(cartId));
             response.sendRedirect("MainController?action=ViewCart");
 

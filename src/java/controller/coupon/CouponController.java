@@ -35,36 +35,37 @@ public class CouponController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        List<CartItem> list = (List<CartItem>) session.getAttribute("checkoutItems");
-        // Xử lý mã giảm giá
-            String couponCode = request.getParameter("couponCode");
-            double discountPercent = 0;
-            CouponDTO coupon = null;
+    List<CartItem> list = (List<CartItem>) session.getAttribute("checkoutItems");
 
-            if (couponCode != null && !couponCode.trim().isEmpty()) {
-                CouponDAO couponDAO = new CouponDAO();
-                coupon = couponDAO.getValidCoupon(couponCode.trim());
+    String couponCode = request.getParameter("couponCode");
+    double discountPercent = 0;
+    CouponDTO coupon = null;
 
-                if (coupon != null) {
-                    discountPercent = coupon.getDiscountPercent();
-                    request.setAttribute("coupon", coupon);  // Gửi CouponDTO sang JSP
-                } else {
-                    request.setAttribute("invalidCoupon", "Mã giảm giá không hợp lệ hoặc đã hết hạn.");
-                }
-            }
+    if (couponCode != null && !couponCode.trim().isEmpty()) {
+        CouponDAO couponDAO = new CouponDAO();
+        coupon = couponDAO.getValidCoupon(couponCode.trim());
 
-            // Tính tổng giá và giá sau giảm
-            double total = 0;
-            for (CartItem item : list) {
-                total += item.getSalePrice() * item.getQuantity();
-            }
+        if (coupon != null) {
+            discountPercent = coupon.getDiscountPercent();
+            session.setAttribute("coupon", coupon);  // Sửa ở đây
+            session.removeAttribute("invalidCoupon");
+        } else {
+            session.setAttribute("invalidCoupon", "Mã giảm giá không hợp lệ hoặc đã hết hạn.");
+            session.removeAttribute("coupon");
+        }
+    }
 
-            double discountedTotal = total * (1 - discountPercent / 100.0);
+    double total = 0;
+    for (CartItem item : list) {
+        total += item.getSalePrice() * item.getQuantity();
+    }
 
-            // Gửi dữ liệu sang checkout.jsp
-            request.setAttribute("discountedTotal", discountedTotal);
-            request.setAttribute("total", total); //giá chưa giảm
-            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+    double discountedTotal = total * (1 - discountPercent / 100.0);
+
+    session.setAttribute("discountedTotal", discountedTotal); // Sửa ở đây
+    session.setAttribute("total", total);                     // Sửa ở đây
+
+    request.getRequestDispatcher("checkout.jsp").forward(request, response);
 
     } 
 
