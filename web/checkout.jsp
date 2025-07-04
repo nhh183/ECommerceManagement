@@ -8,11 +8,14 @@
 <%
     List<CartItem> checkoutItems = (List<CartItem>) session.getAttribute("checkoutItems");
     double total = 0;
-    for (CartItem item : checkoutItems) {
-        total += item.getSalePrice()*item.getQuantity();
+    if (checkoutItems != null) {
+        for (CartItem item : checkoutItems) {
+            total += item.getSalePrice() * item.getQuantity();
+        }
     }
-    request.setAttribute("totalAmount", total);
+    session.setAttribute("total", total); // Gán vào session để JSTL dùng được
 %>
+
 
 <!DOCTYPE html>
 <html>
@@ -408,7 +411,7 @@
         </div>
         <div class="sec-end container bg-white d-flex">
             <div class="text-left">
-                <form action="CheckOutController" method="post" class="mb-3 d-flex align-items-center ">
+                <form action="CouponController" method="post" class="mb-3 d-flex align-items-center ">
                     <input type="text" name="couponCode" placeholder="Nhập mã giảm giá" class="form-control w-50 me-2" />
                     <button type="submit" class="btn btn-outline-primary">Áp dụng</button>
                 </form>
@@ -423,11 +426,20 @@
             </div>
             <div class="gap-1 text-right">
                 <div class="font-weight-bold">
-                    Tổng cộng: ₫<fmt:formatNumber value="${totalAmount}" type="number" groupingUsed="true" />
-                </div>
+    <c:choose>
+        <c:when test="${not empty sessionScope.discountedTotal}">
+            Tổng cộng: <del class="text-muted">₫<fmt:formatNumber value="${sessionScope.total}" type="number" groupingUsed="true"/></del>
+            <strong class="text-danger ms-2">₫<fmt:formatNumber value="${sessionScope.discountedTotal}" type="number" groupingUsed="true"/></strong>
+        </c:when>
+        <c:otherwise>
+            Tổng cộng: ₫<fmt:formatNumber value="${sessionScope.total}" type="number" groupingUsed="true"/>
+        </c:otherwise>
+    </c:choose>
+</div>
 
                 <form action="MainController" method="post">
-                    <input type="hidden" name="totalAmount" value="${totalAmount}" />
+                    <input type="hidden" name="totalAmount" value="${not empty sessionScope.discountedTotal ? sessionScope.discountedTotal : sessionScope.total}" />
+
                     <c:forEach var="item" items="${checkoutItems}">
                         <input type="hidden" name="productId" value="${item.productID}" />
                         <input type="hidden" name="quantity" value="${item.quantity}" />

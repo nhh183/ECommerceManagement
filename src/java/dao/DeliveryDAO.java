@@ -85,16 +85,19 @@ public class DeliveryDAO {
         return false;
     }
 
-    public void syncWithInvoices() throws SQLException {
+public void syncWithInvoices() throws SQLException {
         String sql
-                = "INSERT INTO tblDeliveries (invoiceID, address, deliveryDate, status) "
-                + "SELECT i.invoiceID, i.shippingAddress, GETDATE(), 'pending' "
-                + "FROM tblInvoices i "
-                + "LEFT JOIN tblDeliveries d ON d.invoiceID = i.invoiceID "
-                + "WHERE d.invoiceID IS NULL AND i.shippingAddress IS NOT NULL";
+                = "INSERT INTO tblDeliveries (invoiceID, address, deliveryDate, status)\n"
+                + "SELECT  i.invoiceID,\n"
+                + "        i.shippingAddress,       \n"
+                + "        GETDATE(),               \n"
+                + "        'pending'                \n"
+                + "FROM    tblInvoices AS i\n"
+                + "WHERE   NOT EXISTS ( SELECT 1\n"
+                + "                     FROM tblDeliveries AS d\n"
+                + "                     WHERE d.invoiceID = i.invoiceID );";
         try (
-                 Connection con = DBUtil.getConnection();  
-                PreparedStatement ps = con.prepareStatement(sql)) {
+                 Connection con = DBUtil.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.executeUpdate();
         }
     }
