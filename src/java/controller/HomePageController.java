@@ -78,6 +78,7 @@ public class HomePageController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("login.jsp");
+            return; 
         }
 
         // Forward đến trang JSP

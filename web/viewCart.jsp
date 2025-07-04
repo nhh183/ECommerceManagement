@@ -2,7 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="dto.UserDTO" %>
-
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'vi'}"/>
+<fmt:setBundle basename="messages"/>
 <%
     UserDTO loginUser = (UserDTO) session.getAttribute("login");
     if (loginUser == null) {
@@ -14,8 +15,9 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Shoppy | Giỏ Hàng</title>
+    <title>Shoppy | <fmt:message key="header.cart"/></title>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         html,body {
             height: 100%;
@@ -24,9 +26,117 @@
         .header { box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         .header-bottom p { color: #FF792B; }
         .header-bottom { background-color: #fff; }
+                /* === HEADER-TOP === */
         .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background: transparent;
             background: linear-gradient(180deg, rgba(253, 29, 29, 1) 0%, rgba(255, 121, 43, 1) 100%);
+            
         }
+
+        /* Trái & phải đều là flex để căn đồng đều */
+        .header-top-left,
+        .header-top-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 0 20px;
+        }
+
+        /* Danh sách bên trái */
+        .header-nav-list {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            align-items: center;
+        }
+
+        .header-nav-list li a,
+        .header-top-right .header-link {
+            color: white;
+            font-weight: 400;
+            font-size: 13px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: opacity 0.2s ease;
+        }
+
+        .header-link i {
+            color: white;
+        }
+
+        .header-link:hover {
+            color: white;
+            text-decoration: none !important;
+            opacity: 0.85;
+        }
+
+        .header-link,
+        .header-link:visited,
+        .header-link:focus,
+        .header-link:active,
+        .header-link:hover {
+            color: white !important;
+        }
+        /* === USER DROPDOWN === */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .user-toggle {
+            color: white;
+            font-weight: 300;
+            font-size: 13px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .user-menu {
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            right: 0;
+            top: 130%;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            min-width: 150px;
+            z-index: 99;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .user-dropdown:hover .user-menu {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .user-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .user-menu a:hover {
+            background-color: #f5f5f5;
+        }
+
         .logo {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: white !important;
@@ -97,26 +207,201 @@
             border-top: 1px solid #ccc;
             z-index: 1000;
         }
-        
+        .support-link {
+            margin-bottom: -8px;
+            font-weight: 600;
+            color: #E55D00;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .support-link:hover {
+            color: #CC4A00;
+            text-decoration: none;
+        }
+        .search-btn {
+            background-color: #FD1D1D;
+        }
+        .header-brand{
+            gap:2px;
+        }
+
+        .divider-line {
+            font-size: 30px;
+            font-weight: bold;
+            color: #FFD4B0;
+        }
         .cus-check2 { left: -2px; }
+        .popover-container {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+}
+
+.popover-box {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 4px;
+  padding: 8px 0;
+  display: none;
+  z-index: 999;
+  width: 150px;
+}
+
+.popover-container:hover .popover-box {
+  display: block;
+}
+
+/* Mũi tên nhọn */
+.popover-arrow {
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  transform: translate(-7px, -100%);
+  width: 0;
+  height: 0;
+  border-bottom: 10px solid rgba(0, 0, 0, 0.09);
+  border-left: 0 solid transparent;
+  border-right: 0 solid transparent;
+}
+
+.arrow-inner {
+  position: absolute;
+  bottom: -10px;
+  border-bottom: 10px solid white;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+}
+
+/* Button chọn ngôn ngữ */
+.lang-option {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  color: black;
+}
+
+.lang-option:hover {
+  background-color: #f5f5f5;
+}
+
+.lang-option.active {
+  color: #f53d2d;
+  font-weight: bold;
+}
     </style>
 </head>
 <body onload="updateCartTotal()"> 
     <div class="header">
-        <div class="header-top">
-            <div class="header-top-left"></div>
-            <div class="header-top-right">
-                <span class="welcome-text font-weight-light" style="display: inline-block;">
-                    Welcome, ${sessionScope.login.fullName}!
-                </span>
+        <div class="header-top d-flex align-items-center">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div class="header-top-left">
+                    <ul class="header-nav-list">
+                        <!-- Mục cho CS -->
+                        <c:if test="${sessionScope.login.roleID == 'CS'}">
+                            <li><a class="header-link" href="MainController?action=activateSeller">
+                                    <i class="fas fa-user-check"></i> <fmt:message key="header.activateSeller"/>
+                                </a></li>
+                            </c:if>
+
+                        <!-- Mục cho SELLER -->
+                        <c:if test="${sessionScope.login.roleID == 'SL'}">
+                            <li><a class="header-link" href="MainController?action=productList">
+                                    <i class="fas fa-box-open"></i> <fmt:message key="header.myProducts"/>
+                                </a></li>
+                            <li><a class="header-link" href="MainController?action=myOrders">
+                                    <i class="fas fa-receipt"></i> <fmt:message key="header.myOrders"/>
+                                </a></li>
+                            </c:if>
+
+                        <c:if test="${sessionScope.login.roleID == 'AD'}">
+                            <li><a href="MainController?action=productList" class="header-link">
+                                    <i class="fas fa-chart-line"></i> <fmt:message key="header.adminPage"/>
+                                </a></li>
+                            </c:if>
+                    </ul>
+                </div>
+
+
+                <div class="header-top-right">
+                    <a href="NotificationListController" class="header-link">
+                        <i class="fas fa-bell"></i> <fmt:message key="header.notification"/>
+                    </a>
+                    <a href="MainController?action=searchFAQ&sourcePage=support" class="header-link">
+                        <i class="fas fa-circle-question"></i> <fmt:message key="header.support"/>
+                    </a>
+                    <div class="popover-container">
+                        <div class="popover-target">
+                            <div class="lang-button">
+                                <!-- Icon địa cầu -->
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                  <path d="M8 14.667C11.682 14.667 14.667 11.682 14.667 8S11.682 1.333 8 1.333 1.333 4.318 1.333 8 4.318 14.667 8 14.667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                  <path d="M5.333 8c0 3.682 1.194 6.667 2.667 6.667s2.667-2.985 2.667-6.667-1.194-6.667-2.667-6.667S5.333 4.318 5.333 8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                  <path d="M1.333 8h13.334" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <span>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.lang.language == 'en'}"><fmt:message key="lang.en"/></c:when>
+                                        <c:otherwise><fmt:message key="lang.vi"/></c:otherwise>
+                                    </c:choose>
+                                </span>
+                                <!-- Mũi tên xuống -->
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                                  <path d="M6 8.146L11.146 3l.707.707-5.146 5.147a1 1 0 01-1.414 0L.146 3.707.854 3 6 8.146z"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Popover hiển thị khi hover -->
+                        <div class="popover-box">
+                          <div class="popover-arrow">
+                            <div class="arrow-inner"></div>
+                          </div>
+                          <a href="MainController?action=ChangeLanguage&lang=vi" class="lang-option ${sessionScope.lang.language == 'vi' ? 'active' : ''} text-decoration-none">Tiếng Việt</a>
+                        <a href="MainController?action=ChangeLanguage&lang=en" class="lang-option ${sessionScope.lang.language == 'en' ? 'active' : ''} text-decoration-none">English</a>
+                        </div>
+                  </div>
+
+                    <!-- Dropdown User -->
+                    <div class="user-dropdown">
+                        <div class="user-toggle">
+                            <i class="fas fa-user"></i> ${sessionScope.login.fullName}
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        <div class="user-menu">
+                            <a href="MainController?action=myOrders"><i class="fas fa-receipt"></i> <fmt:message key="header.purchaseOrders"/></a>
+                            <a href="MainController?action=logout"><i class="fas fa-sign-out-alt"></i> <fmt:message key="header.logout"/></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="header-bottom p-3">
             <div class="inner-header-bottom row">
                 <div class="header-bottom-left col-md-3">
-                    <div class="logo">
-                        <img src="images/shop.jpg" alt="Cart Logo" class="logo-img">
-                        <p>Shoppy | Giỏ Hàng</p>
+                    <div class="header-brand d-flex align-items-center justify-content-center">
+                            <a href="MainController?action=homePage" >
+                                <img src="images/logo_orange.svg" alt="Shop Logo" class="svg ">
+                            </a>
+                            <span class="divider-line">|</span>
+                            <h2 class="support-link"><fmt:message key="header.cart"/></h2>
                     </div>
                 </div>
                 <div class="header-bottom-right col-md-6">
@@ -124,7 +409,7 @@
                         <input type="text" name="search" class="form-control" placeholder="Tìm sản phẩm...">
                         <input type="hidden" name="action" value="searchProduct">
                         <div class="input-group-append">
-                            <button class="btn btn-solid-primary search-btn" type="submit">🔍</button>
+                            <button class="btn btn-solid-primary search-btn" type="submit"><i class="fa-solid fa-magnifying-glass text-white"></i></button>
                         </div>
                     </form>
                 </div>
@@ -140,79 +425,83 @@
                         <span class="checkmark"></span>
                     </label>
                 </div>
-                <div class="col-3">Sản Phẩm</div>
-                <div class="col-2 text-center">Đơn Giá</div>
-                <div class="col-2 text-center">Số Lượng</div>
-                <div class="col-2 text-center">Số Tiền</div>
-                <div class="col-2 text-center">Thao Tác</div>
+                <div class="col-3"><fmt:message key="cart.product"/></div>
+                <div class="col-2 text-center"><fmt:message key="cart.unitPrice"/></div>
+                <div class="col-2 text-center"><fmt:message key="cart.quantity"/></div>
+                <div class="col-2 text-center"><fmt:message key="cart.totalPrice"/></div>
+                <div class="col-2 text-center"><fmt:message key="cart.action"/></div>
             </div>
         </div>
         <c:if test="${not empty cartItems}">
-            <div class="container bg-white mt-2">
-                <c:forEach var="item" items="${cartItems}">
-                    <div class="row align-items-center py-3 border-bottom" id="product-${item.getProductID()}"
-                                    ${selectedId != null && selectedId.equals(String.valueOf(item.getProductID())) ? 'data-selected="true"' : ''}>
-                        <div class="col-1 d-flex justify-content-center">
-                            <label class="custom-checkbox">
-                                <input type="checkbox" class="cart-checkbox" ${selectedId != null && selectedId.equals(String.valueOf(item.getProductID())) ? "checked" : ""}>
+            <form id="checkoutForm" method="post" action="MainController">
+                <div class="container bg-white mt-2">
+
+                    <c:forEach var="item" items="${cartItems}" >
+                        <div class="row align-items-center py-3 border-bottom" id="product-${item.getProductID()}"
+                                        ${selectedId != null && selectedId.equals(String.valueOf(item.getProductID())) ? 'data-selected="true"' : ''}>
+                            <div class="col-1 d-flex justify-content-center">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" class="cart-checkbox" ${selectedId != null && selectedId.equals(String.valueOf(item.getProductID())) ? "checked" : ""}>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-3 d-flex">
+                                <img src="${item.getImgUrl()}" alt="${item.getProductName()}" class="img-thumbnail mr-2 cart-img">
+                                <div>
+                                    <div>${item.getProductName()}</div>
+                                </div>
+                            </div>
+                            <div class="col-2 text-center text-muted">
+                                <c:if test="${item.getPrice() != item.getSalePrice()}" >
+                                    <del>₫<fmt:formatNumber value="${item.getPrice()}" type="number" groupingUsed="true" /></del>
+                                    <br>
+                                </c:if>
+                                <span class="text-danger">₫<fmt:formatNumber value="${item.getSalePrice()}" type="number" groupingUsed="true" /></span>
+                            </div>
+                            <div class="col-2 text-center">
+                                <div class="input-group justify-content-center">
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-light border-dark btn-minus" data-productid="${item.getProductID()}" data-price="${item.getSalePrice()}">-</button>
+                                    </div>
+                                    <input type="text" class="form-control text-center pr-2 pl-2 quantity-input" value="${item.getQuantity()}" style="max-width: 50px;" readonly data-productid="${item.getProductID()}" data-price="${item.getSalePrice()}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-light border-dark btn-plus" data-productid="${item.getProductID()}" data-price="${item.getSalePrice()}">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2 text-center text-danger">
+                                ₫<span class="item-total" data-productid="${item.getProductID()}">
+                                    <fmt:formatNumber value="${item.getSalePrice() * item.getQuantity()}" type="number" groupingUsed="true"/>
+                                </span>
+                            </div>
+                            <div class="col-2 text-center"><a href="#" class="text-danger btn-delete" data-productid="${item.getProductID()}">Xóa</a></div>
+                        </div>
+                    </c:forEach>
+                </div>
+                <div class="d-flex container justify-content-between align-items-center mt-2 border-top pt-3 sticky-footer">
+                    <div class="buy-section d-flex justify-content-center align-items-center pl-4">
+                        <div class="buy-section d-flex align-items-center">
+                            <label class="custom-checkbox cus-check2">
+                                <input type="checkbox" class="selectAll">
                                 <span class="checkmark"></span>
                             </label>
+                            <span><fmt:message key="header.all"/> | <a href="#" class="text-danger"><fmt:message key="cart.remove"/></a></span>
                         </div>
-                        <div class="col-3 d-flex">
-                            <img src="${item.getImgUrl()}" alt="${item.getProductName()}" class="img-thumbnail mr-2 cart-img">
-                            <div>
-                                <div>${item.getProductName()}</div>
-                                <small class="text-muted">Phân loại hàng: </small>
-                            </div>
-                        </div>
-                        <div class="col-2 text-center text-muted">
-                            <del>₫<fmt:formatNumber value="${item.getSalePrice()}" type="number" groupingUsed="true" /></del>
-                            <br>
-                            <span class="text-danger">₫<fmt:formatNumber value="${item.getPrice()}" type="number" groupingUsed="true" /></span>
-                        </div>
-                        <div class="col-2 text-center">
-                            <div class="input-group justify-content-center">
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-light border-dark btn-minus" data-productid="${item.getProductID()}" data-price="${item.getPrice()}">-</button>
-                                </div>
-                                <input type="text" class="form-control text-center pr-2 pl-2 quantity-input" value="${item.getQuantity()}" style="max-width: 50px;" readonly data-productid="${item.getProductID()}" data-price="${item.getPrice()}">
-                                <div class="input-group-append">
-                                    <button class="btn btn-light border-dark btn-plus" data-productid="${item.getProductID()}" data-price="${item.getPrice()}">+</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 text-center text-danger">
-                            ₫<span class="item-total" data-productid="${item.getProductID()}">
-                               <fmt:formatNumber value="${item.getPrice() * item.getQuantity()}" type="number" groupingUsed="true" />
-                            </span>
-                        </div>
-                        <div class="col-2 text-center"><a href="#" class="text-danger btn-delete" data-productid="${item.getProductID()}">Xóa</a></div>
                     </div>
-                </c:forEach>
-            </div>
-            <div class="d-flex container justify-content-between align-items-center mt-2 border-top pt-3 sticky-footer">
-                <div class="buy-section d-flex justify-content-center align-items-center pl-4">
-                    <div class="buy-section d-flex align-items-center">
-                        <label class="custom-checkbox cus-check2">
-                            <input type="checkbox" class="selectAll">
-                            <span class="checkmark"></span>
-                        </label>
-                        <span>Tất cả | <a href="#" class="text-danger">Xoá</a></span>
+                    <div>
+                        <fmt:message key="cart.total"/> ( <fmt:message key="cart.selectedCount"/>: <span id="selected-count">0</span>,  <fmt:message key="cart.totalQuantity"/>: <span id="total-quantity">0</span>): <span class="text-danger font-weight-bold" id="cart-total">₫0</span>
+                        <button id="checkoutBtn" class="btn btn-danger ml-3"><fmt:message key="cart.checkout"/></button>
                     </div>
                 </div>
-                <div>
-                    Tổng cộng (sản phẩm đã chọn: <span id="selected-count">0</span>, số lượng: <span id="total-quantity">0</span>): <span class="text-danger font-weight-bold" id="cart-total">₫0</span>
-                    <button class="btn btn-danger ml-3">Mua Hàng</button>
-                </div>
-            </div>
+            </form>
         </c:if>
         <c:if test="${empty cartItems}">
             <div class="d-flex justify-content-center">
-                <p>Không có sản phẩm trong giỏ hàng</p>
+                <p><fmt:message key="cart.checkout.alert"/></p>
             </div>
         </c:if>
     </div>
-                <form id="checkoutForm" method="post" action="CheckOutController" style="display:none;"></form>
+                
 
     <%@include file="footer.jsp" %>
 </body>
@@ -343,71 +632,64 @@
             });
         });
     });
-    function getSelectedItems() {
-    const selectedItems = [];
-    document.querySelectorAll(".cart-checkbox:checked").forEach(cb => {
-        const row = cb.closest(".row");
-        const input = row.querySelector(".quantity-input");
-        const productId = input.dataset.productid;
-        const price = parseFloat(input.dataset.price);
-        const quantity = parseInt(input.value);
-        const nameDiv = row.querySelector(".col-3 > div > div");
-        const name = nameDiv ? nameDiv.textContent.trim() : "";
+document.getElementById("checkoutBtn").addEventListener("click", function (e) {
+    e.preventDefault(); // Ngăn submit mặc định
 
+    const form = document.getElementById("checkoutForm");
+    // Xoá các input ẩn cũ nếu có
+    form.querySelectorAll("input[name='productID']").forEach(el => el.remove());
 
-        selectedItems.push({
-            productId,
-            name,
-            quantity,
-            price
-        });
-    });
-    return selectedItems;
-}
+    const selectedIds = Array.from(document.querySelectorAll(".cart-checkbox"))
+        .filter(cb => cb.checked)
+        .map(cb => {
+            const row = cb.closest(".row");
+            if (row && row.id.startsWith("product-")) {
+                return row.id.replace("product-", "").trim();
+            }
+            return null;
+        })
+        .filter(id => id !== null && id !== "");
 
-document.querySelector(".btn-danger.ml-3").addEventListener("click", function () {
-    const selectedItems = getSelectedItems();
-
-    if (selectedItems.length === 0) {
-        alert("Vui lòng chọn sản phẩm");
+    if (selectedIds.length === 0) {
+        alert("Vui lòng chọn sản phẩm để thanh toán!");
         return;
     }
 
-    const form = document.getElementById("checkoutForm");
-    form.innerHTML = ""; // Xóa nội dung cũ nếu có
-
-    selectedItems.forEach((item, index) => {
-        const inputs = `
-            <input type="hidden" name="productId" value="${item.productId}">
-            <input type="hidden" name="name" value="${item.name}">
-            <input type="hidden" name="quantity" value="${item.quantity}">
-            <input type="hidden" name="price" value="${item.price}">
-        `;
-        form.insertAdjacentHTML("beforeend", inputs);
+    // Tạo input hidden cho từng productID được chọn
+    selectedIds.forEach(id => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "productID";
+        input.value = id;
+        form.appendChild(input);
     });
 
-    const actionInput = `<input type="hidden" name="action" value="CheckOut">`;
-    form.insertAdjacentHTML("beforeend", actionInput);
+    // Thêm action nếu cần
+    const actionInput = document.createElement("input");
+    actionInput.type = "hidden";
+    actionInput.name = "action";
+    actionInput.value = "CheckOut";
+    form.appendChild(actionInput);
 
-    form.submit(); // Gửi form truyền thống
+    form.submit(); // Submit form sau khi gắn dữ liệu
 });
 
 
-      function updateQuantityAjax(productId, quantity) {
-    fetch("MainController", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `action=UpdateCart&productId=`+productId+`&quantity=`+quantity
-        })
-        .then(response => response.text())
-        .then(data => {
-            
-        })
-        .catch(err => {
-            console.error("Lỗi kết nối:", err);
-        });
+    function updateQuantityAjax(productId, quantity) {
+        fetch("MainController", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `action=UpdateCart&productId=`+productId+`&quantity=`+quantity
+            })
+            .then(response => response.text())
+            .then(data => {
+
+            })
+            .catch(err => {
+                console.error("Lỗi kết nối:", err);
+            });
     }
     let debounceTimeout;
     function updateQuantityDebounced(productId, quantity) {

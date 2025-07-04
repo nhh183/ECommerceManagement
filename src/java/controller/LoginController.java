@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Locale;
 
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
@@ -37,6 +38,7 @@ public class LoginController extends HttpServlet {
                     oldSession.invalidate();
                 }
                 HttpSession session = request.getSession(true);
+                session.setAttribute("lang", new Locale("vi"));
                 session.setAttribute("login", loginUser);
                 CartDAO cartDAO = new CartDAO();
                 Cart cart  = cartDAO.getCartsByUser(userID);
@@ -49,6 +51,7 @@ public class LoginController extends HttpServlet {
                 }
                 response.sendRedirect("HomePageController");
             } else {
+                System.out.println("err");
                 request.setAttribute("ERROR", "Incorrect UserID or Password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }

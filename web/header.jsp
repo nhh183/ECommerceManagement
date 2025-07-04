@@ -6,8 +6,15 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="dto.UserDTO" %>
+<%@ page import="dao.NotificationDAO" %>
+<%@ page import="dto.NotificationDTO" %>
+<%@ page import="java.util.List" %>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<fmt:setLocale value="${sessionScope.lang != null ? sessionScope.lang : 'vi'}" scope="session"/>
+<fmt:setBundle basename="messages"/>
 <style>
     /* === HEADER === */
 .header {
@@ -315,9 +322,28 @@
   color: #f53d2d;
   font-weight: bold;
 }
-
+.notification-container{position:relative;display:inline-block;margin-right:15px;color:white;}
+.notification-toggle{display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer;}
+.notification-toggle:hover{opacity:.9;}
+.notification-dropdown{display:none;position:absolute;top:140%;right:0;min-width:260px;max-height:400px;overflow-y:auto;background:#fff;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.18);z-index:999;color:#333;}
+.notification-container:hover .notification-dropdown{display:block;}
+.notification-item{padding:10px 12px;border-bottom:1px solid #f0f0f0;font-size:13px;line-height:1.4;text-decoration:none;display:block;color:#333;}
+.notification-item:last-child{border-bottom:none;}
+.notification-item.unread{background:#fff4ef;font-weight:600;}
+.notification-empty{padding:20px;text-align:center;font-size:14px;color:#777;}
 
 </style>
+
+<%
+if (session.getAttribute("login") != null && request.getAttribute("notificationList") == null) {
+    UserDTO loginUserTemp = (UserDTO) session.getAttribute("login");
+    NotificationDAO dao = new NotificationDAO();
+    List<NotificationDTO> list = dao.getNotificationsByUser(loginUserTemp.getUserID());
+    request.setAttribute("notificationList", list);
+}
+%>
+
+    %>
 <div class="header sticky-top">
     <div class="header-top">
         <div class="container d-flex justify-content-between align-items-center">
@@ -326,23 +352,22 @@
                     <!-- Mục cho CS -->
                     <c:if test="${sessionScope.login.roleID == 'CS'}">
                         <li><a class="header-link" href="MainController?action=activateSeller">
-                                <i class="fas fa-user-check"></i> Kích hoạt Seller
+                                <i class="fas fa-user-check"></i> <fmt:message key="header.activateSeller"/>
                             </a></li>
                         </c:if>
 
                     <!-- Mục cho SELLER -->
                     <c:if test="${sessionScope.login.roleID == 'SL'}">
                         <li><a class="header-link" href="MainController?action=productList">
-                                <i class="fas fa-box-open"></i> Sản phẩm của tôi
+                                <i class="fas fa-box-open"></i> <fmt:message key="header.myProducts"/>
                             </a></li>
                         <li><a class="header-link" href="MainController?action=myOrders">
-                                <i class="fas fa-receipt"></i> Đơn hàng
-                            </a></li>
+                                <i class="fas fa-receipt"></i> <fmt:message key="header.myOrders"/>
                         </c:if>
 
                     <c:if test="${sessionScope.login.roleID == 'AD'}">
                         <li><a href="MainController?action=productList" class="header-link">
-                                <i class="fas fa-chart-line"></i> Trang Quản Trị
+                                <i class="fas fa-chart-line"></i> <fmt:message key="header.adminPage"/>
                             </a></li>
                         </c:if>
                 </ul>
@@ -350,11 +375,35 @@
 
 
             <div class="header-top-right">
+                <div class="notification-container" onclick="location.href='MainController?action=notificationList'">
+    <div class="notification-toggle">
+        <i class="fas fa-bell"></i> Thông báo
+    </div>
+    <div class="notification-dropdown">
+        <c:choose>
+            <c:when test="${empty notificationList}">
+                <div class="notification-item">Không có thông báo nào.</div>
+            </c:when>
+            <c:otherwise>
+                <c:forEach items="${notificationList}" var="n">
+                    <div class="notification-item ${n.read ? '' : 'unread'}">
+                        <b>${n.eventType}</b><br/>
+                        ${n.message}<br/>
+                        <small><fmt:formatDate value="${n.createdAt}" pattern="dd/MM/yyyy HH:mm"/></small>
+                    </div>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</div>
+
+
                 <a href="NotificationListController" class="header-link">
-                    <i class="fas fa-bell"></i> Thông báo
+                    <i class="fas fa-bell"></i> <fmt:message key="header.notification"/>
                 </a>
+
                 <a href="MainController?action=searchFAQ&sourcePage=support" class="header-link">
-                    <i class="fas fa-circle-question"></i> Hỗ trợ
+                    <i class="fas fa-circle-question"></i> <fmt:message key="header.support"/>
                 </a>
                 <div class="popover-container">
                     <div class="popover-target">
@@ -365,7 +414,12 @@
                               <path d="M5.333 8c0 3.682 1.194 6.667 2.667 6.667s2.667-2.985 2.667-6.667-1.194-6.667-2.667-6.667S5.333 4.318 5.333 8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
                               <path d="M1.333 8h13.334" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <span>Tiếng Việt</span>
+                            <span>
+                                <c:choose>
+                                    <c:when test="${sessionScope.lang.language == 'en'}"><fmt:message key="lang.en"/></c:when>
+                                    <c:otherwise><fmt:message key="lang.vi"/></c:otherwise>
+                                </c:choose>
+                            </span>
                             <!-- Mũi tên xuống -->
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
                               <path d="M6 8.146L11.146 3l.707.707-5.146 5.147a1 1 0 01-1.414 0L.146 3.707.854 3 6 8.146z"/>
@@ -378,8 +432,9 @@
                       <div class="popover-arrow">
                         <div class="arrow-inner"></div>
                       </div>
-                      <button class="lang-option active">Tiếng Việt</button>
-                      <button class="lang-option">English</button>
+                        <a href="MainController?action=ChangeLanguage&lang=vi" class="lang-option ${sessionScope.lang.language == 'vi' ? 'active' : ''} text-decoration-none">Tiếng Việt</a>
+                        <a href="MainController?action=ChangeLanguage&lang=en" class="lang-option ${sessionScope.lang.language == 'en' ? 'active' : ''} text-decoration-none">English</a>
+
                     </div>
               </div>
 
@@ -390,8 +445,8 @@
                         <i class="fas fa-caret-down"></i>
                     </div>
                     <div class="user-menu">
-                        <a href="MainController?action=myOrders"><i class="fas fa-receipt"></i> Đơn mua</a>
-                        <a href="MainController?action=logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                        <a href="MainController?action=myOrders"><i class="fas fa-receipt"></i>	<fmt:message key="header.purchaseOrders"/></a>
+                        <a href="MainController?action=logout"><i class="fas fa-sign-out-alt"></i> <fmt:message key="header.logout"/></a>
                     </div>
                 </div>
             </div>
@@ -413,7 +468,7 @@
             <!-- Search Box -->
             <div class="col-md-6">
                 <form action="MainController" method="GET" class="input-group">
-                    <input type="text" name="name" class="form-control" placeholder="Tìm sản phẩm...">
+                    <input type="text" name="name" class="form-control" placeholder="<fmt:message key="header.search.placeholder"/>">
                     <input type="hidden" name="action" value="searchProduct">
                     <div class="input-group-append">
                         <button class="btn btn-solid-primary search-btn" type="submit"><i class="fa-solid fa-magnifying-glass text-white"></i></button>

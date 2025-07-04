@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Shoppyy | Trang Chủ</title>
+        <title>Shoppyy | Trang Chủ</title> 
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/homepage.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -57,7 +57,7 @@
 
         <!-- Danh mục -->
         <div class="category-section">
-            <div class="category-title">DANH MỤC</div>
+            <div class="category-title"><fmt:message key="category.title"/></div>
             <div class="category-grid">
                 <c:forEach var="cat" items="${categoryList}">
                     <div class="category-item" onclick="window.location.href = 'MainController?action=searchProduct&categoryID=${cat.categoryID}'">
@@ -71,7 +71,7 @@
 
         <div class="featured-section">
             <div class="container">
-                <h2>Flash Sale</h2>
+                <h2><fmt:message key="flashsale.title" /></h2>
                 <div class="product-grid">
                     <c:if test="${not empty promotedProducts}">
                         <c:forEach var="product" items="${promotedProducts}">
@@ -101,7 +101,7 @@
 
         <div class="product-section">
             <div class="container">
-                <h2>Sản Phẩm</h2>
+                <h2><fmt:message key="product.title" /></h2> 
                 <div class="product-grid">
                     <c:forEach var="product" items="${productList}">
                         <a href="MainController?action=viewProduct&id=${product.productID}">
