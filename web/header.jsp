@@ -1,8 +1,3 @@
-<%-- 
-    Document   : header
-    Created on : Jun 25, 2025, 3:55:35 PM
-    Author     : User
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -343,7 +338,7 @@ if (session.getAttribute("login") != null && request.getAttribute("notificationL
 }
 %>
 
-    %>
+   
 <div class="header sticky-top">
     <div class="header-top">
         <div class="container d-flex justify-content-between align-items-center">
